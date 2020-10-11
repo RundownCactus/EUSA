@@ -50,7 +50,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         toolbar=findViewById(R.id.toolbar);
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
-        contacts.add(new Contact(image,"Akash","03101515786","i170019@nu.edu.pk","Islamabad"));
+        //contacts.add(new Contact(image,"Akash","03101515786","i170019@nu.edu.pk","Islamabad"));
     }
 
     @Override
