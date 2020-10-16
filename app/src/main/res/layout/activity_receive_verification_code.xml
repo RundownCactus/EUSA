@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ReceiveVerificationCode">
+
+    <ImageView
+        android:id="@+id/verifybackbutton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/verificationtextbox"
+        app:srcCompat="@drawable/ic_baseline_arrow_back"
+        tools:ignore="MissingConstraints">
+
+    </ImageView>
+    <TextView
+        android:id="@+id/verificationtextbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter Verification Code"
+        android:textColor="#000"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints">
+    </TextView>
+
+    <TextView
+        android:id="@+id/verificationcodesenttotext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verification code sent to"
+        android:textColor="#9C9A9A"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verificationtextbox"
+        tools:ignore="HardcodedText,MissingConstraints">
+    </TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/verifycodebox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:hint="Verification Code"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textColorHint="#BAB9B9"
+        app:boxStrokeColor="#03A9F4"
+        app:counterEnabled="true"
+        app:counterMaxLength="11"
+        app:endIconMode="clear_text"
+        app:endIconTint="#BAB9B9"
+        app:hintTextColor="#03A9F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verificationcodesenttotext"
+        tools:ignore="HardcodedText,MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/verificationcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:textColor="#000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/verifycode"
+        android:text="VERIFY CODE"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifycodebox"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+    </com.google.android.material.button.MaterialButton>
+
+    <TextView
+        android:id="@+id/codenotreceivedtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Don't receive a code?"
+        android:visibility="gone"
+        android:textColor="#9C9A9A"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:gravity="right"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifycode"
+        tools:ignore="HardcodedText,MissingConstraints">
+    </TextView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

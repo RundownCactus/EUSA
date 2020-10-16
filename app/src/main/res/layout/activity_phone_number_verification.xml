@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".PhoneNumberVerification">
+
+    <TextView
+        android:id="@+id/phonetextbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please enter your        mobile number"
+        android:textColor="#000"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints"
+        android:paddingLeft="16dp">
+    </TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/verifyphonebox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:hint="Mobile Number"
+        android:paddingTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textColorHint="#BAB9B9"
+        app:boxStrokeColor="#03A9F4"
+        app:counterEnabled="true"
+        app:counterMaxLength="11"
+        app:endIconMode="clear_text"
+        app:endIconTint="#BAB9B9"
+        app:hintTextColor="#03A9F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phonetextbox"
+        tools:ignore="HardcodedText,MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/verifyphonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:textColor="#000" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/sendverificationcode"
+        android:text="SEND VERIFICATION CODE"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifyphonebox"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+    </com.google.android.material.button.MaterialButton>
+
+    <TextView
+        android:id="@+id/onetimepassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="We will send you one time password (OTP)"
+        android:textColor="#9C9A9A"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendverificationcode"
+        tools:ignore="HardcodedText,MissingConstraints">
+    </TextView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
