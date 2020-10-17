@@ -6,7 +6,30 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ReceiveVerificationCode">
+    <LinearLayout
+        android:id="@+id/updesign1"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@drawable/updesign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/downdesign1"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:background="@drawable/downdesign"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical">
+
+    </LinearLayout>
     <ImageView
         android:id="@+id/verifybackbutton"
         android:layout_width="36dp"
@@ -29,10 +52,9 @@
         android:textStyle="bold"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updesign1"
         tools:ignore="HardcodedText,MissingConstraints">
     </TextView>
 

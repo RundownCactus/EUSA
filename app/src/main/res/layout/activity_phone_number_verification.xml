@@ -7,6 +7,30 @@
     android:background="@color/white"
     tools:context=".PhoneNumberVerification">
 
+    <LinearLayout
+        android:id="@+id/updesign"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@drawable/updesign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/downdesign"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:background="@drawable/downdesign"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical">
+
+    </LinearLayout>
     <TextView
         android:id="@+id/phonetextbox"
         android:layout_width="wrap_content"
@@ -17,10 +41,9 @@
         android:textStyle="bold"
         android:paddingStart="16dp"
         android:paddingRight="16dp"
-        android:layout_marginTop="150dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updesign"
         tools:ignore="HardcodedText,MissingConstraints"
         android:paddingLeft="16dp">
     </TextView>
