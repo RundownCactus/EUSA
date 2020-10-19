@@ -26,11 +26,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     Button usersignup;
-    TextInputEditText email,pass;
+    TextInputEditText fname,lname,email,pass;
     TextView textViewLogin;
     ImageView imageViewBackArrow;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener FirebaseAuthListener;
+    private FirebaseDatabase rootnode;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
         imageViewBackArrow = findViewById(R.id.imageViewBackArrow);
         email = findViewById(R.id.useremail1);
         pass = findViewById(R.id.userpassword1);
-        //phno = findViewById(R.id.userphoneno);
-        //firstname = findViewById(R.id.userfirstname);
-        //lastname = findViewById(R.id.userlastname);
+        fname = findViewById(R.id.userfirstname);
+        lname = findViewById(R.id.userlastname);
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,10 +71,19 @@ public class MainActivity extends AppCompatActivity {
         usersignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String Useremail = email.getText().toString();
-                final String Userpass = pass.getText().toString();
+                rootnode =  FirebaseDatabase.getInstance();
+                ref = rootnode.getReference("User");
+
+
+
+                String Useremail = email.getText().toString();
+                String Userpass = pass.getText().toString();
+                String Fname= fname.getText().toString();
+                String Lname = lname.getText().toString();
+
                 Log.d("BHECNHOD", Useremail);
                 Log.d("BHECNHOD", Userpass);
+
                 mAuth.createUserWithEmailAndPassword(Useremail, Userpass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
