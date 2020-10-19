@@ -24,6 +24,7 @@ public class PhoneNumberVerification extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String ph = phno.getText().toString();
+                Log.d("WAH","+92"+ph);
                 Intent intent=new Intent(PhoneNumberVerification.this,ReceiveVerificationCode.class);
                 intent.putExtra("phno",ph);
                 startActivity(intent);
