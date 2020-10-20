@@ -35,7 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(SplashScreen.this,PhoneNumberVerification.class);
+                    Intent intent=new Intent(SplashScreen.this,LetsGetStarted.class);
                     startActivity(intent);
                     finish();
                 }
