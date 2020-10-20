@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:layout_gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="200dp">
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="20dp"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/white"
+        android:elevation="20dp"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <ImageView
+                android:id="@+id/newimage"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/carpentericon"
+                android:layout_width="match_parent"
+                android:layout_height="140dp">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/newtitle"
+                android:textColor="@color/BlueColor"
+                android:text="Carpenter"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"
+                android:layout_below="@+id/newimage"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

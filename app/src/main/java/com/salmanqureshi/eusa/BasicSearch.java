@@ -3,15 +3,24 @@ package com.salmanqureshi.eusa;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
+import android.Manifest;
+import android.animation.ArgbEvaluator;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,12 +30,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+    //NAVIGATION DRAWER VARIABLES START
     DrawerLayout drawerLayout;
     Integer REQUEST_CODE=1;
     NavigationView navigationView;
@@ -36,9 +52,22 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     TextView text;
     ImageView profileImage;
     List<Contact> contacts;
-    EditText search;
     MyRvAdapter adapter;
     Bitmap image;
+    //NAVIGATION DRAWER VARIABLES START
+
+    //GOOGLE MAPS VARIABLES START
+    private GoogleMap mMap;
+    //GOOGLE MAPS VARIABLES END
+
+    //SWIPE CARD VIEW VARIABLES START
+    ViewPager viewPager;
+    Adapter adapter1;
+    List<Models> models;
+    Integer[] colors=null;
+    ArgbEvaluator argbEvaluator=new ArgbEvaluator();
+    //SWIPE CARD VIEW VARIABLES END
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +80,51 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
         //contacts.add(new Contact(image,"Akash","03101515786","i170019@nu.edu.pk","Islamabad"));
+
+        //MAP FRAGMENT
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        //MAP FRAGMENT
+
+        //SWIPE CARD VIEW START
+        models=new ArrayList<>();
+        models.add(new Models(R.drawable.carpentericon,"Carpenter"));
+        models.add(new Models(R.drawable.electricianicon,"Electrician"));
+        models.add(new Models(R.drawable.plumbericon,"Plumber"));
+        models.add(new Models(R.drawable.cleanericon,"Cleaner"));
+        models.add(new Models(R.drawable.mechanicicon,"Mechanic"));
+
+        adapter1=new Adapter(models,this);
+
+        viewPager=findViewById(R.id.viewpager);
+        viewPager.setAdapter(adapter1);
+        viewPager.setPadding(130,0,130,0);
+        Integer[] color_temp={
+                getResources().getColor(R.color.color1),
+                getResources().getColor(R.color.color2),
+                getResources().getColor(R.color.color3),
+                getResources().getColor(R.color.color4)
+        };
+        colors=color_temp;
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        //SWIPE CARD VIEW END
     }
 
     @Override
@@ -61,6 +135,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     @Override
     protected void onResume() {
         super.onResume();
+
+        //NAVIGATION DRAWER CODE START
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -103,9 +179,11 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             }
         });
+        //NAVIGATION DRAWER CODE END
 
     }
 
+    //NAVIGATION DRAWER FUNCTIONS START
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -144,6 +222,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             super.onBackPressed();
         }
     }
+    //NAVIGATION DRAWER FUNCTIONS END
 
     @Override
     protected void onPause() {
@@ -161,4 +240,70 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     }
 
 
+    //MAP FUNCTIONS
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        getPermission();
+        LocationListener mLocationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+
+                // Add a marker in Sydney and move the camera
+                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(@NonNull String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {
+
+            }
+        };
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 10, mLocationListener);
+    }
+    private  void getPermission(){
+        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
+        {
+            mMap.setMyLocationEnabled(true);
+        }else{
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},600);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode==600)
+        {
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+            {
+
+            }
+        }
+    }
+    //MAP FUNCTIONS
 }
