@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:id="@+id/fullscreen"
+android:background="@color/white"
+tools:context=".LetsGetStarted">
+
+<TextView
+    android:id="@+id/eusaname"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="EUSA"
+    android:textColor="@color/BlueColor"
+    android:textSize="60sp"
+    android:textStyle="bold"
+    android:layout_marginTop="100dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:ignore="MissingConstraints">
+
+</TextView>
+
+<ImageView
+    android:id="@+id/logo"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/eusaname"
+    app:srcCompat="@drawable/ic_eusalogoicon"
+    tools:ignore="ContentDescription,MissingConstraints" />
+
+<TextView
+    android:id="@+id/saveyourtime"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Save Your Time!"
+    android:textColor="@color/BlueColor"
+    android:textSize="24sp"
+    android:textStyle="normal"
+    android:layout_marginTop="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/logo"
+    tools:ignore="MissingConstraints">
+</TextView>
+
+<Button
+    android:id="@+id/signupbutton1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fullscreen"
-    android:background="@color/white"
-    tools:context=".LetsGetStarted">
+    android:layout_height="wrap_content"
+    android:text="Sign Up"
+    android:textSize="20sp"
+    android:textColor="@color/white"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginBottom="16dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:ignore="MissingConstraints">
+</Button>
 
-    <TextView
-        android:id="@+id/eusaname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="EUSA"
-        android:textColor="@color/BlueColor"
-        android:textSize="60sp"
-        android:textStyle="bold"
-        android:layout_marginTop="100dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-    </TextView>
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eusaname"
-        app:srcCompat="@drawable/ic_eusalogoicon"
-        tools:ignore="ContentDescription,MissingConstraints" />
-
-    <TextView
-        android:id="@+id/saveyourtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Your Time!"
-        android:textColor="@color/BlueColor"
-        android:textSize="24dp"
-        android:textStyle="normal"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        tools:ignore="MissingConstraints">
-    </TextView>
-
-    <Button
-        android:id="@+id/signupbutton1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
-    </Button>
-
-    <Button
-        android:id="@+id/loginbutton1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/signupbutton1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints">
-    </Button>
+<Button
+    android:id="@+id/loginbutton1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Login"
+    android:textSize="20sp"
+    android:textColor="@color/white"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginBottom="8dp"
+    app:layout_constraintBottom_toTopOf="@+id/signupbutton1"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:ignore="MissingConstraints">
+</Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

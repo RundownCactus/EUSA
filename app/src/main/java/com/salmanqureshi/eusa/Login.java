@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,25 +23,41 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Login extends AppCompatActivity {
-    Button userlogin;
+    /*Button userlogin;
     TextView textViewSignup1;
     TextInputEditText email,pass;
     ImageView imageViewBackArrow1;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener FirebaseAuthListener;
+    private FirebaseAuth.AuthStateListener FirebaseAuthListener;*/
+
+    ImageView phonenobackbuttonlogin;
+    MaterialButton sendverificationcodelogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        userlogin=findViewById(R.id.userlogin);
+        phonenobackbuttonlogin=findViewById(R.id.phonenobackbuttonlogin);
+        sendverificationcodelogin=findViewById(R.id.sendverificationcodelogin);
+        phonenobackbuttonlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+        sendverificationcodelogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Login.this,LoginReceiveVerificationCode.class);
+                startActivity(intent);
+            }
+        });
 
+        /*userlogin=findViewById(R.id.userlogin);
         textViewSignup1=findViewById(R.id.textViewSignup1);
         imageViewBackArrow1=findViewById(R.id.imageViewBackArrow1);
-
         email = findViewById(R.id.loginemail1);
         pass = findViewById(R.id.loginpassword1);
-
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -54,8 +71,6 @@ public class Login extends AppCompatActivity {
                 }
             }
         };
-
-
         userlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +91,6 @@ public class Login extends AppCompatActivity {
 
             }
         });
-
         textViewSignup1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,17 +104,18 @@ public class Login extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        */
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.addAuthStateListener(FirebaseAuthListener);
+        //mAuth.addAuthStateListener(FirebaseAuthListener);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.removeAuthStateListener(FirebaseAuthListener);
+        //mAuth.removeAuthStateListener(FirebaseAuthListener);
     }
 }

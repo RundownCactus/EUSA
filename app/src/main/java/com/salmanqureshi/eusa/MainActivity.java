@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -25,21 +26,39 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    Button usersignup;
+    /*Button usersignup;
     TextInputEditText fname,lname,email,pass;
     TextView textViewLogin;
     ImageView imageViewBackArrow;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener FirebaseAuthListener;
     private FirebaseDatabase rootnode;
-    private DatabaseReference ref;
+    private DatabaseReference ref;*/
+
+    MaterialButton donebuttonstep1,skipbuttonstep1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        donebuttonstep1=findViewById(R.id.donebuttonstep1);
+        skipbuttonstep1=findViewById(R.id.skipbuttonstep1);
+        skipbuttonstep1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,BasicSearch.class);
+                startActivity(intent);
+            }
+        });
+        donebuttonstep1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,BasicSearch.class);
+                startActivity(intent);
+            }
+        });
 
-        mAuth = FirebaseAuth.getInstance();
+        /*mAuth = FirebaseAuth.getInstance();
         FirebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -107,20 +126,20 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
             }
-        });
+        });*/
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(FirebaseAuthListener);
+        //mAuth.addAuthStateListener(FirebaseAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(FirebaseAuthListener);
+        //mAuth.removeAuthStateListener(FirebaseAuthListener);
     }
 }
 

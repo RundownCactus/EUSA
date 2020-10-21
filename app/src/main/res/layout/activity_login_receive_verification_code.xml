@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".Login">
-
+    tools:context=".LoginReceiveVerificationCode">
     <LinearLayout
-        android:id="@+id/updesignlogin"
+        android:id="@+id/updesignlogin1"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:background="@drawable/updesign"
@@ -21,7 +20,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/downdesignlogin"
+        android:id="@+id/downdesignlogin1"
         android:layout_width="160dp"
         android:layout_height="100dp"
         android:background="@drawable/downdesign"
@@ -32,43 +31,59 @@
 
     </LinearLayout>
     <ImageView
-        android:id="@+id/phonenobackbuttonlogin"
+        android:id="@+id/loginverifybackbutton"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/phonetextboxlogin"
+        app:layout_constraintBottom_toTopOf="@+id/verificationtextboxlogin1"
         app:srcCompat="@drawable/ic_baseline_arrow_back"
         tools:ignore="MissingConstraints"
         android:layout_marginStart="16dp">
 
     </ImageView>
     <TextView
-        android:id="@+id/phonetextboxlogin"
-        android:layout_width="wrap_content"
+        android:id="@+id/verificationtextboxlogin1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please enter your        mobile number"
+        android:text="Enter Verification Code"
         android:textColor="#000"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:paddingStart="16dp"
-        android:paddingRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/updesignlogin"
-        tools:ignore="HardcodedText,MissingConstraints"
-        android:paddingLeft="16dp">
+        app:layout_constraintTop_toBottomOf="@+id/updesignlogin1"
+        tools:ignore="HardcodedText,MissingConstraints">
+    </TextView>
+
+    <TextView
+        android:id="@+id/verificationcodesenttotextlogin1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verification code sent to"
+        android:textColor="#9C9A9A"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verificationtextboxlogin1"
+        tools:ignore="HardcodedText,MissingConstraints">
     </TextView>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/verifyphoneboxlogin"
+        android:id="@+id/verifycodeboxlogin1"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:hint="Mobile Number"
-        android:paddingTop="16dp"
+        android:hint="Verification Code"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:textColorHint="#BAB9B9"
@@ -80,11 +95,11 @@
         app:hintTextColor="#03A9F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phonetextboxlogin"
+        app:layout_constraintTop_toBottomOf="@+id/verificationcodesenttotextlogin1"
         tools:ignore="HardcodedText,MissingConstraints">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/verifyphonenumberlogin"
+            android:id="@+id/verificationcode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -94,36 +109,38 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/sendverificationcodelogin"
-        android:text="SEND VERIFICATION CODE"
+        android:id="@+id/verifycodelogin"
+        android:text="VERIFY CODE"
         android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_height="64dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/verifyphoneboxlogin"
+        app:layout_constraintTop_toBottomOf="@+id/verifycodeboxlogin1"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints">
 
     </com.google.android.material.button.MaterialButton>
 
     <TextView
-        android:id="@+id/onetimepasswordlogin"
+        android:id="@+id/codenotreceivedtext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="We will send you one time password (OTP)"
+        android:text="Don't receive a code?"
+        android:visibility="gone"
         android:textColor="#9C9A9A"
         android:textSize="16sp"
         android:textStyle="normal"
-        android:gravity="center"
+        android:gravity="right"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sendverificationcodelogin"
+        app:layout_constraintTop_toBottomOf="@+id/verifycodelogin"
         tools:ignore="HardcodedText,MissingConstraints">
     </TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
