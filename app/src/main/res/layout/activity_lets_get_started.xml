@@ -50,12 +50,11 @@
     </TextView>
 
     <Button
-        android:id="@+id/letsstartbutton"
+        android:id="@+id/signupbutton1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:text="Lets Start"
-        android:textSize="20dp"
+        android:text="Sign Up"
+        android:textSize="20sp"
         android:textColor="@color/white"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
@@ -64,7 +63,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints">
+    </Button>
 
+    <Button
+        android:id="@+id/loginbutton1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/signupbutton1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
     </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

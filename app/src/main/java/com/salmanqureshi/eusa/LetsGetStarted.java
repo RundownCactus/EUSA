@@ -9,26 +9,24 @@ import android.view.View;
 import android.widget.Button;
 
 public class LetsGetStarted extends AppCompatActivity {
-    Button letsstartbutton;
-    ConstraintLayout fullscreen;
+    Button loginbutton1,signupbutton1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lets_get_started);
-        letsstartbutton=findViewById(R.id.letsstartbutton);
-        fullscreen=findViewById(R.id.fullscreen);
-        letsstartbutton.setOnClickListener(new View.OnClickListener() {
+        loginbutton1=findViewById(R.id.loginbutton1);
+        signupbutton1=findViewById(R.id.signupbutton1);
+        loginbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(LetsGetStarted.this,PhoneNumberVerification.class);
                 startActivity(intent);
             }
         });
-        fullscreen.setOnClickListener(new View.OnClickListener() {
+        signupbutton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LetsGetStarted.this,PhoneNumberVerification.class);
-                startActivity(intent);
+
             }
         });
     }
