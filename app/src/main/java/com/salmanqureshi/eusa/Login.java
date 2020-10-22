@@ -30,6 +30,8 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener FirebaseAuthListener;*/
 
+    TextInputEditText phno;
+
     ImageView phonenobackbuttonlogin;
     MaterialButton sendverificationcodelogin;
 
@@ -37,6 +39,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        phno = findViewById(R.id.verifyphonenumberlogin);
         phonenobackbuttonlogin=findViewById(R.id.phonenobackbuttonlogin);
         sendverificationcodelogin=findViewById(R.id.sendverificationcodelogin);
         phonenobackbuttonlogin.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +51,9 @@ public class Login extends AppCompatActivity {
         sendverificationcodelogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String ph = phno.getText().toString();
                 Intent intent=new Intent(Login.this,LoginReceiveVerificationCode.class);
+                intent.putExtra("phno",ph);
                 startActivity(intent);
             }
         });

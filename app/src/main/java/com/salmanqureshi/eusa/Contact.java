@@ -3,35 +3,27 @@ package com.salmanqureshi.eusa;
 import android.graphics.Bitmap;
 
 public class Contact {
-    private Bitmap image;
-    private String name;
+    //private Bitmap image;
+    private String fname;
+    private String lname;
     private String phone;
     private String email;
-    private String address;
 
 
-
-    public Contact(Bitmap image, String name, String phone, String email, String address) {
-        this.image=image;
-        this.name = name;
+    public Contact(String fname, String lname, String phone, String email) {
+        this.fname = fname;
+        this.lname = lname;
         this.phone = phone;
         this.email = email;
-        this.address = address;
     }
-    public Bitmap getImage() {
+
+  /*  public Bitmap getImage() {
         return image;
     }
 
     public void setImage(Bitmap image) {
         this.image = image;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    }*/
 
     public String getPhone() {
         return phone;
@@ -49,11 +41,19 @@ public class Contact {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
+    public String getFname() {
+        return fname;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
     }
 }
