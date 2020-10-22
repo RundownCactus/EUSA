@@ -1,7 +1,10 @@
 package com.salmanqureshi.eusa;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 //#import com.google.firebase.auth.FirebaseAuth;
 //#import androidx.appcompat.app.AppCompatActivity;
@@ -25,15 +28,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class MainActivity extends AppCompatActivity {
     /*Button usersignup;
-    TextInputEditText fname,lname,email,pass;
     TextView textViewLogin;
     ImageView imageViewBackArrow;
-    private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener FirebaseAuthListener;
+    */
+
+    private FirebaseAuth mAuth;
+
+    TextInputEditText fname,lname,email;
     private FirebaseDatabase rootnode;
-    private DatabaseReference ref;*/
+    private DatabaseReference myref;
 
     MaterialButton donebuttonstep1,skipbuttonstep1;
 
@@ -41,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fname = findViewById(R.id.getfirstname);
+        lname = findViewById(R.id.getlastname);
+        email = findViewById(R.id.getemail);
         donebuttonstep1=findViewById(R.id.donebuttonstep1);
         skipbuttonstep1=findViewById(R.id.skipbuttonstep1);
         skipbuttonstep1.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +63,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         donebuttonstep1.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
+
+                String phno = getIntent().getStringExtra("phno");
+                String first = fname.getText().toString();
+                String sec = lname.getText().toString();
+                String emal = email.getText().toString();
+                int tempid = (int) (Math.random() * (99999 - 1 + 1) + 1);
+                String myID = String.valueOf(tempid);
+                Log.d("WAH", myID);
+                Contact newUser = new Contact(first,sec,phno,emal);
+                rootnode = FirebaseDatabase.getInstance();
+                myref = rootnode.getReference().child("Users").child("Customers").child(myID);
+                myref.setValue(newUser);
                 Intent intent=new Intent(MainActivity.this,BasicSearch.class);
                 startActivity(intent);
             }
