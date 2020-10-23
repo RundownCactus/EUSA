@@ -2,6 +2,7 @@ package com.salmanqureshi.eusa;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ public class Adapter extends PagerAdapter {
     private LayoutInflater layoutInflater;
     private Context context;
 
+
     public Adapter(List<Models> models, Context context) {
         this.models = models;
         this.context = context;
     }
+
 
     @Override
     public int getCount() {
@@ -51,7 +54,10 @@ public class Adapter extends PagerAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context,ServiceProvidersListView.class);
+                context.startActivity(intent);
+
             }
         });
 

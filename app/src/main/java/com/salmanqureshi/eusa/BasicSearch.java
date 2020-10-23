@@ -51,7 +51,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     ImageView mainmenu;
     TextView text;
     ImageView profileImage;
-    List<Contact> contacts;
+    List<ServiceProvider> contacts;
     MyRvAdapter adapter;
     Bitmap image;
     //NAVIGATION DRAWER VARIABLES START
@@ -107,6 +107,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                 getResources().getColor(R.color.color4)
         };
         colors=color_temp;
+
+
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

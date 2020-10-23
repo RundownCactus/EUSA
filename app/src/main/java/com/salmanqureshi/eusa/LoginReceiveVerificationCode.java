@@ -35,7 +35,7 @@ public class LoginReceiveVerificationCode extends AppCompatActivity {
         sendCode(phno);
 
 
-        /*loginverifybackbutton=findViewById(R.id.loginverifybackbutton);
+        loginverifybackbutton=findViewById(R.id.loginverifybackbutton);
         verifycodelogin=findViewById(R.id.verifycodelogin);
         verifycodelogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +43,7 @@ public class LoginReceiveVerificationCode extends AppCompatActivity {
                 Intent intent=new Intent(LoginReceiveVerificationCode.this,BasicSearch.class);
                 startActivity(intent);
             }
-        });*/
+        });
         loginverifybackbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

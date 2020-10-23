@@ -14,15 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> {
-    List<Contact> newList;
+    List<ServiceProvider> newList;
     Context c;
     private OnItemClickListener mListener;
-    public MyRvAdapter(List<Contact> newList, Context c) {
+    public MyRvAdapter(List<ServiceProvider> newList, Context c) {
         this.c=c;
         this.newList=newList;
     }
 
-    public void filterList(ArrayList<Contact> newList) {
+    public void filterList(ArrayList<ServiceProvider> newList) {
         this.newList=newList;
         notifyDataSetChanged();
     }
@@ -42,11 +42,11 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyRvAdapter.MyViewHolder holder, int position) {
-        //holder.newimage.setImageBitmap(newList.get(position).getImage());
+        holder.newimage.setImageBitmap(newList.get(position).getImage());
         holder.name.setText(newList.get(position).getFname());
         holder.phone.setText(newList.get(position).getPhone());
-        holder.email.setText(newList.get(position).getEmail());
-       // holder.address.setText(newList.get(position).getAddress());
+        holder.worktype.setText(newList.get(position).getWorktype());
+        holder.address.setText(newList.get(position).getAddress());
     }
 
     @Override
@@ -58,14 +58,14 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
         public ImageView newimage;
         public TextView name;
         public TextView phone;
-        public TextView email;
+        public TextView worktype;
         public TextView address;
         public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             newimage=itemView.findViewById(R.id.newimage);
             name=itemView.findViewById(R.id.name);
             phone=itemView.findViewById(R.id.phone);
-            email=itemView.findViewById(R.id.email);
+            worktype=itemView.findViewById(R.id.worktype);
             address=itemView.findViewById(R.id.address);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
