@@ -91,7 +91,8 @@ public class ServiceProvidersListView extends AppCompatActivity {
             Log.d("WOW", (String) singleUser.get("phone"));
             Log.d("WOW", (String) singleUser.get("type"));
             Log.d("WOW", (String) singleUser.get("address"));
-            data.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address")));
+            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address")));
+            serviceprovidersRV.setAdapter(adapter);
         }
         return(data);
     }
