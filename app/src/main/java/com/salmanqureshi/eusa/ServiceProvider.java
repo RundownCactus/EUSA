@@ -25,6 +25,16 @@ public class ServiceProvider {
         this.address=address;
     }
 
+
+    public ServiceProvider() {
+        this.image=null;
+        this.fname = "default";
+        this.lname = "default";
+        this.phone = "default";
+        this.worktype = "default";
+        this.address="default";
+    }
+
     public String getAddress() {
         return address;
     }

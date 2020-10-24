@@ -17,6 +17,13 @@ public class Contact {
         this.email = email;
     }
 
+    public Contact() {
+        this.fname = "default";
+        this.lname = "default";
+        this.phone = "default";
+        this.email = "default";
+    }
+
   /*  public Bitmap getImage() {
         return image;
     }
