@@ -18,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -45,9 +46,10 @@ public class ServiceProvidersListView extends AppCompatActivity {
         serviceProviderList=new ArrayList<>();
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
-
+        String type = getIntent().getStringExtra("type");
         myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query getTypeSP = myref.orderByChild("type").equalTo(type);
+        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
@@ -62,6 +64,7 @@ public class ServiceProvidersListView extends AppCompatActivity {
        // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Cleaner","E11/4 Islamabad"));
        // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Electrician","E11/4 Islamabad"));
        // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Carpenter","E11/4 Islamabad"));
+
         serviceprovidersRV=findViewById(R.id.serviceprovidersRV);
         RecyclerView.LayoutManager lm= new LinearLayoutManager(this);
         serviceprovidersRV.setLayoutManager(lm);
@@ -86,13 +89,8 @@ public class ServiceProvidersListView extends AppCompatActivity {
 
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
-            Log.d("WOW", (String) singleUser.get("fname"));
-            Log.d("WOW", (String) singleUser.get("lname"));
-            Log.d("WOW", (String) singleUser.get("phone"));
-            Log.d("WOW", (String) singleUser.get("type"));
-            Log.d("WOW", (String) singleUser.get("address"));
             serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address")));
-            serviceprovidersRV.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
         return(data);
     }

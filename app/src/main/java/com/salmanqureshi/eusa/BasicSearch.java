@@ -93,7 +93,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         models.add(new Models(R.drawable.electricianicon,"Electrician"));
         models.add(new Models(R.drawable.plumbericon,"Plumber"));
         models.add(new Models(R.drawable.cleanericon,"Cleaner"));
-        models.add(new Models(R.drawable.mechanicicon,"Mechanic"));
+        models.add(new Models(R.drawable.mechanicicon,"Car Mechanic"));
 
         adapter1=new Adapter(models,this);
 

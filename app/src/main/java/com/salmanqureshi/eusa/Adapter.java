@@ -56,6 +56,7 @@ public class Adapter extends PagerAdapter {
             public void onClick(View view) {
                 //Toast.makeText(context,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context,ServiceProvidersListView.class);
+                intent.putExtra("type",models.get(position).getTitle());
                 context.startActivity(intent);
 
             }
