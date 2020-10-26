@@ -14,10 +14,13 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.animation.ArgbEvaluator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,15 +28,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
@@ -84,6 +87,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         //MAP FRAGMENT
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         //MAP FRAGMENT
 
@@ -247,15 +251,19 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         getPermission();
+        /*LatLng Pakistan = new LatLng(31, 71);
+        googleMap.addMarker(new MarkerOptions()
+                .position(Pakistan)
+                .title("Marker in Pakistan")
+                .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));*/
         LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
 
                 // Add a marker in Sydney and move the camera
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location").icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-
             }
 
             @Override
@@ -284,14 +292,25 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 10, mLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 10, mLocationListener);
+    }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)
+    {
+        Drawable vectorDrawable=ContextCompat.getDrawable(context,vectorResId);
+        vectorDrawable.setBounds(0,0,vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap=Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),vectorDrawable.getIntrinsicHeight(),Bitmap.Config.ARGB_8888);
+        Canvas canvas=new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
     private  void getPermission(){
         if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED)
         {
             mMap.setMyLocationEnabled(true);
         }else{
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},600);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},600);
         }
 
     }
