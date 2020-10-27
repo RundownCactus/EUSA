@@ -172,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-
     private boolean validateEmail(){
         String emal = email.getText().toString();
         String pattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";

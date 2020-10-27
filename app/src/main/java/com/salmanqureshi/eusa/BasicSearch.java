@@ -106,7 +106,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BasicSearch.this,ServiceProvidersListView.class);
-                intent.putExtra("type","Plumber");
+                intent.putExtra("type","All");
                 startActivity(intent);
             }
         });

@@ -58,22 +58,36 @@ public class ServiceProvidersListView extends AppCompatActivity {
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
         String type = getIntent().getStringExtra("type");
         myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
-        Query getTypeSP = myref.orderByChild("type").equalTo(type);
-        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
-            }
+        if(type.matches("All")){
+            Query getTypeSP = myref.orderByChild("type");
+            getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-       // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Plumber","E11/4 Islamabad"));
-       // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Cleaner","E11/4 Islamabad"));
-       // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Electrician","E11/4 Islamabad"));
-       // serviceProviderList.add(new ServiceProvider(image,"Akash","Ali","03101515786","Carpenter","E11/4 Islamabad"));
+                }
+            });
+
+        }else{
+            Query getTypeSP = myref.orderByChild("type").equalTo(type);
+            getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
+
 
         serviceprovidersRV=findViewById(R.id.serviceprovidersRV);
         RecyclerView.LayoutManager lm= new LinearLayoutManager(this);
