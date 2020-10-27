@@ -54,7 +54,7 @@
             android:paddingBottom="16dp"
             android:paddingRight="16dp"
             android:background="@color/white"
-            tools:ignore="MissingConstraints"
+            tools:ignore="MissingConstraints,RtlSymmetry"
             android:paddingEnd="16dp">
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -91,9 +91,10 @@
                 android:paddingStart="90dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/searchserviceprovideronmapinput"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:cursorVisible="true"
+                    android:cursorVisible="false"
                     android:inputType="textAutoComplete"
                     android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -103,7 +104,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:layout_height="match_parent"
 
             tools:layout_editor_absoluteY="100dp">

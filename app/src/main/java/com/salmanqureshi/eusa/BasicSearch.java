@@ -1,6 +1,7 @@
 package com.salmanqureshi.eusa;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -21,6 +22,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,9 +44,20 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
@@ -57,6 +72,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     List<ServiceProvider> contacts;
     MyRvAdapter adapter;
     Bitmap image;
+    TextInputEditText searchserviceprovideronmapinput;
     //NAVIGATION DRAWER VARIABLES START
 
     //GOOGLE MAPS VARIABLES START
@@ -71,6 +87,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     ArgbEvaluator argbEvaluator=new ArgbEvaluator();
     //SWIPE CARD VIEW VARIABLES END
 
+    //FIREBASE VARIABLES START
+    //FIREBASE VARIABLES END
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +100,17 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         toolbar=findViewById(R.id.toolbar);
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
+
+        searchserviceprovideronmapinput=findViewById(R.id.searchserviceprovideronmapinput);
+        searchserviceprovideronmapinput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BasicSearch.this,ServiceProvidersListView.class);
+                intent.putExtra("type","Plumber");
+                startActivity(intent);
+            }
+        });
+
         //contacts.add(new Contact(image,"Akash","03101515786","i170019@nu.edu.pk","Islamabad"));
 
         //MAP FRAGMENT
@@ -122,6 +151,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             @Override
             public void onPageSelected(int position) {
+                //Toast.makeText(BasicSearch.this,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
 
             }
 
@@ -251,7 +281,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         getPermission();
-        /*LatLng Pakistan = new LatLng(31, 71);
+        /*LatLng Pakistan = null;
+        Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
         googleMap.addMarker(new MarkerOptions()
                 .position(Pakistan)
                 .title("Marker in Pakistan")
@@ -262,7 +293,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
                 // Add a marker in Sydney and move the camera
                 LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location").icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
+                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
             }
 
@@ -313,6 +344,29 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},600);
         }
 
+    }
+    public LatLng getLocationFromAddress(Context context,String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 
     @Override

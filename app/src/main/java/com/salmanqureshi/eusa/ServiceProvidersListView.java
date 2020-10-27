@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,12 +38,20 @@ public class ServiceProvidersListView extends AppCompatActivity {
     MyRvAdapter adapter;
     Bitmap image;
     ImageView imageViewBackArrowSPListView;
+    TextInputLayout searchserviceprovider;
     private DatabaseReference myref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_providers_list_view);
+        searchserviceprovider=findViewById(R.id.searchserviceprovider);
+        searchserviceprovider.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //onBackPressed();
+            }
+        });
         imageViewBackArrowSPListView=findViewById(R.id.imageViewBackArrowSPListView);
         serviceProviderList=new ArrayList<>();
         mainmenu=findViewById(R.id.mainmenu);
