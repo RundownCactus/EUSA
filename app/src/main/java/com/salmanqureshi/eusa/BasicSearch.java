@@ -43,6 +43,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -72,7 +73,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     List<ServiceProvider> contacts;
     MyRvAdapter adapter;
     Bitmap image;
-    TextInputEditText searchserviceprovideronmapinput;
+    MaterialButton searchserviceprovideronmapinput;
     //NAVIGATION DRAWER VARIABLES START
 
     //GOOGLE MAPS VARIABLES START
