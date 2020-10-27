@@ -51,6 +51,9 @@ public class Login extends AppCompatActivity {
         sendverificationcodelogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!validatePhno()){
+                    return;
+                }
                 String ph = phno.getText().toString();
                 Intent intent=new Intent(Login.this,LoginReceiveVerificationCode.class);
                 intent.putExtra("phno",ph);
@@ -111,6 +114,30 @@ public class Login extends AppCompatActivity {
         });
         */
     }
+
+
+    private boolean validatePhno(){
+        String ph = phno.getText().toString();
+        String nowhitespace = "(?=\\s+$)";
+
+        if(ph.isEmpty()){
+            phno.setError("Please Enter a Valid Phone Number");
+            return false;
+        }
+        else if(ph.length()>11) {
+            phno.setError("Please Enter a Valid Phone Number");
+            return false;
+        }else if(ph.length()<10){
+                phno.setError("Please Enter a Valid Phone Number");
+                return false;
+        }else if(ph.matches(nowhitespace)){
+            phno.setError("Phone Number Cannot be Null");
+            return false;
+        }else{
+            phno.setError(null);
+            return true;
+        }
+    };
 
     @Override
     protected void onStop() {

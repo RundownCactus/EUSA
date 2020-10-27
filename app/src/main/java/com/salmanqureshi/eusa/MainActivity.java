@@ -67,16 +67,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if(!validateEmail() | !validateFname() | !validateLname()){
+                    return;
+                }
                 String phno = getIntent().getStringExtra("phno");
                 String first = fname.getText().toString();
                 String sec = lname.getText().toString();
                 String emal = email.getText().toString();
-                int tempid = (int) (Math.random() * (99999 - 1 + 1) + 1);
-                String myID = String.valueOf(tempid);
-                Log.d("WAH", myID);
                 Contact newUser = new Contact(first,sec,phno,emal);
                 rootnode = FirebaseDatabase.getInstance();
-                myref = rootnode.getReference().child("Users").child("Customers").child(myID);
+                myref = rootnode.getReference().child("Users").child("Customers").child(phno);
                 myref.setValue(newUser);
                 Intent intent=new Intent(MainActivity.this,BasicSearch.class);
                 startActivity(intent);
@@ -154,6 +154,58 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
     }
+
+    private boolean validateFname(){
+        String fn = fname.getText().toString();
+        String nowhitespace = "(?=\\s+$)";
+
+        if(fn.isEmpty()){
+            fname.setError("Please Enter a Valid Name");
+            return false;
+        }
+        else if(fn.matches(nowhitespace)){
+            fname.setError("Name Cannot Have WhiteSpace");
+            return false;
+        }else{
+            fname.setError(null);
+            return true;
+        }
+    };
+
+
+    private boolean validateEmail(){
+        String emal = email.getText().toString();
+        String pattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if(emal.isEmpty()){
+            email.setError("Please Enter a Valid Email");
+            return false;
+        }
+        else if(!emal.matches(pattern)){
+            email.setError("Incorrect Email Provided");
+            return false;
+        }else{
+            email.setError(null);
+            return true;
+        }
+    };
+
+    private boolean validateLname(){
+        String fn = lname.getText().toString();
+        String nowhitespace = "(?=\\s+$)";
+
+        if(fn.isEmpty()){
+            lname.setError("Please Enter a Valid Name");
+            return false;
+        }
+        else if(fn.matches(nowhitespace)){
+            lname.setError("Name Cannot Have WhiteSpace");
+            return false;
+        }else{
+            lname.setError(null);
+            return true;
+        }
+    };
 
     @Override
     protected void onStart() {

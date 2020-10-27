@@ -32,11 +32,40 @@ public class PhoneNumberVerification extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String ph = phno.getText().toString();
+                if(!validatePhno()){
+                    return;
+                }
+
                 Log.d("WAH","+92"+ph);
-                Intent intent=new Intent(PhoneNumberVerification.this,MainActivity.class);
+                Intent intent=new Intent(PhoneNumberVerification.this,ReceiveVerificationCode.class);
                 intent.putExtra("phno",ph);
                 startActivity(intent);
             }
         });
     }
+
+
+    private boolean validatePhno(){
+        String ph = phno.getText().toString();
+        String nowhitespace = "(?=\\s+$)";
+
+        if(ph.isEmpty()){
+            phno.setError("Please Enter a Valid Phone Number");
+            return false;
+        }
+        else if(ph.length()>11) {
+            phno.setError("Please Enter a Valid Phone Number");
+            return false;
+        }else if(ph.length()<10){
+            phno.setError("Please Enter a Valid Phone Number");
+            return false;
+        }else if(ph.matches(nowhitespace)){
+            phno.setError("Phone Number Cannot be Null");
+            return false;
+        }else{
+            phno.setError(null);
+            return true;
+        }
+    };
+
 }

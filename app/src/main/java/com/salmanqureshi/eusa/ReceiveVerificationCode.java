@@ -6,6 +6,7 @@ import androidx.arch.core.executor.TaskExecutor;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class ReceiveVerificationCode extends AppCompatActivity {
     String verCode;
     ImageView verifybackbutton;
     MaterialButton verifycode;
+    String phno;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,18 +35,18 @@ public class ReceiveVerificationCode extends AppCompatActivity {
 
         verifybackbutton=findViewById(R.id.verifybackbutton);
         verifycode=findViewById(R.id.verifycode);
-
-        String phno = getIntent().getStringExtra("phno");
+        phno = getIntent().getStringExtra("phno");
         sendCode(phno);
 
 
-     //   verifycode.setOnClickListener(new View.OnClickListener() {
-          //  @Override
-         //   public void onClick(View view) {
-       //         Intent intent=new Intent(ReceiveVerificationCode.this,BasicSearch.class);
-            //    startActivity(intent);
-          //  }
-        //});
+        verifycode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ReceiveVerificationCode.this,MainActivity.class);
+                intent.putExtra("phno",phno);
+                startActivity(intent);
+            }
+        });
         verifybackbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +97,8 @@ public class ReceiveVerificationCode extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(getApplicationContext(),BasicSearch.class);
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("phno",phno);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
