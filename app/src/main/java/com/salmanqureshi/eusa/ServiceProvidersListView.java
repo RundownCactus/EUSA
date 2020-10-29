@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -56,6 +58,7 @@ public class ServiceProvidersListView extends AppCompatActivity {
         serviceProviderList=new ArrayList<>();
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
+        search = findViewById(R.id.srch);
         String type = getIntent().getStringExtra("type");
         myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
         if(type.matches("All")){
@@ -87,8 +90,22 @@ public class ServiceProvidersListView extends AppCompatActivity {
             });
 
         }
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
         serviceprovidersRV=findViewById(R.id.serviceprovidersRV);
         RecyclerView.LayoutManager lm= new LinearLayoutManager(this);
         serviceprovidersRV.setLayoutManager(lm);
@@ -108,14 +125,24 @@ public class ServiceProvidersListView extends AppCompatActivity {
         });
     }
 
+    private void filter(String text) {
+        ArrayList<ServiceProvider> filteredList = new ArrayList<>();
+        for (ServiceProvider item : serviceProviderList ){
+            if(item.getFname().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+                Log.d("WHAT", item.getFname());
+            }
+        }
+        adapter.filterlist(filteredList);
+    }
+
     private List<ServiceProvider> collectData(Map<String, Object> value) {
-        List<ServiceProvider> data = new ArrayList<>();
 
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
             serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address")));
             adapter.notifyDataSetChanged();
         }
-        return(data);
+        return(serviceProviderList);
     }
 }

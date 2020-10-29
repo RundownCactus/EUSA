@@ -27,6 +27,11 @@ public class MyRvAdapter extends RecyclerView.Adapter<MyRvAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void filterlist(ArrayList<ServiceProvider> filteredList) {
+        newList = filteredList;
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
