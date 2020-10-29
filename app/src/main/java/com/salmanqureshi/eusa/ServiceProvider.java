@@ -10,19 +10,37 @@ public class ServiceProvider {
     private String email;
     private String cnic;
     private String city;
+
     private String address;
-
+    private String rating;
+    private String price;
     private String worktype;
-    private String experience;
-    private String hourlyrate;
 
-    public ServiceProvider(Bitmap image, String fname, String lname, String phone, String worktype,String address) {
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public ServiceProvider(Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat) {
         this.image=image;
         this.fname = fname;
         this.lname = lname;
         this.phone = phone;
         this.worktype = worktype;
         this.address=address;
+        this.rating = rating;
+        this.price = pricerat;
     }
 
 
@@ -66,24 +84,6 @@ public class ServiceProvider {
     public void setWorktype(String worktype) {
         this.worktype = worktype;
     }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
-
-    public String getHourlyrate() {
-        return hourlyrate;
-    }
-
-    public void setHourlyrate(String hourlyrate) {
-        this.hourlyrate = hourlyrate;
-    }
-
-
 
     public Bitmap getImage() {
         return image;

@@ -2,6 +2,7 @@ package com.salmanqureshi.eusa;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,6 +34,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -65,12 +68,15 @@ public class ServiceProvidersListView extends AppCompatActivity {
         ratinghightolow=findViewById(R.id.ratinghightolow);
 
         CompoundButton.OnCheckedChangeListener checkedChangeListener= new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked)
                 {
                     selectedChipData=compoundButton.getText().toString();
-                    Toast.makeText(ServiceProvidersListView.this,selectedChipData,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ServiceProvidersListView.this,selectedChipData,Toast.LENGTH_SHORT).show();
+                    Chipfilter(selectedChipData);
+
                 }
             }
         };
@@ -186,11 +192,27 @@ public class ServiceProvidersListView extends AppCompatActivity {
         adapter.filterlist(filteredList);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void Chipfilter(String text) {
+        if(text.matches("Price Low to High")){
+            serviceProviderList.sort(Comparator.comparing(ServiceProvider::getPrice));
+            adapter.filterList((ArrayList<ServiceProvider>) serviceProviderList);
+        }else if(text.matches("Price High to low")){
+            serviceProviderList.sort(Comparator.comparing(ServiceProvider::getPrice).reversed());
+            adapter.filterList((ArrayList<ServiceProvider>) serviceProviderList);
+        }else if(text.matches("Rating Low to High")){
+            serviceProviderList.sort(Comparator.comparing(ServiceProvider::getRating));
+            adapter.filterList((ArrayList<ServiceProvider>) serviceProviderList);
+        }else if(text.matches("Rating High to low")){
+            serviceProviderList.sort(Comparator.comparing(ServiceProvider::getRating).reversed());
+            adapter.filterList((ArrayList<ServiceProvider>) serviceProviderList);
+        }
+    }
     private List<ServiceProvider> collectData(Map<String, Object> value) {
 
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address")));
+            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
             adapter.notifyDataSetChanged();
         }
         return(serviceProviderList);

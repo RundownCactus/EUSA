@@ -16,11 +16,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class EditProfile extends AppCompatActivity {
     Integer REQUEST_CAMERA=1, SELECT_IMAGE=0, REQUEST_FIRSTNAME=2,REQUEST_LASTNAME=3,REQUEST_PHONE=4,REQUEST_EMAIL=5;
     ImageView imageViewBackArrowEditprofile,accountimage,circleImageView;
     TextView firstnameeditprofile,lastnameeditprofile,phoneeditprofile,emaileditprofile,passwordeditprofile;
     String firstname,lastname,phone,email,password;
+    FirebaseDatabase rootnode;
+    DatabaseReference myref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,21 +143,34 @@ public class EditProfile extends AppCompatActivity {
             {
                 firstname=data.getStringExtra("firstname");
                 firstnameeditprofile.setText(firstname);
+                rootnode = FirebaseDatabase.getInstance();
+                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref.setValue(firstname);
+
             }
             else if(requestCode==REQUEST_LASTNAME)
             {
                 lastname=data.getStringExtra("lastname");
                 lastnameeditprofile.setText(lastname);
+                rootnode = FirebaseDatabase.getInstance();
+                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref.setValue(lastname);
             }
             else if(requestCode==REQUEST_PHONE)
             {
                 phone=data.getStringExtra("phone");
                 phoneeditprofile.setText(phone);
+                rootnode = FirebaseDatabase.getInstance();
+                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref.setValue(phone);
             }
             else if(requestCode==REQUEST_EMAIL)
             {
                 email=data.getStringExtra("email");
                 emaileditprofile.setText(email);
+                rootnode = FirebaseDatabase.getInstance();
+                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref.setValue(email);
             }
         }
     }
