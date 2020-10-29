@@ -15,10 +15,13 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -48,17 +51,41 @@ public class ServiceProvidersListView extends AppCompatActivity {
     private int REQUEST_CODE=1;
     String filter;
 
+    Chip pricelowtohigh,pricehightolow,ratinglowtohigh,ratinghightolow;
+    String selectedChipData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_providers_list_view);
+
+        pricelowtohigh=findViewById(R.id.pricelowtohigh);
+        pricehightolow=findViewById(R.id.pricehightolow);
+        ratinglowtohigh=findViewById(R.id.ratinglowtohigh);
+        ratinghightolow=findViewById(R.id.ratinghightolow);
+
+        CompoundButton.OnCheckedChangeListener checkedChangeListener= new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked)
+                {
+                    selectedChipData=compoundButton.getText().toString();
+                    Toast.makeText(ServiceProvidersListView.this,selectedChipData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        pricelowtohigh.setOnCheckedChangeListener(checkedChangeListener);
+        pricehightolow.setOnCheckedChangeListener(checkedChangeListener);
+        ratinglowtohigh.setOnCheckedChangeListener(checkedChangeListener);
+        ratinghightolow.setOnCheckedChangeListener(checkedChangeListener);
+
         searchserviceprovider=findViewById(R.id.searchserviceprovider);
         searchserviceprovider.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //onBackPressed();
-                Intent intent= new Intent(ServiceProvidersListView.this, ApplyFilters.class);
-                startActivityForResult(intent,REQUEST_CODE);
+                //Intent intent= new Intent(ServiceProvidersListView.this, ApplyFilters.class);
+                //startActivityForResult(intent,REQUEST_CODE);
             }
         });
         imageViewBackArrowSPListView=findViewById(R.id.imageViewBackArrowSPListView);

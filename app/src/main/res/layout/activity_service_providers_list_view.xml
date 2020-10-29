@@ -13,24 +13,25 @@
         android:background="#fff">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:background="@color/white"
             android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             android:paddingRight="16dp"
-            android:background="#F4F4F4"
+            android:paddingBottom="16dp"
             tools:ignore="MissingConstraints">
 
             <ImageView
                 android:id="@+id/imageViewBackArrowSPListView"
-                app:srcCompat="@drawable/ic_baseline_arrow_back"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="16dp">
+                app:srcCompat="@drawable/ic_baseline_arrow_back">
 
             </ImageView>
 
@@ -42,34 +43,93 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
                 android:hint="Search"
+                android:paddingStart="64dp"
                 android:paddingLeft="64dp"
                 android:textColorHint="@color/grey"
                 app:boxStrokeColor="#03A9F4"
-                app:hintTextColor="#03A9F4"
-                app:endIconDrawable="@drawable/ic_baseline_filter_list_24"
-                app:endIconMode="custom"
                 app:endIconCheckable="true"
+                app:endIconMode="custom"
                 app:endIconTint="@color/grey"
+                app:hintTextColor="#03A9F4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageViewBackArrowSPListView"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="HardcodedText,MissingConstraints,RtlSymmetry"
-                android:paddingStart="64dp">
+                tools:ignore="HardcodedText,MissingConstraints,RtlSymmetry">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/srch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:cursorVisible="true"
                     android:inputType="textAutoComplete"
-                    android:id="@+id/srch"
                     android:textColor="#000000" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+            tools:ignore="MissingConstraints">
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/sorting"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                app:singleSelection="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints"
+                android:layout_marginStart="16dp">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/pricelowtohigh"
+                    android:text="Price Low to High"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipSurfaceColor="@color/BlueColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
+
+                </com.google.android.material.chip.Chip>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/pricehightolow"
+                    android:text="Price High to low"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipSurfaceColor="@color/BlueColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
+
+                </com.google.android.material.chip.Chip>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ratinglowtohigh"
+                    android:text="Rating Low to High"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipSurfaceColor="@color/BlueColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
+
+                </com.google.android.material.chip.Chip>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/ratinghightolow"
+                    android:text="Rating High to low"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipSurfaceColor="@color/BlueColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp">
+
+                </com.google.android.material.chip.Chip>
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="100dp"
-            android:background="#F4F4F4"
+            android:id="@+id/constraintLayout4"
+            android:layout_marginTop="190dp"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
