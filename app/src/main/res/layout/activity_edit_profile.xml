@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_baseline_arrow_back_white"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_white"
             app:layout_constraintBottom_toTopOf="@+id/textViewEditprofile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -97,8 +97,7 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/firstnameeditprofile"
             app:layout_constraintStart_toStartOf="@+id/guideline7"
-            app:layout_constraintTop_toBottomOf="@+id/guideline8"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toBottomOf="@+id/guideline8" />
 
         <TextView
             android:id="@+id/firstnameeditprofile"
@@ -190,6 +189,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Password"
+            android:visibility="gone"
             android:textColor="#BAB9B9"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/passwordeditprofile"
@@ -202,6 +202,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="***********"
+            android:visibility="gone"
             android:textColor="@color/BlueColor"
             android:textSize="24sp"
             android:textStyle="bold"

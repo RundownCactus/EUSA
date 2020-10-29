@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ApplyFilters">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/imageViewBackArrowFilter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_arrow_back">
+
+        </ImageView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="100dp">
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:text="Sort By"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/BlueColor"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints"
+            android:layout_marginStart="16dp">
+
+        </TextView>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/sorting"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            app:singleSelection="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints"
+            android:layout_marginStart="16dp">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/pricelowtohigh"
+                android:text="Price Low to High"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                app:chipSurfaceColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+
+            </com.google.android.material.chip.Chip>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/pricehightolow"
+                android:text="Price High to low"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                app:chipSurfaceColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+
+            </com.google.android.material.chip.Chip>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ratinglowtohigh"
+                android:text="Rating Low to High"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                app:chipSurfaceColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+
+            </com.google.android.material.chip.Chip>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ratinghightolow"
+                android:text="Rating High to low"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                app:chipSurfaceColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp">
+
+            </com.google.android.material.chip.Chip>
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/applyfiltersbutton"
+            android:text="Apply Filters"
+            android:textColor="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.button.MaterialButton>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

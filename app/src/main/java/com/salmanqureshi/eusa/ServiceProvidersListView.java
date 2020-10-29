@@ -1,15 +1,18 @@
 package com.salmanqureshi.eusa;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -42,6 +45,8 @@ public class ServiceProvidersListView extends AppCompatActivity {
     ImageView imageViewBackArrowSPListView;
     TextInputLayout searchserviceprovider;
     private DatabaseReference myref;
+    private int REQUEST_CODE=1;
+    String filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +57,8 @@ public class ServiceProvidersListView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //onBackPressed();
+                Intent intent= new Intent(ServiceProvidersListView.this, ApplyFilters.class);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
         imageViewBackArrowSPListView=findViewById(R.id.imageViewBackArrowSPListView);
@@ -124,6 +131,22 @@ public class ServiceProvidersListView extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE)
+        {
+            Log.d("ResultOk", "ResultOk Called");
+            if (resultCode == RESULT_OK )
+            {
+                Log.d("ResultOk", "ResultOk Called--1");
+                filter=data.getStringExtra("filter");
+                Log.d("ResultOk", filter);
+            }
+        }
+    }
+
 
     private void filter(String text) {
         ArrayList<ServiceProvider> filteredList = new ArrayList<>();
