@@ -50,7 +50,10 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                collectData((Map<String,Object>) snapshot.getValue());
+                firstnameeditprofile.setText(snapshot.child("fname").getValue().toString());
+                lastnameeditprofile.setText(snapshot.child("lname").getValue().toString());
+                phoneeditprofile.setText(snapshot.child("phone").getValue().toString());
+                emaileditprofile.setText(snapshot.child("email").getValue().toString());
             }
 
             @Override
@@ -120,16 +123,6 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void collectData(Map<String, Object> value) {
-        for (Map.Entry<String, Object> entry : value.entrySet()){
-            Map singleUser = (Map) entry.getValue();
-            firstnameeditprofile.setText(singleUser.get("fname").toString());
-            lastnameeditprofile.setText(singleUser.get("lname").toString());
-            phoneeditprofile.setText(singleUser.get("phone").toString());
-            emaileditprofile.setText(singleUser.get("email").toString());
-        }
     }
 
     private void SelectImage()
