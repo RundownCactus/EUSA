@@ -47,6 +47,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,6 +75,9 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     MyRvAdapter adapter;
     Bitmap image;
     MaterialButton searchserviceprovideronmapinput;
+    FirebaseDatabase rootnode;
+    DatabaseReference myref;
+    private FirebaseAuth mAuth;
     //NAVIGATION DRAWER VARIABLES START
 
     //GOOGLE MAPS VARIABLES START
@@ -187,6 +191,22 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
         View header = navigationView.getHeaderView(0);
         text = (TextView) header.findViewById(R.id.username);
+
+        rootnode = FirebaseDatabase.getInstance();
+        myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
+
+        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                text.setText(snapshot.child("fname").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         profileImage=(ImageView) header.findViewById(R.id.circleImageView);
         text.setOnClickListener(new View.OnClickListener() {
             @Override
