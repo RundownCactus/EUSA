@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,11 +27,19 @@ public class EditProfile extends AppCompatActivity {
     String firstname,lastname,phone,email,password;
     FirebaseDatabase rootnode;
     DatabaseReference myref;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         imageViewBackArrowEditprofile=findViewById(R.id.imageViewBackArrowEditprofile);
+
+        rootnode = FirebaseDatabase.getInstance();
+        myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
+        firstnameeditprofile.setText(myref.child("fname").toString());
+        lastnameeditprofile.setText(myref.child("lname").toString());
+        phoneeditprofile.setText(myref.child("phone").toString());
+        emaileditprofile.setText(myref.child("email").toString());
         imageViewBackArrowEditprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,8 +152,7 @@ public class EditProfile extends AppCompatActivity {
             {
                 firstname=data.getStringExtra("firstname");
                 firstnameeditprofile.setText(firstname);
-                rootnode = FirebaseDatabase.getInstance();
-                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid()).child("fname");
                 myref.setValue(firstname);
 
             }
@@ -152,24 +160,21 @@ public class EditProfile extends AppCompatActivity {
             {
                 lastname=data.getStringExtra("lastname");
                 lastnameeditprofile.setText(lastname);
-                rootnode = FirebaseDatabase.getInstance();
-                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid()).child("lname");
                 myref.setValue(lastname);
             }
             else if(requestCode==REQUEST_PHONE)
             {
                 phone=data.getStringExtra("phone");
                 phoneeditprofile.setText(phone);
-                rootnode = FirebaseDatabase.getInstance();
-                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid()).child("phone");
                 myref.setValue(phone);
             }
             else if(requestCode==REQUEST_EMAIL)
             {
                 email=data.getStringExtra("email");
                 emaileditprofile.setText(email);
-                rootnode = FirebaseDatabase.getInstance();
-                myref = rootnode.getReference().child("Users").child("Customers").child("03335045554");
+                myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid()).child("email");
                 myref.setValue(email);
             }
         }

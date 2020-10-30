@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 String emal = email.getText().toString();
                 Contact newUser = new Contact(first,sec,phno,emal);
                 rootnode = FirebaseDatabase.getInstance();
-                myref = rootnode.getReference().child("Users").child("Customers").child(phno);
+                myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
                 myref.setValue(newUser);
                 Intent intent=new Intent(MainActivity.this,BasicSearch.class);
                 startActivity(intent);

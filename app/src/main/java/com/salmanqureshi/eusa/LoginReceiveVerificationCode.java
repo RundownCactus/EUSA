@@ -40,9 +40,7 @@ public class LoginReceiveVerificationCode extends AppCompatActivity {
         verifycodelogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(LoginReceiveVerificationCode.this,BasicSearch.class);
-                startActivity(intent);
-               // return;
+                sendCode(phno);
             }
         });
         loginverifybackbutton.setOnClickListener(new View.OnClickListener() {

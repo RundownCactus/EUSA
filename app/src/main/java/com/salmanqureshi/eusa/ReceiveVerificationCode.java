@@ -42,9 +42,10 @@ public class ReceiveVerificationCode extends AppCompatActivity {
         verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(ReceiveVerificationCode.this,MainActivity.class);
-                intent.putExtra("phno",phno);
-                startActivity(intent);
+                //Intent intent=new Intent(ReceiveVerificationCode.this,MainActivity.class);
+                //intent.putExtra("phno",phno);
+                //startActivity(intent);
+                sendCode(phno);
             }
         });
         verifybackbutton.setOnClickListener(new View.OnClickListener() {
