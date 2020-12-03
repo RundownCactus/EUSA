@@ -48,11 +48,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
@@ -71,6 +73,9 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     FirebaseDatabase rootnode;
     DatabaseReference myref;
     private FirebaseAuth mAuth;
+    DatabaseReference myref1;
+    List<ServiceProvider> serviceProviderList;
+    List<ServiceProvider> newserviceProviderList;
     //NAVIGATION DRAWER VARIABLES START
 
     //GOOGLE MAPS VARIABLES START
@@ -139,6 +144,11 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         };
         colors=color_temp;
 
+        serviceProviderList=new ArrayList<>();
+        newserviceProviderList=new ArrayList<>();
+
+
+
 
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -159,6 +169,15 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             }
         });
         //SWIPE CARD VIEW END
+    }
+    private List<ServiceProvider> collectData(Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()){
+            Map singleUser = (Map) entry.getValue();
+            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
+            newserviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
+
+        }
+        return(serviceProviderList);
     }
 
     @Override
@@ -295,12 +314,31 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         getPermission();
-        /*LatLng Pakistan = null;
+        String type = "All";
+        myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
+        if(type.matches("All")) {
+            Query getTypeSP = myref.orderByChild("type");
+            getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
+                    Log.d("no", Integer.toString(newserviceProviderList.size()));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+
+        LatLng Pakistan = null;
         Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
         googleMap.addMarker(new MarkerOptions()
                 .position(Pakistan)
                 .title("Marker in Pakistan")
-                .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));*/
+                .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
         LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
@@ -337,7 +375,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 10, mLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 50, 100, mLocationListener);
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)

@@ -16,13 +16,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -154,6 +157,40 @@ public class ServiceProvidersListView extends AppCompatActivity {
         adapter.setOnItemClickListener(new MyRvAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog( ServiceProvidersListView.this,R.style.BottomSheetDialogTheme);
+                View bottomSheetView= LayoutInflater.from(ServiceProvidersListView.this).inflate(R.layout.layout_bottom_sheet,(LinearLayout)findViewById(R.id.bottomsheet_cl));
+                TextView myname=bottomSheetView.findViewById(R.id.myname);
+                TextView myrating=bottomSheetView.findViewById(R.id.myrating);
+                ImageView myimage=bottomSheetView.findViewById(R.id.myimage);
+                ImageView worktypeicon=bottomSheetView.findViewById(R.id.worktypeicon);
+                TextView worktypetext=bottomSheetView.findViewById(R.id.worktypetext);
+                myimage.setImageBitmap(serviceProviderList.get(position).getImage());
+                myname.setText(serviceProviderList.get(position).getFname()+" "+serviceProviderList.get(position).getLname());
+                myrating.setText(serviceProviderList.get(position).getRating());
+                worktypetext.setText(serviceProviderList.get(position).getWorktype());
+                if(serviceProviderList.get(position).getWorktype().equals("Plumber"))
+                {
+                    worktypeicon.setImageResource(R.drawable.plumbericon);
+                }
+                else if(serviceProviderList.get(position).getWorktype().equals("Carpenter"))
+                {
+                    worktypeicon.setImageResource(R.drawable.carpentericon);
+                }
+                else if(serviceProviderList.get(position).getWorktype().equals("Cleaner"))
+                {
+                    worktypeicon.setImageResource(R.drawable.cleanericon);
+                }
+                else if(serviceProviderList.get(position).getWorktype().equals("Car Mechanic"))
+                {
+                    worktypeicon.setImageResource(R.drawable.mechanicicon);
+                }
+                else
+                {
+                    worktypeicon.setImageResource(R.drawable.electricianicon);
+                }
+
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
 
             }
         });
