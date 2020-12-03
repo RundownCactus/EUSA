@@ -1,13 +1,14 @@
 package com.salmanqureshi.eusa;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,13 +25,14 @@ import java.util.concurrent.TimeUnit;
 public class LoginReceiveVerificationCode extends AppCompatActivity {
     MaterialButton verifycodelogin;
     ImageView loginverifybackbutton;
+    EditText CodeByUser;
     String verCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_receive_verification_code);
-
+        CodeByUser = findViewById(R.id.verificationcode);
         String phno = getIntent().getStringExtra("phno");
         sendCode(phno);
 
@@ -40,7 +42,13 @@ public class LoginReceiveVerificationCode extends AppCompatActivity {
         verifycodelogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  sendCode(phno);
+                String code = CodeByUser.getText().toString();
+                if(code.isEmpty() || code.length()<6){
+                    CodeByUser.setError("Wrong OTP");
+                    CodeByUser.requestFocus();
+                    return;
+                }
+                verifyCode(code);
             }
         });
         loginverifybackbutton.setOnClickListener(new View.OnClickListener() {

@@ -1,15 +1,14 @@
 package com.salmanqureshi.eusa;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.arch.core.executor.TaskExecutor;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +27,7 @@ public class ReceiveVerificationCode extends AppCompatActivity {
     ImageView verifybackbutton;
     MaterialButton verifycode;
     String phno;
+    EditText CodeByUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +36,20 @@ public class ReceiveVerificationCode extends AppCompatActivity {
         verifybackbutton=findViewById(R.id.verifybackbutton);
         verifycode=findViewById(R.id.verifycode);
         phno = getIntent().getStringExtra("phno");
+        CodeByUser=findViewById(R.id.verificationcode);
         sendCode(phno);
 
 
         verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent=new Intent(ReceiveVerificationCode.this,MainActivity.class);
-                //intent.putExtra("phno",phno);
-                //startActivity(intent);
-               // sendCode(phno);
+                String code = CodeByUser.getText().toString();
+                if(code.isEmpty() || code.length()<6){
+                    CodeByUser.setError("Wrong OTP");
+                    CodeByUser.requestFocus();
+                    return;
+                }
+                verifyCode(code);
             }
         });
         verifybackbutton.setOnClickListener(new View.OnClickListener() {
