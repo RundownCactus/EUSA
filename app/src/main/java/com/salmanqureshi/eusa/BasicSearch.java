@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -174,7 +175,15 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
             serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
-            newserviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
+        }
+        for (ServiceProvider sp :serviceProviderList){
+            String addr =  sp.getAddress().toString();
+            String [] loc = addr.split(",",2);
+            Double lat = Double.parseDouble(loc[0]);
+            Double lon = Double.parseDouble(loc[1]);
+            LatLng myLocation = new LatLng(lat,lon);
+            mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname()));
+
 
         }
         return(serviceProviderList);
@@ -314,39 +323,39 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         getPermission();
-        String type = "All";
         myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
-        if(type.matches("All")) {
-            Query getTypeSP = myref.orderByChild("type");
-            getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
-                    Log.d("no", Integer.toString(newserviceProviderList.size()));
-                }
+        Query getTypeSP = myref.orderByChild("type");
+        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
-        }
+            }
+        });
 
 
-        LatLng Pakistan = null;
-        Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
-        googleMap.addMarker(new MarkerOptions()
-                .position(Pakistan)
-                .title("Marker in Pakistan")
-                .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
+
+
+        // LatLng Pakistan = null;
+       // Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
+       // googleMap.addMarker(new MarkerOptions()
+         //       .position(Pakistan)
+           //     .title("Marker in Pakistan")
+             //   .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
         LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
 
                 // Add a marker in Sydney and move the camera
-                LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                LatLng myLocation = new LatLng(33.699989, 73.001916);
                 mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+                mMap.animateCamera(zoom);
             }
 
             @Override
