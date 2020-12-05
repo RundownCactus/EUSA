@@ -16,10 +16,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -42,6 +45,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -152,6 +156,14 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
 
 
+
+        //SWIPE CARD VIEW END
+    }
+    private List<ServiceProvider> collectData(Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()){
+            Map singleUser = (Map) entry.getValue();
+            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
+        }
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -161,7 +173,29 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             @Override
             public void onPageSelected(int position) {
                 //Toast.makeText(BasicSearch.this,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
-
+                for (ServiceProvider sp :serviceProviderList) {
+                    if(models.get(position).getTitle().equals(sp.getWorktype())) {
+                        String addr =  sp.getAddress().toString();
+                        String [] loc = addr.split(",",2);
+                        Double lat = Double.parseDouble(loc[0]);
+                        Double lon = Double.parseDouble(loc[1]);
+                        LatLng myLocation = new LatLng(lat,lon);
+                        switch (sp.getWorktype()) {
+                            case "Car Mechanic":
+                                mMap.clear();
+                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
+                                break;
+                            case "Carpenter":
+                                mMap.clear();
+                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
+                                break;
+                            case "Electrician":
+                                mMap.clear();
+                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
+                                break;
+                        }
+                    }
+                }
             }
 
             @Override
@@ -169,23 +203,78 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             }
         });
-        //SWIPE CARD VIEW END
-    }
-    private List<ServiceProvider> collectData(Map<String, Object> value) {
-        for (Map.Entry<String, Object> entry : value.entrySet()){
-            Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
-        }
-        for (ServiceProvider sp :serviceProviderList){
+        /*for (ServiceProvider sp :serviceProviderList){
             String addr =  sp.getAddress().toString();
             String [] loc = addr.split(",",2);
             Double lat = Double.parseDouble(loc[0]);
             Double lon = Double.parseDouble(loc[1]);
             LatLng myLocation = new LatLng(lat,lon);
-            mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname()));
+            switch (sp.getWorktype()) {
+                case "Mechanic":
+                    mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
+                    break;
+                case "Carpenter":
+                    mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
+                    break;
+                case "Electrician":
+                    mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
+                    break;
+            }
 
+            // LatLng Pakistan = null;
+            // Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
+            // googleMap.addMarker(new MarkerOptions()
+            //       .position(Pakistan)
+            //     .title("Marker in Pakistan")
+            //   .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
+        }*/
+        mMap.setOnMarkerClickListener(marker -> {
+            for (ServiceProvider sp :serviceProviderList) {
+                if(marker.getSnippet().equals(sp.getPhone()))
+                {
+                    //Toast.makeText(BasicSearch.this, marker.getSnippet(), Toast.LENGTH_SHORT).show();// display toast
 
-        }
+                    final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog( BasicSearch.this,R.style.BottomSheetDialogTheme);
+                    View bottomSheetView= LayoutInflater.from(BasicSearch.this).inflate(R.layout.layout_bottom_sheet,(LinearLayout)findViewById(R.id.bottomsheet_cl));
+                    TextView myname=bottomSheetView.findViewById(R.id.myname);
+                    TextView myrating=bottomSheetView.findViewById(R.id.myrating);
+                    ImageView myimage=bottomSheetView.findViewById(R.id.myimage);
+                    ImageView worktypeicon=bottomSheetView.findViewById(R.id.worktypeicon);
+                    TextView worktypetext=bottomSheetView.findViewById(R.id.worktypetext);
+                    myimage.setImageBitmap(sp.getImage());
+                    myname.setText(sp.getFname()+" "+sp.getLname());
+                    myrating.setText(sp.getRating());
+                    worktypetext.setText(sp.getWorktype());
+                    if(sp.getWorktype().equals("Plumber"))
+                    {
+                        worktypeicon.setImageResource(R.drawable.plumbericon);
+                    }
+                    else if(sp.getWorktype().equals("Carpenter"))
+                    {
+                        worktypeicon.setImageResource(R.drawable.carpentericon);
+                    }
+                    else if(sp.getWorktype().equals("Cleaner"))
+                    {
+                        worktypeicon.setImageResource(R.drawable.cleanericon);
+                    }
+                    else if(sp.getWorktype().equals("Car Mechanic"))
+                    {
+                        worktypeicon.setImageResource(R.drawable.mechanicicon);
+                    }
+                    else
+                    {
+                        worktypeicon.setImageResource(R.drawable.electricianicon);
+                    }
+
+                    bottomSheetDialog.setContentView(bottomSheetView);
+                    bottomSheetDialog.show();
+
+                }
+
+            }
+
+            return true;
+        });
         return(serviceProviderList);
     }
 
