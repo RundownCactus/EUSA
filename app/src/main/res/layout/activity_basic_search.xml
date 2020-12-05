@@ -48,12 +48,13 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_cl"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:paddingRight="16dp"
-            android:background="@color/white"
+
             tools:ignore="MissingConstraints,RtlSymmetry"
             android:paddingEnd="16dp">
             <androidx.appcompat.widget.Toolbar
@@ -86,6 +87,7 @@
             </com.google.android.material.button.MaterialButton>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"

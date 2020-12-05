@@ -249,7 +249,7 @@ public class ServiceProvidersListView extends AppCompatActivity {
 
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
+            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat"),(String) singleUser.get("loc")));
             adapter.notifyDataSetChanged();
         }
         return(serviceProviderList);

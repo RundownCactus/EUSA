@@ -2,6 +2,7 @@ package com.salmanqureshi.eusa;
 
 import android.Manifest;
 import android.animation.ArgbEvaluator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,8 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +44,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,7 +65,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
     DrawerLayout drawerLayout;
     Integer REQUEST_CODE=1;
@@ -85,6 +89,10 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
     //GOOGLE MAPS VARIABLES START
     private GoogleMap mMap;
+    private LocationManager locationManager;
+    private static final long MIN_TIME = 400;
+    private static final float MIN_DISTANCE = 1000;
+    LatLng latLng;
     //GOOGLE MAPS VARIABLES END
 
     //SWIPE CARD VIEW VARIABLES START
@@ -97,11 +105,15 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
     //FIREBASE VARIABLES START
     //FIREBASE VARIABLES END
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_search);
         Log.d("basicsearchCalled", "onCreate Called");
+
+
+
         contacts=new ArrayList<>();
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view);
@@ -126,6 +138,14 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+
+        View locationButton = ((View) mapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+        rlp.setMargins(0, 166, 44, 0);
+
         //MAP FRAGMENT
 
         //SWIPE CARD VIEW START
@@ -151,10 +171,19 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
         serviceProviderList=new ArrayList<>();
         newserviceProviderList=new ArrayList<>();
+        myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
+        Query getTypeSP = myref.orderByChild("type");
+        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-
-
+            }
+        });
 
 
         //SWIPE CARD VIEW END
@@ -162,7 +191,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     private List<ServiceProvider> collectData(Map<String, Object> value) {
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat")));
+            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat"),(String) singleUser.get("loc")));
         }
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -172,27 +201,38 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             @Override
             public void onPageSelected(int position) {
-                //Toast.makeText(BasicSearch.this,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
-                for (ServiceProvider sp :serviceProviderList) {
-                    if(models.get(position).getTitle().equals(sp.getWorktype())) {
-                        String addr =  sp.getAddress().toString();
-                        String [] loc = addr.split(",",2);
-                        Double lat = Double.parseDouble(loc[0]);
-                        Double lon = Double.parseDouble(loc[1]);
-                        LatLng myLocation = new LatLng(lat,lon);
-                        switch (sp.getWorktype()) {
-                            case "Car Mechanic":
-                                mMap.clear();
-                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
-                                break;
-                            case "Carpenter":
-                                mMap.clear();
-                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
-                                break;
-                            case "Electrician":
-                                mMap.clear();
-                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
-                                break;
+                if(latLng!=null){
+                    //Toast.makeText(BasicSearch.this,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+                    for (ServiceProvider sp :serviceProviderList) {
+                        if(models.get(position).getTitle().equals(sp.getWorktype())) {
+                            String addr =  sp.getLoc().toString();
+                            String [] loc = addr.split(",",2);
+                            Double lat = Double.parseDouble(loc[0]);
+                            Double lon = Double.parseDouble(loc[1]);
+                            LatLng myLocation = new LatLng(lat,lon);
+                            float[] results = new float[1];
+                            Location.distanceBetween(latLng.latitude, latLng.longitude,
+                                    lat, lon,
+                                    results);
+                            if(results[0]<5000.00) {
+                                switch (sp.getWorktype()) {
+                                    case "Car Mechanic":
+                                        mMap.clear();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_LONG).show();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
+                                        break;
+                                    case "Carpenter":
+                                        mMap.clear();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_LONG).show();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
+                                        break;
+                                    case "Electrician":
+                                        mMap.clear();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_LONG).show();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
+                                        break;
+                                }
+                            }
                         }
                     }
                 }
@@ -203,23 +243,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             }
         });
-        /*for (ServiceProvider sp :serviceProviderList){
-            String addr =  sp.getAddress().toString();
-            String [] loc = addr.split(",",2);
-            Double lat = Double.parseDouble(loc[0]);
-            Double lon = Double.parseDouble(loc[1]);
-            LatLng myLocation = new LatLng(lat,lon);
-            switch (sp.getWorktype()) {
-                case "Mechanic":
-                    mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
-                    break;
-                case "Carpenter":
-                    mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
-                    break;
-                case "Electrician":
-                    mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
-                    break;
-            }
+        /*
 
             // LatLng Pakistan = null;
             // Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
@@ -245,25 +269,22 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                     myname.setText(sp.getFname()+" "+sp.getLname());
                     myrating.setText(sp.getRating());
                     worktypetext.setText(sp.getWorktype());
-                    if(sp.getWorktype().equals("Plumber"))
-                    {
-                        worktypeicon.setImageResource(R.drawable.plumbericon);
-                    }
-                    else if(sp.getWorktype().equals("Carpenter"))
-                    {
-                        worktypeicon.setImageResource(R.drawable.carpentericon);
-                    }
-                    else if(sp.getWorktype().equals("Cleaner"))
-                    {
-                        worktypeicon.setImageResource(R.drawable.cleanericon);
-                    }
-                    else if(sp.getWorktype().equals("Car Mechanic"))
-                    {
-                        worktypeicon.setImageResource(R.drawable.mechanicicon);
-                    }
-                    else
-                    {
-                        worktypeicon.setImageResource(R.drawable.electricianicon);
+                    switch (sp.getWorktype()) {
+                        case "Plumber":
+                            worktypeicon.setImageResource(R.drawable.plumbericon);
+                            break;
+                        case "Carpenter":
+                            worktypeicon.setImageResource(R.drawable.carpentericon);
+                            break;
+                        case "Cleaner":
+                            worktypeicon.setImageResource(R.drawable.cleanericon);
+                            break;
+                        case "Car Mechanic":
+                            worktypeicon.setImageResource(R.drawable.mechanicicon);
+                            break;
+                        default:
+                            worktypeicon.setImageResource(R.drawable.electricianicon);
+                            break;
                     }
 
                     bottomSheetDialog.setContentView(bottomSheetView);
@@ -408,25 +429,11 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
 
     //MAP FUNCTIONS
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         getPermission();
-        myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
-        Query getTypeSP = myref.orderByChild("type");
-        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
 
 
         // LatLng Pakistan = null;
@@ -438,14 +445,18 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         LocationListener mLocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
-
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                mMap.animateCamera(cameraUpdate);
                 // Add a marker in Sydney and move the camera
-                CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
-                LatLng myLocation = new LatLng(33.699989, 73.001916);
-                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-                mMap.animateCamera(zoom);
+                //CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+                //LatLng myLocation = new LatLng(33.699989, 73.001916);
+                //mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng());
+                //mMap.animateCamera(zoom);
             }
+
+
 
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -473,8 +484,10 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 50, 100, mLocationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 100, mLocationListener);
     }
+
+
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)
     {
@@ -530,5 +543,6 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             }
         }
     }
+
     //MAP FUNCTIONS
 }

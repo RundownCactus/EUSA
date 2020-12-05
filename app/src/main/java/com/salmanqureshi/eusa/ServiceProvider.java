@@ -15,7 +15,31 @@ public class ServiceProvider {
     private String rating;
     private String price;
     private String worktype;
+    private String loc;
 
+
+
+    public ServiceProvider(Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat, String loc) {
+        this.image=image;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.worktype = worktype;
+        this.address=address;
+        this.rating = rating;
+        this.price = pricerat;
+        this.loc=loc;
+    }
+
+
+    public ServiceProvider() {
+        this.image=null;
+        this.fname = "default";
+        this.lname = "default";
+        this.phone = "default";
+        this.worktype = "default";
+        this.address="default";
+    }
     public String getRating() {
         return rating;
     }
@@ -32,25 +56,12 @@ public class ServiceProvider {
         this.price = price;
     }
 
-    public ServiceProvider(Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat) {
-        this.image=image;
-        this.fname = fname;
-        this.lname = lname;
-        this.phone = phone;
-        this.worktype = worktype;
-        this.address=address;
-        this.rating = rating;
-        this.price = pricerat;
+    public String getLoc() {
+        return loc;
     }
 
-
-    public ServiceProvider() {
-        this.image=null;
-        this.fname = "default";
-        this.lname = "default";
-        this.phone = "default";
-        this.worktype = "default";
-        this.address="default";
+    public void setLoc(String loc) {
+        this.loc = loc;
     }
 
     public String getAddress() {
