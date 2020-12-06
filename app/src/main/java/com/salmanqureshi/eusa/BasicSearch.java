@@ -211,11 +211,12 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             @Override
             public void onPageSelected(int position) {
+                mMap.clear();
                 if(latLng!=null){
-                    //Toast.makeText(BasicSearch.this,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
                     for (ServiceProvider sp :serviceProviderList) {
                         if(models.get(position).getTitle().equals(sp.getWorktype())) {
-                            mMap.clear();
+
                             String addr =  sp.getLoc().toString();
                             String [] loc = addr.split(",",2);
                             Double lat = Double.parseDouble(loc[0]);
@@ -225,6 +226,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                             Location.distanceBetween(latLng.latitude, latLng.longitude,
                                     lat, lon,
                                     results);
+                            //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
 
                             int myDist = 0;
                             try {
@@ -233,45 +235,45 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                 System.out.println("Could not parse " + nfe);
                             }
 
-                            int myRat = 0;
+                            float myRat = 0;
                             try {
-                                myRat = Integer.parseInt(filter_rat);
+                                myRat = Float.parseFloat(filter_rat);
                             } catch(NumberFormatException nfe) {
                                 System.out.println("Could not parse " + nfe);
                             }
 
-                            int mySpRat = 0;
+                            float mySpRat = 0;
                             try {
-                                mySpRat = Integer.parseInt(sp.getRating());
+                                mySpRat = Float.parseFloat(sp.getRating());
                             } catch(NumberFormatException nfe) {
                                 System.out.println("Could not parse " + nfe);
                             }
 
-                            if(results[0]<(myDist*1000) && mySpRat>=myRat) {
+                            if(results[0]<(myDist*1000) && (mySpRat>=myRat)) {
                                 switch (sp.getWorktype()) {
                                     case "Car Mechanic":
                                         //mMap.clear();
-                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
                                         break;
                                     case "Carpenter":
                                         //mMap.clear();
-                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
                                         break;
                                     case "Plumber":
                                         //mMap.clear();
-                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
                                         break;
                                     case "Cleaner":
                                         //mMap.clear();
-                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
                                         break;
                                     case "Electrician":
                                         //mMap.clear();
-                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
                                         break;
                                 }
