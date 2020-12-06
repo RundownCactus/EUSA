@@ -16,6 +16,10 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">@color/BlueColor</item>
+    </style>
+
 
 
 </resources>

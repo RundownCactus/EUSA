@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="32dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Please Wait..."
+        android:gravity="center"
+        android:textSize="28sp"
+        android:textColor="@color/BlueColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+    <TextView
+        android:text="We are booking the service for you."
+        android:gravity="center"
+        android:textSize="28sp"
+        android:textColor="@color/BlueColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+    <ProgressBar
+        android:id="@+id/booking_progress"
+        android:theme="@style/ProgressBarStyle"
+        android:layout_gravity="center"
+        android:layout_width="80dp"
+        android:layout_height="80dp">
+    </ProgressBar>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/booking_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:text="Cancel"
+        android:textColor="@color/white">
+
+    </com.google.android.material.button.MaterialButton>
+
+
+</LinearLayout>

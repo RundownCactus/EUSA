@@ -28,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -345,7 +346,24 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                         @Override
                         public void onClick(View view) {
                             //Toast.makeText(BasicSearch.this, "Book Pressed", Toast.LENGTH_SHORT).show();
+                            final AlertDialog.Builder booking_dialog=new AlertDialog.Builder(BasicSearch.this);
+                            View bookingView=getLayoutInflater().inflate(R.layout.booking_dialog_box,null);
+                            final MaterialButton cancel=(MaterialButton)bookingView.findViewById(R.id.booking_cancel);
+                            final ProgressBar progressBar=(ProgressBar)bookingView.findViewById(R.id.booking_progress);
+                            progressBar.setIndeterminate(true);
+
+                            booking_dialog.setView(bookingView);
+                            final AlertDialog alertDialog=booking_dialog.create();
+                            alertDialog.setCanceledOnTouchOutside(false);
+                            cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.dismiss();
+                                }
+                            });
+                            alertDialog.show();
                         }
+
                     });
                     call_button.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -675,6 +693,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         });
         alertDialog.show();
     }
+
+
 
     //MAP FUNCTIONS
 }
