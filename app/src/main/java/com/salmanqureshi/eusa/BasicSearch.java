@@ -20,7 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +32,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -52,6 +56,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -94,6 +99,11 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     private static final float MIN_DISTANCE = 1000;
     LatLng latLng;
     //GOOGLE MAPS VARIABLES END
+
+    //Filter Alert Dialog VARIABLES START
+    String filter_dist="2";
+    String filter_rat="2";
+    //Filter Alert Dialog VARIABLES END
 
     //SWIPE CARD VIEW VARIABLES START
     ViewPager viewPager;
@@ -205,6 +215,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                     //Toast.makeText(BasicSearch.this,models.get(position).getTitle(),Toast.LENGTH_SHORT).show();
                     for (ServiceProvider sp :serviceProviderList) {
                         if(models.get(position).getTitle().equals(sp.getWorktype())) {
+                            mMap.clear();
                             String addr =  sp.getLoc().toString();
                             String [] loc = addr.split(",",2);
                             Double lat = Double.parseDouble(loc[0]);
@@ -214,21 +225,53 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                             Location.distanceBetween(latLng.latitude, latLng.longitude,
                                     lat, lon,
                                     results);
-                            if(results[0]<5000.00) {
+
+                            int myDist = 0;
+                            try {
+                                myDist = Integer.parseInt(filter_dist);
+                            } catch(NumberFormatException nfe) {
+                                System.out.println("Could not parse " + nfe);
+                            }
+
+                            int myRat = 0;
+                            try {
+                                myRat = Integer.parseInt(filter_rat);
+                            } catch(NumberFormatException nfe) {
+                                System.out.println("Could not parse " + nfe);
+                            }
+
+                            int mySpRat = 0;
+                            try {
+                                mySpRat = Integer.parseInt(sp.getRating());
+                            } catch(NumberFormatException nfe) {
+                                System.out.println("Could not parse " + nfe);
+                            }
+
+                            if(results[0]<(myDist*1000) && mySpRat>=myRat) {
                                 switch (sp.getWorktype()) {
                                     case "Car Mechanic":
-                                        mMap.clear();
-                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_LONG).show();
+                                        //mMap.clear();
+                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
                                         break;
                                     case "Carpenter":
-                                        mMap.clear();
-                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_LONG).show();
+                                        //mMap.clear();
+                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
                                         break;
+                                    case "Plumber":
+                                        //mMap.clear();
+                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
+                                        break;
+                                    case "Cleaner":
+                                        //mMap.clear();
+                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
+                                        break;
                                     case "Electrician":
-                                        mMap.clear();
-                                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_LONG).show();
+                                        //mMap.clear();
+                                        Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
                                         break;
                                 }
@@ -542,6 +585,62 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             }
         }
+    }
+
+    public void show_filter_dialog(View view) {
+        final AlertDialog.Builder filter=new AlertDialog.Builder(BasicSearch.this);
+        View filterView=getLayoutInflater().inflate(R.layout.filters_dialog_box,null);
+        final MaterialButton cancel=(MaterialButton)filterView.findViewById(R.id.filter_cancel);
+        final MaterialButton apply=(MaterialButton)filterView.findViewById(R.id.filter_apply);
+
+        String[] dist = new String[] {"1", "2","3", "4","5"};
+
+        ArrayAdapter newAdapter =
+                new ArrayAdapter<>(
+                        this,
+                        R.layout.dropdown_menu,
+                        dist);
+
+        final AutoCompleteTextView distAutoCompleteTextView =(AutoCompleteTextView)filterView. findViewById(R.id.getdistancedropdown);
+        distAutoCompleteTextView.setText(filter_dist);
+        distAutoCompleteTextView.setAdapter(newAdapter);
+
+
+
+
+        String[] rat = new String[] {"1", "2","3", "4","5"};
+
+        ArrayAdapter newAdapter1 =
+                new ArrayAdapter<>(
+                        this,
+                        R.layout.dropdown_menu,
+                        rat);
+
+        final AutoCompleteTextView ratAutoCompleteTextView =(AutoCompleteTextView)filterView. findViewById(R.id.getratingdropdown);
+        ratAutoCompleteTextView.setText(filter_rat);
+        ratAutoCompleteTextView.setAdapter(newAdapter1);
+
+
+        filter.setView(filterView);
+        final AlertDialog alertDialog=filter.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filter_dist=distAutoCompleteTextView.getText().toString();
+                filter_rat=ratAutoCompleteTextView.getText().toString();
+                Log.d("me",filter_dist);
+                Log.d("me",filter_rat);
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 
     //MAP FUNCTIONS
