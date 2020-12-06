@@ -15,7 +15,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,6 +43,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -115,6 +118,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
     //FIREBASE VARIABLES START
     //FIREBASE VARIABLES END
+
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +182,9 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                 getResources().getColor(R.color.color4)
         };
         colors=color_temp;
+        viewPager.setCurrentItem(2);
+
+
 
         serviceProviderList=new ArrayList<>();
         newserviceProviderList=new ArrayList<>();
@@ -288,6 +295,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
             }
         });
+
         /*
 
             // LatLng Pakistan = null;
@@ -310,6 +318,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                     ImageView myimage=bottomSheetView.findViewById(R.id.myimage);
                     ImageView worktypeicon=bottomSheetView.findViewById(R.id.worktypeicon);
                     TextView worktypetext=bottomSheetView.findViewById(R.id.worktypetext);
+                    MaterialButton book_button=bottomSheetView.findViewById(R.id.book_button);
+                    MaterialButton call_button=bottomSheetView.findViewById(R.id.call_button);
                     myimage.setImageBitmap(sp.getImage());
                     myname.setText(sp.getFname()+" "+sp.getLname());
                     myrating.setText(sp.getRating());
@@ -331,6 +341,27 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                             worktypeicon.setImageResource(R.drawable.electricianicon);
                             break;
                     }
+                    book_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Toast.makeText(BasicSearch.this, "Book Pressed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    call_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Uri u = Uri.parse("tel:" + sp.getPhone());
+                            Intent i = new Intent(Intent.ACTION_DIAL, u);
+                            try
+                            {
+                                startActivity(i);
+                            }
+                            catch (SecurityException s)
+                            {
+                                Toast.makeText(BasicSearch.this, "An error occurred", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
 
                     bottomSheetDialog.setContentView(bottomSheetView);
                     bottomSheetDialog.show();
