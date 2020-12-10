@@ -17,15 +17,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -44,7 +41,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -52,15 +48,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -209,7 +204,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     private List<ServiceProvider> collectData(Map<String, Object> value) {
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat"),(String) singleUser.get("loc")));
+            serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(),image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat"),(String) singleUser.get("loc")));
+
         }
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -306,90 +302,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             //     .title("Marker in Pakistan")
             //   .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
         }*/
-        mMap.setOnMarkerClickListener(marker -> {
-            for (ServiceProvider sp :serviceProviderList) {
-                if(marker.getSnippet().equals(sp.getPhone()))
-                {
-                    //Toast.makeText(BasicSearch.this, marker.getSnippet(), Toast.LENGTH_SHORT).show();// display toast
-
-                    final BottomSheetDialog bottomSheetDialog=new BottomSheetDialog( BasicSearch.this,R.style.BottomSheetDialogTheme);
-                    View bottomSheetView= LayoutInflater.from(BasicSearch.this).inflate(R.layout.layout_bottom_sheet,(LinearLayout)findViewById(R.id.bottomsheet_cl));
-                    TextView myname=bottomSheetView.findViewById(R.id.myname);
-                    TextView myrating=bottomSheetView.findViewById(R.id.myrating);
-                    ImageView myimage=bottomSheetView.findViewById(R.id.myimage);
-                    ImageView worktypeicon=bottomSheetView.findViewById(R.id.worktypeicon);
-                    TextView worktypetext=bottomSheetView.findViewById(R.id.worktypetext);
-                    MaterialButton book_button=bottomSheetView.findViewById(R.id.book_button);
-                    MaterialButton call_button=bottomSheetView.findViewById(R.id.call_button);
-                    myimage.setImageBitmap(sp.getImage());
-                    myname.setText(sp.getFname()+" "+sp.getLname());
-                    myrating.setText(sp.getRating());
-                    worktypetext.setText(sp.getWorktype());
-                    switch (sp.getWorktype()) {
-                        case "Plumber":
-                            worktypeicon.setImageResource(R.drawable.plumbericon);
-                            break;
-                        case "Carpenter":
-                            worktypeicon.setImageResource(R.drawable.carpentericon);
-                            break;
-                        case "Cleaner":
-                            worktypeicon.setImageResource(R.drawable.cleanericon);
-                            break;
-                        case "Car Mechanic":
-                            worktypeicon.setImageResource(R.drawable.mechanicicon);
-                            break;
-                        default:
-                            worktypeicon.setImageResource(R.drawable.electricianicon);
-                            break;
-                    }
-                    book_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            //Toast.makeText(BasicSearch.this, "Book Pressed", Toast.LENGTH_SHORT).show();
-                            final AlertDialog.Builder booking_dialog=new AlertDialog.Builder(BasicSearch.this);
-                            View bookingView=getLayoutInflater().inflate(R.layout.booking_dialog_box,null);
-                            final MaterialButton cancel=(MaterialButton)bookingView.findViewById(R.id.booking_cancel);
-                            final ProgressBar progressBar=(ProgressBar)bookingView.findViewById(R.id.booking_progress);
-                            progressBar.setIndeterminate(true);
-
-                            booking_dialog.setView(bookingView);
-                            final AlertDialog alertDialog=booking_dialog.create();
-                            alertDialog.setCanceledOnTouchOutside(false);
-                            cancel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    alertDialog.dismiss();
-                                }
-                            });
-                            alertDialog.show();
-                        }
-
-                    });
-                    call_button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Uri u = Uri.parse("tel:" + sp.getPhone());
-                            Intent i = new Intent(Intent.ACTION_DIAL, u);
-                            try
-                            {
-                                startActivity(i);
-                            }
-                            catch (SecurityException s)
-                            {
-                                Toast.makeText(BasicSearch.this, "An error occurred", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-
-                    bottomSheetDialog.setContentView(bottomSheetView);
-                    bottomSheetDialog.show();
-
-                }
-
-            }
-
-            return true;
-        });
+        mMap.setOnMarkerClickListener(this::onMarkerClick);
         return(serviceProviderList);
     }
 
@@ -694,7 +607,100 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         alertDialog.show();
     }
 
+    private boolean onMarkerClick(Marker marker) {
+        for (ServiceProvider sp : serviceProviderList) {
+            if (marker.getSnippet().equals(sp.getPhone())) {
+                //Toast.makeText(BasicSearch.this, marker.getSnippet(), Toast.LENGTH_SHORT).show();// display toast
+
+                final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(BasicSearch.this, R.style.BottomSheetDialogTheme);
+                View bottomSheetView = LayoutInflater.from(BasicSearch.this).inflate(R.layout.layout_bottom_sheet, (LinearLayout) findViewById(R.id.bottomsheet_cl));
+                TextView myname = bottomSheetView.findViewById(R.id.myname);
+                TextView myrating = bottomSheetView.findViewById(R.id.myrating);
+                ImageView myimage = bottomSheetView.findViewById(R.id.myimage);
+                ImageView worktypeicon = bottomSheetView.findViewById(R.id.worktypeicon);
+                TextView worktypetext = bottomSheetView.findViewById(R.id.worktypetext);
+                MaterialButton book_button = bottomSheetView.findViewById(R.id.book_button);
+                MaterialButton call_button = bottomSheetView.findViewById(R.id.call_button);
+                myimage.setImageBitmap(sp.getImage());
+                myname.setText(sp.getFname() + " " + sp.getLname());
+                myrating.setText(sp.getRating());
+                worktypetext.setText(sp.getWorktype());
+                switch (sp.getWorktype()) {
+                    case "Plumber":
+                        worktypeicon.setImageResource(R.drawable.plumbericon);
+                        break;
+                    case "Carpenter":
+                        worktypeicon.setImageResource(R.drawable.carpentericon);
+                        break;
+                    case "Cleaner":
+                        worktypeicon.setImageResource(R.drawable.cleanericon);
+                        break;
+                    case "Car Mechanic":
+                        worktypeicon.setImageResource(R.drawable.mechanicicon);
+                        break;
+                    default:
+                        worktypeicon.setImageResource(R.drawable.electricianicon);
+                        break;
+                }
+                book_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        String Uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
+                        makeJob(sp.getUid(), Uid);
+
+                        // Toast.makeText(BasicSearch.this, "Book Pressed", Toast.LENGTH_SHORT).show();
+                        final AlertDialog.Builder booking_dialog = new AlertDialog.Builder(BasicSearch.this);
+                        View bookingView = getLayoutInflater().inflate(R.layout.booking_dialog_box, null);
+                        final MaterialButton cancel = (MaterialButton) bookingView.findViewById(R.id.booking_cancel);
+                        final ProgressBar progressBar = (ProgressBar) bookingView.findViewById(R.id.booking_progress);
+                        progressBar.setIndeterminate(true);
+                        Log.d("BC", "onClick: ");
+                        booking_dialog.setView(bookingView);
+                        final AlertDialog alertDialog = booking_dialog.create();
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                    }
+
+                });
+                call_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri u = Uri.parse("tel:" + sp.getPhone());
+                        Intent i = new Intent(Intent.ACTION_DIAL, u);
+                        try {
+                            startActivity(i);
+                        } catch (SecurityException s) {
+                            Toast.makeText(BasicSearch.this, "An error occurred", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+
+            }
+
+        }
+
+        return true;
+    }
+
+    public void makeJob(String SPID,String UID){
+        myref = FirebaseDatabase.getInstance().getReference("Jobs");
+        DatabaseReference key = myref.push();
 
 
+        myref.child(key.getKey()).setValue(new Job(SPID,UID));
+        myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
+        myref.child("Jobs").child(key.getKey()).setValue("true");
+
+    }
     //MAP FUNCTIONS
 }

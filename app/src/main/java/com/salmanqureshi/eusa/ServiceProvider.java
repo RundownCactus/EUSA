@@ -10,16 +10,22 @@ public class ServiceProvider {
     private String email;
     private String cnic;
     private String city;
-
+    private String Uid;
     private String address;
     private String rating;
     private String price;
     private String worktype;
     private String loc;
 
+    public String getUid() {
+        return Uid;
+    }
 
+    public void setUid(String uid) {
+        Uid = uid;
+    }
 
-    public ServiceProvider(Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat, String loc) {
+    public ServiceProvider(String Uid,Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat, String loc) {
         this.image=image;
         this.fname = fname;
         this.lname = lname;
@@ -29,6 +35,7 @@ public class ServiceProvider {
         this.rating = rating;
         this.price = pricerat;
         this.loc=loc;
+        this.Uid = Uid;
     }
 
 
