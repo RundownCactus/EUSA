@@ -3,6 +3,7 @@ package com.salmanqureshi.eusa;
 public class Job {
     String SPID;
     String UID;
+    String status;
 
     public String getSPID() {
         return SPID;
@@ -20,8 +21,17 @@ public class Job {
         this.UID = UID;
     }
 
-    public Job(String SPID, String UID) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Job(String SPID, String UID, String status) {
         this.SPID = SPID;
         this.UID = UID;
+        this.status=status;
     }
 }

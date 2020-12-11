@@ -647,7 +647,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                     public void onClick(View view) {
 
                         String Uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-                        makeJob(sp.getUid(), Uid);
+                        makeJob(sp.getUid(), Uid,"New");
 
                         // Toast.makeText(BasicSearch.this, "Book Pressed", Toast.LENGTH_SHORT).show();
                         final AlertDialog.Builder booking_dialog = new AlertDialog.Builder(BasicSearch.this);
@@ -661,8 +661,11 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                         alertDialog.setCanceledOnTouchOutside(false);
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
+                            public void onClick(View view)
+                            {
                                 alertDialog.dismiss();
+                                //Intent intent = new Intent(BasicSearch.this,CurrentJobMap.class);;
+                                //startActivity(intent);
                             }
                         });
                         alertDialog.show();
@@ -672,13 +675,15 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                 call_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Uri u = Uri.parse("tel:" + sp.getPhone());
+                        /*Uri u = Uri.parse("tel:" + sp.getPhone());
                         Intent i = new Intent(Intent.ACTION_DIAL, u);
                         try {
                             startActivity(i);
                         } catch (SecurityException s) {
                             Toast.makeText(BasicSearch.this, "An error occurred", Toast.LENGTH_LONG).show();
-                        }
+                        }*/
+                        Intent intent = new Intent(BasicSearch.this,CurrentJobMap.class);;
+                        startActivity(intent);
                     }
                 });
 
@@ -692,12 +697,12 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         return true;
     }
 
-    public void makeJob(String SPID,String UID){
+    public void makeJob(String SPID,String UID,String status){
         myref = FirebaseDatabase.getInstance().getReference("Jobs");
         DatabaseReference key = myref.push();
 
 
-        myref.child(key.getKey()).setValue(new Job(SPID,UID));
+        myref.child(key.getKey()).setValue(new Job(SPID,UID,status));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 
