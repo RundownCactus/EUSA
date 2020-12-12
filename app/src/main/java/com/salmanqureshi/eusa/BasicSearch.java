@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +58,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,7 +67,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +88,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     Bitmap image;
     MaterialButton searchserviceprovideronmapinput;
     FirebaseDatabase rootnode;
-    DatabaseReference myref;
+    DatabaseReference myref,jobref;
     private FirebaseAuth mAuth;
     DatabaseReference myref1;
     List<ServiceProvider> serviceProviderList;
@@ -453,7 +457,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
                 mMap.animateCamera(cameraUpdate);
                 // Add a marker in Sydney and move the camera
                 //CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
@@ -647,7 +651,12 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                     public void onClick(View view) {
 
                         String Uid = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
-                        makeJob(sp.getUid(), Uid,"New");
+                        String jobBookTime= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+                        String userLatLng="";
+                        userLatLng+=latLng.latitude;
+                        userLatLng+=",";
+                        userLatLng+=latLng.longitude;
+                        makeJob(sp.getUid(), Uid,"New",jobBookTime,userLatLng);
 
                         // Toast.makeText(BasicSearch.this, "Book Pressed", Toast.LENGTH_SHORT).show();
                         final AlertDialog.Builder booking_dialog = new AlertDialog.Builder(BasicSearch.this);
@@ -669,21 +678,74 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                             }
                         });
                         alertDialog.show();
+                        jobref=FirebaseDatabase.getInstance().getReference().child("Jobs");
+                        jobref.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                            }
+
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                //Log.d("TAGA",snapshot.getValue().toString());
+                                if(snapshot.child("spid").getValue().toString().equals(sp.getUid()) && snapshot.child("uid").getValue().toString().equals(Uid))
+                                {
+                                    if(snapshot.child("status").getValue().toString().equals("Accept"))
+                                    {
+                                        //Log.d("TAGA",snapshot.getKey());
+                                        Intent intent = new Intent(BasicSearch.this,CurrentJobMap.class);
+                                        intent.putExtra("key",snapshot.getKey());
+                                        intent.putExtra("spid",snapshot.child("spid").getValue().toString());
+                                        intent.putExtra("uid",snapshot.child("uid").getValue().toString());
+                                        intent.putExtra("userLatLng",snapshot.child("userLatLng").getValue().toString());
+                                        intent.putExtra("type",sp.getWorktype());
+                                        intent.putExtra("loc",sp.getLoc());
+                                        intent.putExtra("spphno",sp.getPhone());
+                                        intent.putExtra("spname",sp.getFname()+" "+sp.getLname());
+                                        startActivity(intent);
+
+                                    }
+                                    if(snapshot.child("status").getValue().toString().equals("Job Rejected by SP"))
+                                    {
+                                        //Log.d("TAGA",snapshot.getKey());
+                                        alertDialog.dismiss();
+                                        Toast.makeText(BasicSearch.this,"Job Rejected by Service Provider",Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                }
+                            }
+
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
 
                 });
                 call_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        /*Uri u = Uri.parse("tel:" + sp.getPhone());
+                        Uri u = Uri.parse("tel:" + sp.getPhone());
                         Intent i = new Intent(Intent.ACTION_DIAL, u);
                         try {
                             startActivity(i);
                         } catch (SecurityException s) {
                             Toast.makeText(BasicSearch.this, "An error occurred", Toast.LENGTH_LONG).show();
-                        }*/
-                        Intent intent = new Intent(BasicSearch.this,CurrentJobMap.class);;
-                        startActivity(intent);
+                        }
+
                     }
                 });
 
@@ -697,12 +759,14 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         return true;
     }
 
-    public void makeJob(String SPID,String UID,String status){
+    public void makeJob(String SPID,String UID,String status,String JobBookTime,String userLatLng){
         myref = FirebaseDatabase.getInstance().getReference("Jobs");
         DatabaseReference key = myref.push();
 
 
-        myref.child(key.getKey()).setValue(new Job(SPID,UID,status));
+        myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
+                "","","","","",
+                "","","","","","",""));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 
