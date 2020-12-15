@@ -36,7 +36,7 @@
     </TextView>
     <TextView
         android:layout_marginTop="16dp"
-        android:text="Rate Customer"
+        android:text="Rate Service"
         android:textStyle="normal"
         android:gravity="center"
         android:textSize="28sp"
