@@ -46,6 +46,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallback {
@@ -55,16 +57,18 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     LatLng Location,userLocation;
     LatLng myLocation;
     String spid,uid,key,worktype,loc,spname,spphno,userLatLng;
-    DatabaseReference myref,jobref;
+    DatabaseReference myref,jobref,jobcancelref;
     TextView currentspname;
     ImageView currentjobspcall;
     String sprating;
+    MaterialButton booking_cancel1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_job_map);
         currentspname=findViewById(R.id.currentspname);
         currentjobspcall=findViewById(R.id.currentjobspcall);
+        booking_cancel1=findViewById(R.id.booking_cancel1);
         spid = getIntent().getStringExtra("spid");
         uid = getIntent().getStringExtra("uid");
         key = getIntent().getStringExtra("key");
@@ -74,6 +78,19 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
         spphno=getIntent().getStringExtra("spphno");
         userLatLng=getIntent().getStringExtra("userLatLng");
         currentspname.setText(spname);
+        booking_cancel1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String jobCancelTime= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+                DatabaseReference jobCancelTime1=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobCancelTime");
+                jobCancelTime1.setValue(jobCancelTime);
+                jobcancelref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("status");
+                jobcancelref.setValue("Cancel by user after accept");
+                Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         currentjobspcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,7 +143,19 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
 
                     }
                 }
-                if(!(snapshot.child("jobUserRating").getValue().toString().equals("")))
+                if(snapshot.child("status").getValue().toString().equals("Cancel by user after accept") && !(snapshot.child("jobCancelTime").getValue().toString().equals("")))
+                {
+                    Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if(snapshot.child("status").getValue().toString().equals("Cancel by SP") && !(snapshot.child("jobCancelTime").getValue().toString().equals("")))
+                {
+                    Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if(!(snapshot.child("jobUserRating").getValue().toString().equals("")) && !(snapshot.child("jobCompletionTime").getValue().toString().equals("")) && (snapshot.child("status").getValue().toString().equals("Complete")))
                 {
                     //Log.d("TAGA",snapshot.getKey());
                     final AlertDialog.Builder job_complete_alert_dialog=new AlertDialog.Builder(CurrentJobMap.this);

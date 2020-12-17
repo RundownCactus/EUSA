@@ -88,11 +88,12 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     Bitmap image;
     MaterialButton searchserviceprovideronmapinput;
     FirebaseDatabase rootnode;
-    DatabaseReference myref,jobref;
+    DatabaseReference myref,jobref,joncancelref;
     private FirebaseAuth mAuth;
     DatabaseReference myref1;
     List<ServiceProvider> serviceProviderList;
     List<ServiceProvider> newserviceProviderList;
+    DatabaseReference key;
     //NAVIGATION DRAWER VARIABLES START
 
     //GOOGLE MAPS VARIABLES START
@@ -104,7 +105,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     //GOOGLE MAPS VARIABLES END
 
     //Filter Alert Dialog VARIABLES START
-    String filter_dist="2";
+    String filter_dist="5";
     String filter_rat="2";
     //Filter Alert Dialog VARIABLES END
 
@@ -675,6 +676,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                 alertDialog.dismiss();
                                 //Intent intent = new Intent(BasicSearch.this,CurrentJobMap.class);;
                                 //startActivity(intent);
+                                joncancelref = FirebaseDatabase.getInstance().getReference("Jobs").child(key.getKey()).child("status");
+                                joncancelref.setValue("Cancel by user");
                             }
                         });
                         alertDialog.show();
@@ -761,7 +764,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
     public void makeJob(String SPID,String UID,String status,String JobBookTime,String userLatLng){
         myref = FirebaseDatabase.getInstance().getReference("Jobs");
-        DatabaseReference key = myref.push();
+        key = myref.push();
 
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
