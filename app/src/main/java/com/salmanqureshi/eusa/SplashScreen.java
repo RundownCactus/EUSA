@@ -3,6 +3,7 @@ package com.salmanqureshi.eusa;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-    public class SplashScreen extends AppCompatActivity {
+import java.util.HashMap;
+
+public class SplashScreen extends AppCompatActivity {
         Animation topAnim, bottomAnim;
         TextView logoName;
         ImageView logoIcon;
@@ -35,9 +38,17 @@ import androidx.appcompat.app.AppCompatActivity;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(SplashScreen.this,LetsGetStarted.class);
-                    startActivity(intent);
-                    finish();
+                    SessionManager sessionManager = new SessionManager(getApplicationContext());
+                    if(sessionManager.checkLogin()){
+                        Intent intent = new Intent(getApplicationContext(),BasicSearch.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent=new Intent(SplashScreen.this,LetsGetStarted.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             },SPLASH_SCREEN);
         }
