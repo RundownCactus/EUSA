@@ -1,7 +1,7 @@
 package com.salmanqureshi.eusa;
 
 import android.graphics.Bitmap;
-
+//contact class to store user data.
 public class Contact {
     //private Bitmap image;
     private String fname;

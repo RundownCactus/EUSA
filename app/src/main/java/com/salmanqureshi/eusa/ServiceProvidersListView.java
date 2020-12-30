@@ -38,6 +38,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+//Activity that show the list view of service providers.
 public class ServiceProvidersListView extends AppCompatActivity {
     RecyclerView serviceprovidersRV;
     ImageView mainmenu;
@@ -98,6 +99,7 @@ public class ServiceProvidersListView extends AppCompatActivity {
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
         search = findViewById(R.id.srch);
+        //show data in list view according the type of service provider.
         String type = getIntent().getStringExtra("type");
         myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
         if(type.matches("All")){
@@ -225,6 +227,7 @@ public class ServiceProvidersListView extends AppCompatActivity {
         adapter.filterlist(filteredList);
     }
 
+    //Chip filters in the list view
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void Chipfilter(String text) {
         if(text.matches("Price Low to High")){

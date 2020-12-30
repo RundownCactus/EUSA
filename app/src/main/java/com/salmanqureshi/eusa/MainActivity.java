@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //done button lister to store user data in database and user is redirected to BasicSearch screen.
         donebuttonstep1.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
+    //Validate email of user
     private boolean validateEmail(){
         String emal = email.getText().toString();
         String pattern = "[a-zA-z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -188,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
     private boolean validateLname(){
         String fn = lname.getText().toString();
         String nowhitespace = "(?=\\s+$)";

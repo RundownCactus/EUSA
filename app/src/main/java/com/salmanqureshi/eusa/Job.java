@@ -1,5 +1,6 @@
 package com.salmanqureshi.eusa;
 
+//job class to store job related data
 public class Job {
     String SPID;
     String UID;

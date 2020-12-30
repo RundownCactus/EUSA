@@ -125,6 +125,7 @@ public class EditProfile extends AppCompatActivity {
 
     }
 
+    //Select image from gallery or camera function.
     private void SelectImage()
     {
         final CharSequence[] items={"Camera","Gallery","Cancel"};

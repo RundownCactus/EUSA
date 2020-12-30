@@ -78,6 +78,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
         spphno=getIntent().getStringExtra("spphno");
         userLatLng=getIntent().getStringExtra("userLatLng");
         currentspname.setText(spname);
+        //if the user cancel the job this lister function is called and user is redirected to BasicSearch.
         booking_cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +92,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                 finish();
             }
         });
+        //call button lister.
         currentjobspcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -126,6 +128,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("TAGATAGA",snapshot.getValue().toString());
+                //if the job is accepted by sp then user is able to get location updates.
                 if(snapshot.child("status").getValue().toString().equals("Accept"))
                 {
                     //Log.d("TAGA",snapshot.getKey());
@@ -154,7 +157,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                     Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
                     startActivity(intent);
                     finish();
-                }
+                }//if the job is completed by service provider.
                 if(!(snapshot.child("jobUserRating").getValue().toString().equals("")) && !(snapshot.child("jobCompletionTime").getValue().toString().equals("")) && (snapshot.child("status").getValue().toString().equals("Complete")))
                 {
                     //Log.d("TAGA",snapshot.getKey());
@@ -260,6 +263,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    //function to draw marker on map for tracking.
     public void addMarker(String worktype,LatLng myLocation)
     {
         switch (worktype) {
@@ -306,6 +310,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                 break;
         }
     }
+    //map functions
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -336,7 +341,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     }
 
 
-
+    //function that convert image resource id to bitmap descriptor
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)
     {
         Drawable vectorDrawable= ContextCompat.getDrawable(context,vectorResId);

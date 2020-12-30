@@ -40,7 +40,7 @@ public class SessionManager {
     }
 
     public boolean checkLogin() {
-        Log.d("BCASD", userSession.getString(KEY_STATUS, null));
+        //Log.d("BCASD", userSession.getString(KEY_STATUS, null));
 
         if (userSession.getString(KEY_STATUS, null) == "Is Logged In") {
             return true;

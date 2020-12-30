@@ -207,6 +207,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
         //SWIPE CARD VIEW END
     }
+    //function that gets data from database  and draws icons on the map according to the filters and job category.
     private List<ServiceProvider> collectData(Map<String, Object> value) {
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
@@ -504,7 +505,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
     }
 
 
-
+    //function that convert image resource id to bitmap descriptor
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)
     {
         Drawable vectorDrawable=ContextCompat.getDrawable(context,vectorResId);
@@ -560,6 +561,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         }
     }
 
+    //function to show the filter dialog box.
     public void show_filter_dialog(View view) {
         final AlertDialog.Builder filter=new AlertDialog.Builder(BasicSearch.this);
         View filterView=getLayoutInflater().inflate(R.layout.filters_dialog_box,null);
@@ -577,8 +579,6 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         final AutoCompleteTextView distAutoCompleteTextView =(AutoCompleteTextView)filterView. findViewById(R.id.getdistancedropdown);
         distAutoCompleteTextView.setText(filter_dist);
         distAutoCompleteTextView.setAdapter(newAdapter);
-
-
 
 
         String[] rat = new String[] {"1", "2","3", "4","5"};
@@ -616,6 +616,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         alertDialog.show();
     }
 
+
+    //function when you click on particular service provider icon on the map and bottom sheet appears to book the service provider.
     private boolean onMarkerClick(Marker marker) {
         for (ServiceProvider sp : serviceProviderList) {
             if (marker.getSnippet().equals(sp.getPhone())) {
@@ -651,6 +653,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                         worktypeicon.setImageResource(R.drawable.electricianicon);
                         break;
                 }
+                //book button listener to show the alert dialog box
                 book_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -692,9 +695,11 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
                             }
 
+
                             @Override
                             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                                 //Log.d("TAGA",snapshot.getValue().toString());
+                                //if the service provider accepts the job then user is moved to another map screen where user can track the service provider.
                                 if(snapshot.child("spid").getValue().toString().equals(sp.getUid()) && snapshot.child("uid").getValue().toString().equals(Uid))
                                 {
                                     if(snapshot.child("status").getValue().toString().equals("Accept"))
@@ -765,7 +770,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
         return true;
     }
-
+    //function that will store the job data in the database.
     public void makeJob(String SPID,String UID,String status,String JobBookTime,String userLatLng){
         myref = FirebaseDatabase.getInstance().getReference("Jobs");
         key = myref.push();

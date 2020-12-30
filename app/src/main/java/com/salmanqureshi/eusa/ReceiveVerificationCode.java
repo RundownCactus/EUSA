@@ -39,7 +39,7 @@ public class ReceiveVerificationCode extends AppCompatActivity {
         CodeByUser=findViewById(R.id.verificationcode);
         sendCode(phno);
 
-
+        //verify button listener
         verifycode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +60,7 @@ public class ReceiveVerificationCode extends AppCompatActivity {
         });
     }
 
+    //send verification code function
     private void sendCode(String phno) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 "+92" + phno,        // Phone number to verify
@@ -96,6 +97,7 @@ public class ReceiveVerificationCode extends AppCompatActivity {
         signIn(cred);
     }
 
+    //function that will redirect the user to MainActivity.
     private void signIn(PhoneAuthCredential cred) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithCredential(cred).addOnCompleteListener(ReceiveVerificationCode.this, new OnCompleteListener<AuthResult>() {

@@ -115,7 +115,7 @@ public class Login extends AppCompatActivity {
         */
     }
 
-
+    //Phone number validation function
     private boolean validatePhno(){
         String ph = phno.getText().toString();
         String nowhitespace = "(?=\\s+$)";

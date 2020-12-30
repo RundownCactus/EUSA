@@ -1,7 +1,7 @@
 package com.salmanqureshi.eusa;
 
 import android.graphics.Bitmap;
-
+//class to store service providers data
 public class ServiceProvider {
     private Bitmap image;
     private String fname;
