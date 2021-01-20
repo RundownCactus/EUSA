@@ -8,6 +8,7 @@
     tools:context=".History">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/history_nav"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/BlueColor"
@@ -44,5 +45,12 @@
         </TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_history_RV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
