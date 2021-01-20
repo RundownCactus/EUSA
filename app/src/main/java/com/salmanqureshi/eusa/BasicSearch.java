@@ -160,7 +160,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        rlp.setMargins(0, 166, 44, 0);
+        rlp.setMargins(0, 256, 100, 0);
 
         //MAP FRAGMENT
 

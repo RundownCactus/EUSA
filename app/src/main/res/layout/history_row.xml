@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:id="@+id/history_ll"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/jobbookdate_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="2020-12-06, 22:45"
+                    android:textColor="@color/BlueColor">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/totalprice_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="PKR 0"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="20sp">
+                </TextView>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/status_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:text="Canceled"
+                    android:textColor="@color/grey"
+                    android:textSize="10sp">
+                </TextView>
+                <TextView
+                    android:id="@+id/jobid_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text="Job ID: MOlEDu3E6F1JqUr9lg3"
+                    android:textColor="@color/grey">
+                </TextView>
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="75dp"
+            android:layout_width="match_parent"
+            android:background="@color/grey"
+            android:layout_height="1dp">
+        </View>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
