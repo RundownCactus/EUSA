@@ -120,6 +120,10 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
 
     //FIREBASE VARIABLES START
     //FIREBASE VARIABLES END
+    //SKYLINE QUERY Variables
+    List<Float> skylineDist;
+    List<Float> skylineRat;
+    List<String> skylineUid;
 
     @SuppressLint("MissingPermission")
     @Override
@@ -127,8 +131,9 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_search);
         Log.d("basicsearchCalled", "onCreate Called");
-
-
+        skylineDist= new ArrayList<Float>();
+        skylineRat= new ArrayList<Float>();
+        skylineUid=new ArrayList<String>();
 
         contacts=new ArrayList<>();
         drawerLayout=findViewById(R.id.drawer_layout);
@@ -223,6 +228,8 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             @Override
             public void onPageSelected(int position) {
                 mMap.clear();
+                skylineDist.clear();
+                skylineRat.clear();
                 if(latLng!=null){
                     //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
                     for (ServiceProvider sp :serviceProviderList) {
@@ -263,26 +270,41 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                             if(results[0]<(myDist*1000) && (mySpRat>=myRat)) {
                                 switch (sp.getWorktype()) {
                                     case "Car Mechanic":
+                                        skylineDist.add(results[0]);
+                                        skylineRat.add(mySpRat);
+                                        skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
                                         break;
                                     case "Carpenter":
+                                        skylineDist.add(results[0]);
+                                        skylineRat.add(mySpRat);
+                                        skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
                                         break;
                                     case "Plumber":
+                                        skylineDist.add(results[0]);
+                                        skylineRat.add(mySpRat);
+                                        skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
                                         break;
                                     case "Cleaner":
+                                        skylineDist.add(results[0]);
+                                        skylineRat.add(mySpRat);
+                                        skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
                                         break;
                                     case "Electrician":
+                                        skylineDist.add(results[0]);
+                                        skylineRat.add(mySpRat);
+                                        skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
@@ -291,6 +313,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                             }
                         }
                     }
+                    Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
                 }
             }
 
