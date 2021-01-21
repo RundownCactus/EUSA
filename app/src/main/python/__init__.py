@@ -10,8 +10,8 @@ __version__ = "1.2.0"
 __author__ = "tommyod"
 
 import sys
-from paretoset.user_interface import paretoset, paretorank
-from paretoset.algorithms_numpy import crowding_distance
+from user_interface import paretoset, paretorank
+from algorithms_numpy import crowding_distance
 
 
 def run_tests():
