@@ -44,6 +44,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -230,6 +233,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                 mMap.clear();
                 skylineDist.clear();
                 skylineRat.clear();
+                skylineUid.clear();
                 if(latLng!=null){
                     //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
                     for (ServiceProvider sp :serviceProviderList) {
@@ -314,14 +318,19 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                         }
                     }
                     Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
+
+                    bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
                 }
             }
+
+
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
         });
+
 
         /*
 
@@ -334,6 +343,24 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         }*/
         mMap.setOnMarkerClickListener(this::onMarkerClick);
         return(serviceProviderList);
+    }
+
+    private void bestRecommendationSkyline(List<String> skylineUid, List<Float> skylineDist, List<Float> skylineRat) {
+        Log.d("dooo1",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
+        if(!skylineUid.isEmpty()) {
+
+            if (!Python.isStarted()) {
+                Python.start(new AndroidPlatform(this));
+            }
+
+            Python py = Python.getInstance();
+            PyObject pyObj = py.getModule("test");
+            //Pass arguments to func
+            //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
+            PyObject obj = pyObj.callAttr("wow",skylineDist,skylineRat);
+            Log.d("IF THIS WORKS I AM GOD", obj.toString());
+            Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
