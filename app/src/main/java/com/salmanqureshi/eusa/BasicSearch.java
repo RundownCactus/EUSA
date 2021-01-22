@@ -16,6 +16,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,7 +78,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BasicSearch extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
+public class BasicSearch<BestRecommendation> extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
     DrawerLayout drawerLayout;
     Integer REQUEST_CODE=1;
@@ -279,7 +280,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
+                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
                                         break;
                                     case "Carpenter":
                                         skylineDist.add(results[0]);
@@ -287,7 +288,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
+                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
                                         break;
                                     case "Plumber":
                                         skylineDist.add(results[0]);
@@ -295,7 +296,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
+                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
                                         break;
                                     case "Cleaner":
                                         skylineDist.add(results[0]);
@@ -303,7 +304,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
+                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
                                         break;
                                     case "Electrician":
                                         skylineDist.add(results[0]);
@@ -311,7 +312,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
+                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
                                         break;
                                 }
                             }
@@ -319,7 +320,113 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
                     }
                     Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
 
-                    bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
+                    String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
+                    int bestSpInt = 0;
+                    try {
+                        bestSpInt = Integer.parseInt(bestSP);
+                    } catch(NumberFormatException nfe) {
+                        System.out.println("Could not parse " + nfe);
+                    }
+
+                    if(!bestSP.equals("none"))
+                    {
+                        for (ServiceProvider sp :serviceProviderList) {
+                            if(models.get(position).getTitle().equals(sp.getWorktype())) {
+
+                                String addr =  sp.getLoc().toString();
+                                String [] loc = addr.split(",",2);
+                                Double lat = Double.parseDouble(loc[0]);
+                                Double lon = Double.parseDouble(loc[1]);
+                                LatLng myLocation = new LatLng(lat,lon);
+                                float[] results = new float[1];
+                                Location.distanceBetween(latLng.latitude, latLng.longitude,
+                                        lat, lon,
+                                        results);
+                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+
+                                int myDist = 0;
+                                try {
+                                    myDist = Integer.parseInt(filter_dist);
+                                } catch(NumberFormatException nfe) {
+                                    System.out.println("Could not parse " + nfe);
+                                }
+
+                                float myRat = 0;
+                                try {
+                                    myRat = Float.parseFloat(filter_rat);
+                                } catch(NumberFormatException nfe) {
+                                    System.out.println("Could not parse " + nfe);
+                                }
+
+                                float mySpRat = 0;
+                                try {
+                                    mySpRat = Float.parseFloat(sp.getRating());
+                                } catch(NumberFormatException nfe) {
+                                    System.out.println("Could not parse " + nfe);
+                                }
+
+                                if(results[0]<(myDist*1000) && (mySpRat>=myRat)) {
+                                    switch (sp.getWorktype()) {
+                                        case "Car Mechanic":
+                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                            {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestmechanicmapicon)));
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
+                                                break;
+                                            }
+
+                                        case "Carpenter":
+                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                            {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcarpentermapicon)));
+                                                break;
+                                            }
+                                            else {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
+                                                break;
+                                            }
+                                        case "Plumber":
+                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                            {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestplumbermapicon)));
+                                                break;
+                                            }
+                                            else {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
+                                                break;
+                                            }
+                                        case "Cleaner":
+                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                            {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcleanermapicon)));
+                                                break;
+                                            }
+                                            else {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
+                                                break;
+                                            }
+                                        case "Electrician":
+                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                            {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestelectricianmapicon)));
+                                                break;
+                                            }
+                                            else {
+                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
+                                                break;
+                                            }
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                    }
                 }
             }
 
@@ -345,7 +452,9 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
         return(serviceProviderList);
     }
 
-    private void bestRecommendationSkyline(List<String> skylineUid, List<Float> skylineDist, List<Float> skylineRat) {
+
+
+    public String bestRecommendationSkyline(List<String> skylineUid, List<Float> skylineDist, List<Float> skylineRat) {
         Log.d("dooo1",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
         if(!skylineUid.isEmpty()) {
 
@@ -359,7 +468,12 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
             PyObject obj = pyObj.callAttr("wow",skylineDist.toString(),skylineRat.toString());
             Log.d("IF THIS WORKS I AM GOD", obj.toString());
-            Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
+            return obj.toString();
+        }
+        else
+        {
+            return "none";
         }
     }
 
