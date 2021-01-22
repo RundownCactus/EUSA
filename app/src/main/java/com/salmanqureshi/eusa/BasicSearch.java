@@ -357,7 +357,7 @@ public class BasicSearch extends AppCompatActivity implements NavigationView.OnN
             PyObject pyObj = py.getModule("test");
             //Pass arguments to func
             //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
-            PyObject obj = pyObj.callAttr("wow",skylineDist,skylineRat);
+            PyObject obj = pyObj.callAttr("wow",skylineDist.toString(),skylineRat.toString());
             Log.d("IF THIS WORKS I AM GOD", obj.toString());
             Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
         }
