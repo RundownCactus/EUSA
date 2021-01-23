@@ -71,6 +71,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -321,6 +322,9 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                     Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
 
                     String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
+                    ArrayList<String> type = new ArrayList<String>();
+                    type.add(String.valueOf(position));
+                    //String bestSP = "none";
                     int bestSpInt = 0;
                     try {
                         bestSpInt = Integer.parseInt(bestSP);
@@ -452,6 +456,131 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         return(serviceProviderList);
     }
 
+    public class TalkToServer extends AsyncTask<ArrayList<String>, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(ArrayList<String>... arrayLists) {
+            if(!arrayLists[0].isEmpty()) {
+
+                if (!Python.isStarted()) {
+                    Python.start(new AndroidPlatform(getApplicationContext()));
+                }
+
+                Python py = Python.getInstance();
+                PyObject pyObj = py.getModule("test");
+                //Pass arguments to func
+                //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
+                PyObject obj = pyObj.callAttr("wow",arrayLists[1].toString(),arrayLists[2].toString());
+                Log.d("IF THIS WORKS I AM GOD", obj.toString());
+                //Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
+                ArrayList<String> results = new ArrayList<String>();
+                results.add(obj.toString());
+                results.add(String.valueOf(arrayLists[3]));
+                return (results);
+            }
+            else
+            {
+                ArrayList<String> results = new ArrayList<String>();
+                results.add("none");
+                return results;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> results) {
+            super.onPostExecute(results);
+            int bestSpInt = -1;
+            String bestSP = results.get(0);
+            try {
+                bestSpInt = Integer.decode(bestSP);
+            } catch(NumberFormatException nfe) {
+                System.out.println("Could not parse " + nfe);
+            }
+            if(!bestSP.equals("none"))
+            {
+                for (ServiceProvider sp :serviceProviderList) {
+                    if(models.get(Integer.decode(results.get(1))).getTitle().equals(sp.getWorktype())) {
+
+                        String addr =  sp.getLoc().toString();
+                        String [] loc = addr.split(",",2);
+                        Double lat = Double.parseDouble(loc[0]);
+                        Double lon = Double.parseDouble(loc[1]);
+                        LatLng myLocation = new LatLng(lat,lon);
+                        float[] result = new float[1];
+                        Location.distanceBetween(latLng.latitude, latLng.longitude,
+                                lat, lon,
+                                result);
+                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+
+                        int myDist = 0;
+                        try {
+                            myDist = Integer.parseInt(filter_dist);
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        float myRat = 0;
+                        try {
+                            myRat = Float.parseFloat(filter_rat);
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        float mySpRat = 0;
+                        try {
+                            mySpRat = Float.parseFloat(sp.getRating());
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        if(result[0]<(myDist*1000) && (mySpRat>=myRat)) {
+                            switch (sp.getWorktype()) {
+                                case "Car Mechanic":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestmechanicmapicon)));
+                                        break;
+                                    }
+                                case "Carpenter":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcarpentermapicon)));
+                                        break;
+                                    }
+                                case "Plumber":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestplumbermapicon)));
+                                        break;
+                                    }
+                                case "Cleaner":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcleanermapicon)));
+                                        break;
+                                    }
+                                case "Electrician":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestelectricianmapicon)));
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+
+
+        }
+    }
 
 
     public String bestRecommendationSkyline(List<String> skylineUid, List<Float> skylineDist, List<Float> skylineRat) {
