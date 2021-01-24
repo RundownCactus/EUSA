@@ -320,20 +320,21 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                         }
                     }
                     Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
-
-                    String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
-                    ArrayList<String> type = new ArrayList<String>();
-                    type.add(String.valueOf(position));
+                    BestSuggestionParams myparams = new BestSuggestionParams(skylineUid,skylineDist,skylineRat,position);
+                    new GetBestSuggestion().execute(myparams);
+                    //String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
+                    //ArrayList<String> type = new ArrayList<String>();
+                    //type.add(String.valueOf(position));
                     //String bestSP = "none";
-                    int bestSpInt = 0;
-                    try {
-                        bestSpInt = Integer.parseInt(bestSP);
-                    } catch(NumberFormatException nfe) {
-                        System.out.println("Could not parse " + nfe);
-                    }
+                    //int bestSpInt = 0;
+                    //try {
+                       // bestSpInt = Integer.parseInt(bestSP);
+                    //} catch(NumberFormatException nfe) {
+                     //   System.out.println("Could not parse " + nfe);
+                    //}
 
-                    if(!bestSP.equals("none"))
-                    {
+                    //if(!bestSP.equals("none"))
+                   // {
                         for (ServiceProvider sp :serviceProviderList) {
                             if(models.get(position).getTitle().equals(sp.getWorktype())) {
 
@@ -372,54 +373,28 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                 if(results[0]<(myDist*1000) && (mySpRat>=myRat)) {
                                     switch (sp.getWorktype()) {
                                         case "Car Mechanic":
-                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
-                                            {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestmechanicmapicon)));
-                                                break;
-                                            }
-                                            else
                                             {
                                                 mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
                                                 break;
                                             }
 
                                         case "Carpenter":
-                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                             {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcarpentermapicon)));
-                                                break;
-                                            }
-                                            else {
                                                 mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
                                                 break;
                                             }
                                         case "Plumber":
-                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                             {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestplumbermapicon)));
-                                                break;
-                                            }
-                                            else {
                                                 mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
                                                 break;
                                             }
                                         case "Cleaner":
-                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                             {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcleanermapicon)));
-                                                break;
-                                            }
-                                            else {
                                                 mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
                                                 break;
                                             }
                                         case "Electrician":
-                                            if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                             {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestelectricianmapicon)));
-                                                break;
-                                            }
-                                            else {
                                                 mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
                                                 break;
                                             }
@@ -427,10 +402,6 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                 }
                             }
                         }
-
-
-
-                    }
                 }
             }
 
@@ -456,10 +427,23 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         return(serviceProviderList);
     }
 
-    public class TalkToServer extends AsyncTask<ArrayList<String>, Void, ArrayList<String>> {
+    private static class BestSuggestionParams {
+        List<String> uid;
+        List <Float> dist;
+        List <Float> rat;
+        int pos;
+
+        public BestSuggestionParams(List<String> uid, List<Float> dist, List<Float> rat, int pos) {
+            this.uid = uid;
+            this.dist = dist;
+            this.rat = rat;
+            this.pos = pos;
+        }
+    }
+    public class GetBestSuggestion extends AsyncTask<BestSuggestionParams, Void,ArrayList<String>> {
         @Override
-        protected ArrayList<String> doInBackground(ArrayList<String>... arrayLists) {
-            if(!arrayLists[0].isEmpty()) {
+        protected ArrayList<String> doInBackground(BestSuggestionParams... params) {
+            if(!params[0].uid.isEmpty()) {
 
                 if (!Python.isStarted()) {
                     Python.start(new AndroidPlatform(getApplicationContext()));
@@ -469,18 +453,19 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                 PyObject pyObj = py.getModule("test");
                 //Pass arguments to func
                 //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
-                PyObject obj = pyObj.callAttr("wow",arrayLists[1].toString(),arrayLists[2].toString());
+                PyObject obj = pyObj.callAttr("wow",params[0].dist.toString(),params[0].rat.toString());
                 Log.d("IF THIS WORKS I AM GOD", obj.toString());
                 //Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
                 ArrayList<String> results = new ArrayList<String>();
                 results.add(obj.toString());
-                results.add(String.valueOf(arrayLists[3]));
+                results.add(String.valueOf(params[0].pos));
                 return (results);
             }
             else
             {
                 ArrayList<String> results = new ArrayList<String>();
                 results.add("none");
+                results.add(String.valueOf(params[0].pos));
                 return results;
             }
         }
