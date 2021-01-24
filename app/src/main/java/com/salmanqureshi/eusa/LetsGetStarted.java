@@ -22,8 +22,8 @@ public class LetsGetStarted extends AppCompatActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(LetsGetStarted.this,SkylineQ.class);
-                startActivity(intent);
+                //Intent intent=new Intent(LetsGetStarted.this,SkylineQ.class);
+                //startActivity(intent);
             }
         });
         loginbutton1.setOnClickListener(new View.OnClickListener() {

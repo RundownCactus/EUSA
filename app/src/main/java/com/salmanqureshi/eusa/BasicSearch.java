@@ -60,6 +60,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -129,10 +130,12 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     List<Float> skylineDist;
     List<Float> skylineRat;
     List<String> skylineUid;
+    List<Marker> markersList;
     ProgressBar bestRecommendationProgressbar;
     TextView loadingBestRecommendation;
+    MaterialCardView progressBar_cardView;
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "NewApi"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,8 +144,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         skylineDist= new ArrayList<Float>();
         skylineRat= new ArrayList<Float>();
         skylineUid=new ArrayList<String>();
+        markersList=new ArrayList<Marker>();
         bestRecommendationProgressbar=findViewById(R.id.bestRecommendationProgressbar);
         loadingBestRecommendation=findViewById(R.id.loadingBestRecommendation);
+        progressBar_cardView=findViewById(R.id.progressBar_cardView);
 
         contacts=new ArrayList<>();
         drawerLayout=findViewById(R.id.drawer_layout);
@@ -170,11 +175,13 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         mapFragment.getMapAsync(this);
 
 
-        View locationButton = ((View) mapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        ImageView locationButton = (ImageView) mapFragment.getView().findViewById(Integer.parseInt("2"));
+        locationButton.setImageResource(R.drawable.ic_gps_focus);
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
-        rlp.setMargins(0, 256, 100, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
+        rlp.setMarginEnd(50);
+        rlp.setMargins(0, 256, 0, 0);
 
         //MAP FRAGMENT
 
@@ -240,6 +247,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                 skylineDist.clear();
                 skylineRat.clear();
                 skylineUid.clear();
+                markersList.clear();
                 if(latLng!=null){
                     //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
                     for (ServiceProvider sp :serviceProviderList) {
@@ -285,7 +293,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
+                                        markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon))));
                                         break;
                                     case "Carpenter":
                                         skylineDist.add(results[0]);
@@ -293,7 +301,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
+                                        markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon))));
                                         break;
                                     case "Plumber":
                                         skylineDist.add(results[0]);
@@ -301,7 +309,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
+                                        markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon))));
                                         break;
                                     case "Cleaner":
                                         skylineDist.add(results[0]);
@@ -309,7 +317,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
+                                        markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon))));
                                         break;
                                     case "Electrician":
                                         skylineDist.add(results[0]);
@@ -317,29 +325,29 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         skylineUid.add(sp.getUid());
                                         //mMap.clear();
                                         //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                        //mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
+                                        markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon))));
                                         break;
                                 }
                             }
                         }
                     }
                     Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
-                    BestSuggestionParams myparams = new BestSuggestionParams(skylineUid,skylineDist,skylineRat,position);
+                    BestSuggestionParams myparams = new BestSuggestionParams(skylineUid,skylineDist,skylineRat,position,markersList);
                     new GetBestSuggestion().execute(myparams);
-                    //String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
-                    //ArrayList<String> type = new ArrayList<String>();
-                    //type.add(String.valueOf(position));
-                    //String bestSP = "none";
-                    //int bestSpInt = 0;
-                    //try {
-                       // bestSpInt = Integer.parseInt(bestSP);
-                    //} catch(NumberFormatException nfe) {
-                     //   System.out.println("Could not parse " + nfe);
-                    //}
+                    /*String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
+                    ArrayList<String> type = new ArrayList<String>();
+                    type.add(String.valueOf(position));
+                    String bestSP = "none";
+                    int bestSpInt = 0;
+                    try {
+                        bestSpInt = Integer.parseInt(bestSP);
+                    } catch(NumberFormatException nfe) {
+                        System.out.println("Could not parse " + nfe);
+                    }
 
-                    //if(!bestSP.equals("none"))
-                   // {
-                        /*for (ServiceProvider sp :serviceProviderList) {
+                    if(!bestSP.equals("none"))
+                   {
+                        for (ServiceProvider sp :serviceProviderList) {
                             if(models.get(position).getTitle().equals(sp.getWorktype())) {
 
                                 String addr =  sp.getLoc().toString();
@@ -436,12 +444,14 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         List <Float> dist;
         List <Float> rat;
         int pos;
+        List<Marker> markers;
 
-        public BestSuggestionParams(List<String> uid, List<Float> dist, List<Float> rat, int pos) {
+        public BestSuggestionParams(List<String> uid, List<Float> dist, List<Float> rat, int pos,List<Marker> markers) {
             this.uid = uid;
             this.dist = dist;
             this.rat = rat;
             this.pos = pos;
+            this.markers=markers;
         }
     }
     public class GetBestSuggestion extends AsyncTask<BestSuggestionParams, Void,ArrayList<String>> {
@@ -479,6 +489,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
             super.onPreExecute();
             bestRecommendationProgressbar.setVisibility(View.VISIBLE);
             loadingBestRecommendation.setVisibility(View.VISIBLE);
+            progressBar_cardView.setVisibility(View.VISIBLE);
 
         }
 
@@ -487,6 +498,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
             super.onPostExecute(results);
             bestRecommendationProgressbar.setVisibility(View.GONE);
             loadingBestRecommendation.setVisibility(View.GONE);
+            progressBar_cardView.setVisibility(View.GONE);
             int bestSpInt = -1;
             String bestSP = results.get(0);
             try {
@@ -536,56 +548,38 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                 case "Car Mechanic":
                                     if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                     {
+                                        markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestmechanicmapicon)));
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
                                         break;
                                     }
                                 case "Carpenter":
                                     if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                     {
+                                        markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcarpentermapicon)));
                                         break;
                                     }
-                                    else
-                                    {
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
-                                        break;
-                                    }
+
                                 case "Plumber":
                                     if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                     {
+                                        markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestplumbermapicon)));
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
                                         break;
                                     }
                                 case "Cleaner":
                                     if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                     {
+                                        markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcleanermapicon)));
                                         break;
                                     }
-                                    else
-                                    {
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
-                                        break;
-                                    }
+
                                 case "Electrician":
                                     if(sp.getUid().equals(skylineUid.get(bestSpInt)))
                                     {
+                                        markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestelectricianmapicon)));
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
                                         break;
                                     }
                             }
