@@ -8,108 +8,160 @@
     android:background="@drawable/bottom_sheet_background"
     android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/greyline"
+        android:layout_width="50dp"
+        android:layout_gravity="center"
+        android:layout_height="5dp"
+        android:backgroundTint="@color/grey"
+        android:layout_marginTop="8dp">
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/greyline"
-            android:layout_width="50dp"
-            android:layout_height="5dp"
-            android:backgroundTint="@color/grey"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
-
-        </com.google.android.material.card.MaterialCardView>
-
+        android:orientation="horizontal"
+        android:layout_height="110dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/myimage"
+            android:layout_gravity="center"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/profile1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/greyline"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/myname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hammad Ali"
-            android:textColor="@color/BlueColor"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myimage"
-            tools:ignore="MissingConstraints">
-        </TextView>
-
+            android:src="@drawable/profile1" />
         <LinearLayout
-            android:id="@+id/rating_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/myname"
-            tools:ignore="MissingConstraints">
-
+            android:layout_height="match_parent">
             <TextView
-                android:id="@+id/myrating"
-                android:textColor="@color/BlueColor"
+                android:id="@+id/myname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.8"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_star"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                android:id="@+id/ratingtext"
+                android:text="Hammad Ali"
                 android:textColor="@color/BlueColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rating"
-                android:textSize="16sp" />
+                android:textSize="22sp"
+                app:layout_constraintTop_toBottomOf="@+id/myimage"
+                tools:ignore="MissingConstraints">
+            </TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Unverified"
+                    android:textStyle="normal"
+                    android:layout_gravity="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/grey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <ImageView
+                    app:srcCompat="@drawable/ic_baseline_unverified_user"
+                    android:layout_marginLeft="4dp"
+                    android:layout_gravity="center"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp">
+
+                </ImageView>
+            </LinearLayout>
+
         </LinearLayout>
 
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/myrating"
+                        android:textColor="@color/BlueColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.8"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_star"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="end"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/ratingtext"
+                        android:layout_gravity="center"
+                        android:textColor="@color/BlueColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rating"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:backgroundTint="@color/grey">
+
+    </com.google.android.material.card.MaterialCardView>
+
+
         <LinearLayout
+
             android:id="@+id/worktype_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             app:layout_constraintTop_toBottomOf="@+id/rating_ll"
             tools:ignore="MissingConstraints">
-            <ImageView
-                android:id="@+id/worktypeicon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/plumbericon"
-                tools:ignore="MissingConstraints" />
-
             <TextView
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Worktype: "
+                android:layout_gravity="center"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints">
+
+            </TextView>
+            <TextView
+                android:layout_marginLeft="8dp"
                 android:id="@+id/worktypetext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Plumber"
+                android:layout_gravity="center"
                 android:textColor="@color/BlueColor"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 tools:ignore="MissingConstraints">
 
             </TextView>
+            <ImageView
+                android:layout_marginLeft="8dp"
+                android:id="@+id/worktypeicon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/plumbericon"
+                tools:ignore="MissingConstraints" />
         </LinearLayout>
 
         <LinearLayout
@@ -155,7 +207,5 @@
         </com.google.android.material.button.MaterialButton>
         </LinearLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
