@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content">
                     </TextView>
                     <ImageView
-                        app:srcCompat="@drawable/ic_baseline_unverified_user"
+                        android:background="@drawable/ic_baseline_unverified_user"
                         android:layout_marginLeft="4dp"
                         android:layout_gravity="center"
                         android:layout_width="20dp"
