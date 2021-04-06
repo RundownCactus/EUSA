@@ -118,7 +118,7 @@
         android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:backgroundTint="@color/grey">
+        android:background="@color/grey">
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -165,6 +165,238 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/service1"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                app:cardBackgroundColor="#F4F4F4"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="10dp"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/s1_tickIcon_gray"
+                        android:background="@drawable/ic_tickicon_cardview"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true">
+
+                    </ImageView>
+                    <ImageView
+                        android:id="@+id/s1_tickIcon_blue"
+                        android:background="@drawable/ic_tickicon_cardview_blue"
+                        android:visibility="gone"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true">
+
+                    </ImageView>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/s1_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Pipe Installation in the house"
+                        android:textColor="@color/BlueColor"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/s1_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Full pipe installation, Fast Service, Quality Service"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/s1_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="end"
+                        android:text="Rs. 500"
+                        android:textColor="@color/BlueColor"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/service2"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            app:cardBackgroundColor="#F4F4F4"
+            android:layout_width="match_parent"
+            app:cardCornerRadius="10dp"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/s2_tickIcon_gray"
+                    android:background="@drawable/ic_tickicon_cardview"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true">
+
+                </ImageView>
+                <ImageView
+                    android:id="@+id/s2_tickIcon_blue"
+                    android:background="@drawable/ic_tickicon_cardview_blue"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true">
+
+                </ImageView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/s2_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pipe Installation in the house"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/s2_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Full pipe installation, Fast Service, Quality Service"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/s2_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:text="Rs. 500"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/service3"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            app:cardBackgroundColor="#F4F4F4"
+            android:layout_width="match_parent"
+            app:cardCornerRadius="10dp"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/s3_tickIcon_gray"
+                    android:background="@drawable/ic_tickicon_cardview"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true">
+
+                </ImageView>
+                <ImageView
+                    android:id="@+id/s3_tickIcon_blue"
+                    android:background="@drawable/ic_tickicon_cardview_blue"
+                    android:visibility="gone"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true">
+
+                </ImageView>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/s3_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Pipe Installation in the house"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/s3_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Full pipe installation, Fast Service, Quality Service"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/s3_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:text="Rs. 500"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/book_ll"
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -206,6 +438,7 @@
             android:layout_marginStart="8dp">
         </com.google.android.material.button.MaterialButton>
         </LinearLayout>
+
 
 
 </LinearLayout>
