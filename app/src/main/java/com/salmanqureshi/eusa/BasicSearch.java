@@ -135,12 +135,17 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     TextView loadingBestRecommendation;
     MaterialCardView progressBar_cardView;
 
+    //BottomSheet variables
+    List<ServiceDetails> myList;
+
     @SuppressLint({"MissingPermission", "NewApi"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_search);
         Log.d("basicsearchCalled", "onCreate Called");
+        myList=new ArrayList<>();
+        myList.add(new ServiceDetails("ABC","DEF","GHI","IJK"));
         skylineDist= new ArrayList<Float>();
         skylineRat= new ArrayList<Float>();
         skylineUid=new ArrayList<String>();
@@ -959,6 +964,133 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                         worktypeicon.setImageResource(R.drawable.electricianicon);
                         break;
                 }
+                LinearLayout service1=bottomSheetView.findViewById(R.id.service1);
+                LinearLayout service2=bottomSheetView.findViewById(R.id.service2);
+                LinearLayout service3=bottomSheetView.findViewById(R.id.service3);
+                ImageView s1_tickIcon_blue=bottomSheetView.findViewById(R.id.s1_tickIcon_blue);
+                ImageView s2_tickIcon_blue=bottomSheetView.findViewById(R.id.s2_tickIcon_blue);
+                ImageView s3_tickIcon_blue=bottomSheetView.findViewById(R.id.s3_tickIcon_blue);
+                ImageView s1_tickIcon_gray=bottomSheetView.findViewById(R.id.s1_tickIcon_gray);
+                ImageView s2_tickIcon_gray=bottomSheetView.findViewById(R.id.s2_tickIcon_gray);
+                ImageView s3_tickIcon_gray=bottomSheetView.findViewById(R.id.s3_tickIcon_gray);
+                TextView s1_title=bottomSheetView.findViewById(R.id.s1_title);
+                TextView s2_title=bottomSheetView.findViewById(R.id.s2_title);
+                TextView s3_title=bottomSheetView.findViewById(R.id.s3_title);
+                TextView s1_description=bottomSheetView.findViewById(R.id.s1_description);
+                TextView s2_description=bottomSheetView.findViewById(R.id.s2_description);
+                TextView s3_description=bottomSheetView.findViewById(R.id.s3_description);
+                TextView s1_price=bottomSheetView.findViewById(R.id.s1_price);
+                TextView s2_price=bottomSheetView.findViewById(R.id.s2_price);
+                TextView s3_price=bottomSheetView.findViewById(R.id.s3_price);
+                DatabaseReference myref1= FirebaseDatabase.getInstance().getReference().child("Users").child("ServiceProviders").child(sp.getUid()).child("Services");
+                service1.setVisibility(View.GONE);
+                service2.setVisibility(View.GONE);
+                service3.setVisibility(View.GONE);
+                myref1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            DatabaseReference serviceref=FirebaseDatabase.getInstance().getReference().child("Users").child("ServiceProviders").child(sp.getUid()).child("Services").child(snap.getKey());
+                            serviceref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(myList.size()==1)
+                                    {
+                                        Log.d("TAGA",snapshot.getKey());
+                                        Log.d("TAGA",snapshot.child("title").getValue().toString());
+                                        Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
+                                        Log.d("TAGA",snapshot.child("description").getValue().toString());
+                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
+                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString()));
+                                        service1.setVisibility(View.VISIBLE);
+                                        s1_title.setText(myList.get(1).getTitle());
+                                        s1_price.setText(myList.get(1).getPrice());
+                                        s1_description.setText(myList.get(1).getDescription());
+                                    }
+                                    else if(myList.size()==2)
+                                    {
+                                        Log.d("TAGA",snapshot.getKey());
+                                        Log.d("TAGA",snapshot.child("title").getValue().toString());
+                                        Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
+                                        Log.d("TAGA",snapshot.child("description").getValue().toString());
+                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
+                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString()));
+                                        service2.setVisibility(View.VISIBLE);
+                                        s2_title.setText(myList.get(2).getTitle());
+                                        s2_price.setText(myList.get(2).getPrice());
+                                        s2_description.setText(myList.get(2).getDescription());
+                                    }
+                                    else if(myList.size()==3)
+                                    {
+                                        Log.d("TAGA",snapshot.getKey());
+                                        Log.d("TAGA",snapshot.child("title").getValue().toString());
+                                        Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
+                                        Log.d("TAGA",snapshot.child("description").getValue().toString());
+                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
+                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString()));
+                                        service3.setVisibility(View.VISIBLE);
+                                        s3_title.setText(myList.get(3).getTitle());
+                                        s3_price.setText(myList.get(3).getPrice());
+                                        s3_description.setText(myList.get(3).getDescription());
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                service1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(s1_tickIcon_gray.getVisibility()==View.VISIBLE) {
+                            s1_tickIcon_blue.setVisibility(View.VISIBLE);
+                            s1_tickIcon_gray.setVisibility(View.GONE);
+                        }
+                        else
+                            {
+                            s1_tickIcon_blue.setVisibility(View.GONE);
+                            s1_tickIcon_gray.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+                service2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(s2_tickIcon_gray.getVisibility()==View.VISIBLE) {
+                            s2_tickIcon_blue.setVisibility(View.VISIBLE);
+                            s2_tickIcon_gray.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            s2_tickIcon_blue.setVisibility(View.GONE);
+                            s2_tickIcon_gray.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+                service3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(s3_tickIcon_gray.getVisibility()==View.VISIBLE) {
+                            s3_tickIcon_blue.setVisibility(View.VISIBLE);
+                            s3_tickIcon_gray.setVisibility(View.GONE);
+                        }
+                        else
+                        {
+                            s3_tickIcon_blue.setVisibility(View.GONE);
+                            s3_tickIcon_gray.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
                 //book button listener to show the alert dialog box
                 book_button.setOnClickListener(new View.OnClickListener() {
                     @Override
