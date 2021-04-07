@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.chaquo.python'
 
 android {
     compileSdkVersion 30
@@ -13,25 +12,25 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        sourceSets {
-            main {
-                python{
-                    srcDirs = ["src/main/python"]
-                }
-            }
-        }
-        python {
-            pip {
+       // sourceSets {
+         //   main {
+           //     python{
+             //       srcDirs = ["src/main/python"]
+              //  }
+           // }
+       // }
+       // python {
+         //   pip {
                 // A pip requirement specifier, with or without a version number:
-                install "numpy"
-                install "pandas"
-            }
+           //     install "numpy"
+             //   install "pandas"
+           // }
             // If Chaquopy fails to find Python on your build machine, enable the following
             // line and edit it to point to Python 3.5 or later.
              //buildPython "C:/Users/Salman Qureshi/AppData/Local/Programs/Python/Python37/python.exe"
 
 
-        }
+       // }
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
@@ -67,4 +66,5 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    implementation 'com.android.volley:volley:1.1.0'
 }

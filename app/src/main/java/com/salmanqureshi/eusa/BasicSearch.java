@@ -45,9 +45,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.chaquo.python.PyObject;
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
+//import com.chaquo.python.PyObject;
+//import com.chaquo.python.Python;
+//import com.chaquo.python.android.AndroidPlatform;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -71,6 +77,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -79,6 +89,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 public class BasicSearch<BestRecommendation> extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
@@ -232,6 +244,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
 
 
         //SWIPE CARD VIEW END
+    }
+
+    public interface VolleyCallback {
+        void onSuccessResponse(String result);
     }
     //function that gets data from database  and draws icons on the map according to the filters and job category.
     private List<ServiceProvider> collectData(Map<String, Object> value) {
@@ -462,23 +478,70 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     public class GetBestSuggestion extends AsyncTask<BestSuggestionParams, Void,ArrayList<String>> {
         @Override
         protected ArrayList<String> doInBackground(BestSuggestionParams... params) {
+             int[] i = {0};
             if(!params[0].uid.isEmpty()) {
 
-                if (!Python.isStarted()) {
-                    Python.start(new AndroidPlatform(getApplicationContext()));
-                }
+                String postUrl = "https://skylineq.herokuapp.com/";
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
-                Python py = Python.getInstance();
-                PyObject pyObj = py.getModule("test");
+                JSONArray jsonArray = new JSONArray();
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("dist",params[0].dist.toString() );
+                    jsonObject.put("rat",params[0].rat.toString() );
+                    jsonArray.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("LETS SEEE 1", "onErrorResponse: (");
+                }
+                ArrayList<String> results = new ArrayList<String>();
+
+                Log.d("LETS SEEE 2", "onErrorResponse: (");
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println(response);
+
+                        try {
+                            Log.d("WHAT I AM APPENDING",response.get("result").toString());
+
+                            results.add(response.get("result").toString());
+                            results.add(String.valueOf(params[0].pos));
+                            i[0] = 1;
+                        } catch (JSONException e) {
+                            Log.d("LETS SEEE323", "onErrorResponse: (");
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("LETS SEEE4", "onErrorResponse: (");
+                        error.printStackTrace();
+                    }
+                });
+
+                requestQueue.add(jsonObjectRequest);
+
+                //if (!Python.isStarted()) {
+                  //  Python.start(new AndroidPlatform(getApplicationContext()));
+               // }
+
+                //Python py = Python.getInstance();
+                //PyObject pyObj = py.getModule("test");
                 //Pass arguments to func
                 //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
-                PyObject obj = pyObj.callAttr("wow",params[0].dist.toString(),params[0].rat.toString());
-                Log.d("IF THIS WORKS I AM GOD", obj.toString());
+                //PyObject obj = pyObj.callAttr("wow",params[0].dist.toString(),params[0].rat.toString());
+                //Log.d("IF THIS WORKS I AM GOD", obj.toString());
                 //Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
-                ArrayList<String> results = new ArrayList<String>();
-                results.add(obj.toString());
-                results.add(String.valueOf(params[0].pos));
+                while(i[0] != 1){
+                    Log.d("LOGGGASDASD", "doInBackground: ");
+                    continue;
+                }
                 return (results);
+
             }
             else
             {
@@ -601,28 +664,6 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     }
 
 
-    public String bestRecommendationSkyline(List<String> skylineUid, List<Float> skylineDist, List<Float> skylineRat) {
-        Log.d("dooo1",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
-        if(!skylineUid.isEmpty()) {
-
-            if (!Python.isStarted()) {
-                Python.start(new AndroidPlatform(this));
-            }
-
-            Python py = Python.getInstance();
-            PyObject pyObj = py.getModule("test");
-            //Pass arguments to func
-            //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
-            PyObject obj = pyObj.callAttr("wow",skylineDist.toString(),skylineRat.toString());
-            Log.d("IF THIS WORKS I AM GOD", obj.toString());
-            //Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
-            return obj.toString();
-        }
-        else
-        {
-            return "none";
-        }
-    }
 
     @Override
     protected void onStart() {
