@@ -45,9 +45,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-//import com.chaquo.python.PyObject;
-//import com.chaquo.python.Python;
-//import com.chaquo.python.android.AndroidPlatform;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -82,13 +79,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+//import com.chaquo.python.PyObject;
+//import com.chaquo.python.Python;
+//import com.chaquo.python.android.AndroidPlatform;
 
 
 

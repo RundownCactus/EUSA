@@ -103,7 +103,7 @@ public class LoginReceiveVerificationCode extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(getApplicationContext(),BasicSearch.class);
+                    Intent intent = new Intent(getApplicationContext(),Homepage.class);
                     SessionManager sessionManager = new SessionManager(LoginReceiveVerificationCode.this);
                     sessionManager.createSession(mAuth.getUid().toString());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
