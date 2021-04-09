@@ -15,7 +15,7 @@
         android:id="@+id/nav_view"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="300dp"
         android:layout_gravity="start"
         android:layout_height="match_parent">
@@ -25,43 +25,79 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/top_cl"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="52dp"
             android:background="#F3F1F1"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,RtlSymmetry">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:elevation="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="8dp"
+                tools:ignore="MissingConstraints">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="wrap_content"
+                        app:contentInsetLeft="0dp"
+                        app:contentInsetStart="0dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/mainmenu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_menu" />
+                    </androidx.appcompat.widget.Toolbar>
+                    <LinearLayout
+                        android:visibility="visible"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:background="@drawable/ic_eusalogoicon"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp">
+                        </ImageView>
+                        <TextView
+                            android:text="EUSA"
+                            android:textColor="@color/BlueColor"
+                            android:textSize="28sp"
+                            android:textStyle="normal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="40dp"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="8dp"
-                    tools:ignore="MissingConstraints">
+                        </TextView>
+                    </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/mainmenu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_menu"
-                        tools:ignore="ContentDescription,MissingConstraints,VectorDrawableCompat" />
-                </com.google.android.material.card.MaterialCardView>
+                        android:background="@drawable/ic_baseline_account_circle"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginEnd="8dp">
 
-            </androidx.appcompat.widget.Toolbar>
+                    </ImageView>
 
-        </LinearLayout>
+                </RelativeLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </RelativeLayout>
         <ScrollView
             android:layout_marginTop="78dp"
             android:layout_width="match_parent"
@@ -499,13 +535,13 @@
                                 android:layout_height="match_parent">
 
                                 <ImageView
-                                    android:id="@+id/recentenduseraccountimage"
+                                    android:id="@+id/recentspaccountimage"
                                     app:srcCompat="@drawable/ic_baseline_account_circle"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp">
                                 </ImageView>
                                 <de.hdodenhof.circleimageview.CircleImageView
-                                    android:id="@+id/recentenduserimage"
+                                    android:id="@+id/recentspimage"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
                                     android:visibility="gone"
@@ -524,7 +560,7 @@
                                     android:layout_marginLeft="8dp"
                                     android:layout_marginTop="8dp"
                                     app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toEndOf="@+id/recentenduseraccountimage"
+                                    app:layout_constraintStart_toEndOf="@+id/recentspaccountimage"
                                     tools:layout_editor_absoluteX="16dp">
                                 </TextView>
 
@@ -537,7 +573,7 @@
                                     android:text="4.0"
                                     android:textColor="@color/grey"
                                     android:textSize="12sp"
-                                    app:layout_constraintStart_toEndOf="@+id/recentenduseraccountimage"
+                                    app:layout_constraintStart_toEndOf="@+id/recentspaccountimage"
                                     app:layout_constraintTop_toBottomOf="@+id/recentspname" />
 
                                 <ImageView
@@ -550,7 +586,7 @@
 
                                 </ImageView>
                                 <TextView
-                                    android:id="@+id/recentjobtime"
+                                    android:id="@+id/recentservicetime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="5:50pm"
@@ -561,9 +597,6 @@
                                     app:layout_constraintEnd_toEndOf="parent">
                                 </TextView>
 
-
-
-
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </LinearLayout>
@@ -571,6 +604,214 @@
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:visibility="visible"
+                    android:id="@+id/cardongoingservice"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginRight="16dp"
+                    android:elevation="40dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="8dp"
+                    tools:ignore="MissingConstraints">
+
+                    <LinearLayout
+                        android:padding="16dp"
+                        android:weightSum="10"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_weight="2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp">
+                            <TextView
+                                android:text="Ongoing Service"
+                                android:textColor="@color/grey"
+                                android:textSize="14sp"
+                                android:textStyle="normal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+                            </TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_weight="5"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/spaccountimage"
+                                    app:srcCompat="@drawable/ic_baseline_account_circle"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp">
+                                </ImageView>
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/spimage"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
+                                    android:visibility="gone"
+                                    android:src="@drawable/profile1"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+                                </de.hdodenhof.circleimageview.CircleImageView>
+
+                                <TextView
+                                    android:id="@+id/spname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Akash Ali"
+                                    android:textColor="#000"
+                                    android:textSize="18sp"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginTop="8dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/spaccountimage"
+                                    tools:layout_editor_absoluteX="16dp">
+                                </TextView>
+
+                                <TextView
+                                    android:id="@+id/sprating"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginTop="4dp"
+                                    android:text="4.0"
+                                    android:textColor="@color/grey"
+                                    android:textSize="12sp"
+                                    app:layout_constraintStart_toEndOf="@+id/spaccountimage"
+                                    app:layout_constraintTop_toBottomOf="@+id/spname" />
+
+                                <ImageView
+                                    android:layout_width="20dp"
+                                    android:layout_height="16dp"
+                                    android:layout_marginTop="4dp"
+                                    app:layout_constraintStart_toEndOf="@+id/sprating"
+                                    app:layout_constraintTop_toBottomOf="@+id/spname"
+                                    app:srcCompat="@drawable/ic_baseline_star_yellow">
+
+                                </ImageView>
+                                <TextView
+                                    android:id="@+id/servicetime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="5:50pm"
+                                    android:textColor="@color/grey"
+                                    android:textSize="18sp"
+                                    android:layout_marginTop="8dp"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent">
+                                </TextView>
+
+                                <ImageView
+                                    android:background="@color/grey"
+                                    android:layout_width="match_parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_height="1dp">
+
+                                </ImageView>
+
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_weight="3"
+                            android:layout_width="match_parent"
+                            android:weightSum="9"
+                            android:orientation="horizontal"
+                            android:layout_height="0dp">
+                            <LinearLayout
+                                android:id="@+id/ongoingservicecall"
+                                android:layout_weight="3"
+                                android:layout_width="0dp"
+                                android:orientation="horizontal"
+                                android:layout_height="match_parent">
+                                <ImageView
+
+                                    android:layout_width="30dp"
+                                    app:srcCompat="@drawable/ic_baseline_call"
+                                    android:layout_height="match_parent">
+                                </ImageView>
+                                <TextView
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:text="Call"
+                                    android:textSize="16sp"
+                                    android:textColor="#000"
+                                    android:layout_height="match_parent">
+
+                                </TextView>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/ongoingservicechat"
+                                android:layout_weight="3"
+                                android:layout_width="0dp"
+                                android:orientation="horizontal"
+                                android:layout_height="match_parent">
+                                <ImageView
+
+                                    android:layout_width="30dp"
+                                    app:srcCompat="@drawable/ic_baseline_chat"
+                                    android:layout_height="match_parent">
+                                </ImageView>
+                                <TextView
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:text="Chat"
+                                    android:textSize="16sp"
+                                    android:textColor="#000"
+                                    android:layout_height="match_parent">
+
+                                </TextView>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/ongoingservicenavigation"
+                                android:layout_weight="3"
+                                android:layout_width="0dp"
+                                android:orientation="horizontal"
+                                android:layout_height="match_parent">
+                                <ImageView
+
+                                    android:layout_width="30dp"
+                                    app:srcCompat="@drawable/ic_baseline_navigation"
+                                    android:layout_height="match_parent">
+                                </ImageView>
+                                <TextView
+                                    android:layout_marginLeft="2dp"
+                                    android:layout_marginStart="2dp"
+                                    android:gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:text="Navigate"
+                                    android:textSize="16sp"
+                                    android:textColor="#000"
+                                    android:layout_height="match_parent">
+
+                                </TextView>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
 
 
             </LinearLayout>
