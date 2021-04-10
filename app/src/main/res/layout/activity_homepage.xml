@@ -15,7 +15,7 @@
         android:id="@+id/nav_view"
         app:headerLayout="@layout/header"
         app:menu="@menu/main_menu"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="300dp"
         android:layout_gravity="start"
         android:layout_height="match_parent">
@@ -81,6 +81,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/homepage_profile"
                         android:background="@drawable/ic_baseline_account_circle"
                         android:layout_centerVertical="true"
                         android:layout_alignParentEnd="true"
@@ -428,6 +429,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/select_location_ll"
                             android:layout_marginTop="16dp"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
@@ -446,7 +448,7 @@
                                     android:layout_alignParentLeft="true">
                                 </ImageView>
                                 <TextView
-                                    android:text="Enter your current address..."
+                                    android:text="Select your location..."
                                     android:textColor="@color/grey"
                                     android:layout_marginLeft="32dp"
                                     android:layout_centerVertical="true"
@@ -468,6 +470,7 @@
 
                         </LinearLayout>
                         <RelativeLayout
+                            android:id="@+id/location_book_button"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/rounded_rectangle"
                             android:layout_width="match_parent"
@@ -498,7 +501,6 @@
                     android:layout_height="130dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:elevation="40dp"
