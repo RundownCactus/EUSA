@@ -10,7 +10,7 @@
     <TextView
         android:text="Search Filters"
         android:gravity="center"
-        android:textSize="32sp"
+        android:textSize="26sp"
         android:textColor="@color/BlueColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

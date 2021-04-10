@@ -15,5 +15,7 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_maps_search">Map</string>
     <string name="title_activity_current_job_map">Map</string>
+    <string name="title_activity_search__service__providers">Map</string>
+    <string name="title_activity_search_service_provider">Map</string>
 
 </resources>

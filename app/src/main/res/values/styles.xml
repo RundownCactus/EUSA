@@ -22,6 +22,9 @@
     <style name="ProgressBarStyleWhite">
         <item name="colorAccent">@color/white</item>
     </style>
+    <style name="ProgressBarStyleGrey">
+        <item name="colorAccent">@color/grey</item>
+    </style>
 
 
 
