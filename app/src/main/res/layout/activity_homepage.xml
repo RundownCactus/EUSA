@@ -543,8 +543,20 @@
                             android:layout_weight="5.5"
                             android:layout_width="match_parent"
                             android:layout_height="0dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="No Recent Bookings"
+                                android:textColor="#000"
+                                android:textSize="18sp"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginTop="8dp">
+                            </TextView>
+
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
+                                android:visibility="gone"
                                 android:layout_height="match_parent">
 
                                 <ImageView
@@ -618,7 +630,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
                 <com.google.android.material.card.MaterialCardView
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:id="@+id/cardongoingservice"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
