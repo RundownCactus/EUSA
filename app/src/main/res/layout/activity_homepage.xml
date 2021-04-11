@@ -404,8 +404,104 @@
                     </LinearLayout>
 
                 </LinearLayout>
-            <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:weightSum="6"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:padding="14dp">
+                    <LinearLayout
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/listsearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:elevation="40dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="8dp"
+                            tools:ignore="MissingConstraints">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:weightSum="10"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:layout_height="match_parent">
+                                <ImageView
+                                    android:layout_marginTop="8dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="5"
+                                    app:srcCompat="@drawable/ic_baseline_navigation"
+                                    >
+                                </ImageView>
+                                <TextView
+                                    android:text="List View"
+                                    android:textSize="15sp"
+                                    android:textStyle="normal"
+                                    android:gravity="center"
+                                    android:textColor="#000"
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="3"
+                                    android:layout_height="0dp">
+
+                                </TextView>
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="3"
+                        android:layout_width="0dp"
+                        android:layout_marginLeft="16dp"
+                        android:gravity="center"
+                        android:layout_height="match_parent">
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/basicsearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:elevation="40dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="8dp"
+                            tools:ignore="MissingConstraints">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:weightSum="10"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:layout_height="match_parent">
+                                <ImageView
+                                    android:layout_marginTop="8dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="5"
+                                    app:srcCompat="@drawable/electricianicon"
+                                    >
+                                </ImageView>
+                                <TextView
+                                    android:text="Map View"
+                                    android:textSize="15sp"
+                                    android:textStyle="normal"
+                                    android:gravity="center"
+                                    android:textColor="#000"
+                                    android:layout_width="match_parent"
+                                    android:layout_weight="3"
+                                    android:layout_height="0dp">
+
+                                </TextView>
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
                 android:id="@+id/book_service_provider"
+                android:visibility="gone"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="14dp"

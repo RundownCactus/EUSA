@@ -64,7 +64,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
     LinearLayout select_location_ll;
     RelativeLayout location_book_button;
     TextView recentspname,recentservicetime;
-    MaterialCardView book_plumber,book_electrician,book_carmechanic,book_carpenter,book_cleaner,book_mechanic;
+    MaterialCardView book_plumber,book_electrician,book_carmechanic,book_carpenter,book_cleaner,book_mechanic,basicsrch,listsrch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +84,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         navigationView=findViewById(R.id.nav_view);
         toolbar=findViewById(R.id.toolbar);
         mainmenu=findViewById(R.id.mainmenu);
+        basicsrch=findViewById(R.id.basicsearch);
+        listsrch=findViewById(R.id.listsearch);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
     }
 
@@ -160,6 +162,21 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 startActivity(intent);
             }
         });
+        listsrch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Homepage.this,ServiceProvidersListView.class);
+                startActivity(intent);
+            }
+        });
+        basicsrch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Homepage.this,BasicSearch.class);
+                startActivity(intent);
+            }
+        });
+
         //NAVIGATION DRAWER CODE START
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);

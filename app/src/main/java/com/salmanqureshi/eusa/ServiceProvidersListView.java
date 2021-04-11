@@ -102,35 +102,48 @@ public class ServiceProvidersListView extends AppCompatActivity {
         //show data in list view according the type of service provider.
         String type = getIntent().getStringExtra("type");
         myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
-        if(type.matches("All")){
-            Query getTypeSP = myref.orderByChild("type");
-            getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
-                }
+        Query getTypeSP = myref.orderByChild("type");
+        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                 serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
+             }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+             @Override
+             public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
+             }
+        });
+        //});
+        //if(type.matches("All")){
+        //    Query getTypeSP = myref.orderByChild("type");
+        //    getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+         //       @Override
+           //     public void onDataChange(@NonNull DataSnapshot snapshot) {
+             //       serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
+             //   }
 
-        }else{
-            Query getTypeSP = myref.orderByChild("type").equalTo(type);
-            getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
-                }
+           //     @Override
+             //   public void onCancelled(@NonNull DatabaseError error) {
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+               // }
+            //});
 
-                }
-            });
+        //}else{
+         //   Query getTypeSP = myref.orderByChild("type").equalTo(type);
+         //   getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+         //       @Override
+         //       public void onDataChange(@NonNull DataSnapshot snapshot) {
+         //           serviceProviderList = collectData((Map<String,Object>) snapshot.getValue());
+         //       }
 
-        }
+         //       @Override
+         //       public void onCancelled(@NonNull DatabaseError error) {
+
+         //       }
+         //   });
+
+        //}
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
