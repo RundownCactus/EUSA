@@ -28,13 +28,14 @@
         <RelativeLayout
             android:id="@+id/top_cl"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:background="#F3F1F1"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints,RtlSymmetry">
 
             <com.google.android.material.card.MaterialCardView
+                android:layout_centerInParent="true"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:elevation="40dp"
@@ -100,20 +101,20 @@
 
         </RelativeLayout>
         <ScrollView
-            android:layout_marginTop="78dp"
+            android:layout_marginTop="76dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
                 android:id="@+id/lineralayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:orientation="vertical"
                 android:background="#F3F1F1">
             <LinearLayout
                 android:id="@+id/card2"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="104dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginEnd="16dp"
@@ -126,12 +127,13 @@
                     android:layout_height="match_parent">
                     <LinearLayout
                         android:layout_weight="3"
+                        android:gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="match_parent">
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/book_plumber"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="100dp"
                             android:elevation="40dp"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="8dp"
@@ -169,12 +171,13 @@
                         android:layout_weight="3"
                         android:layout_width="0dp"
                         android:layout_marginLeft="16dp"
+                        android:gravity="center"
                         android:layout_marginRight="16dp"
                         android:layout_height="match_parent">
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/book_electrician"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="100dp"
                             android:elevation="40dp"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="8dp"
@@ -211,11 +214,12 @@
                     <LinearLayout
                         android:layout_weight="3"
                         android:layout_width="0dp"
+                        android:gravity="center"
                         android:layout_height="match_parent">
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/book_carmechanic"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="100dp"
                             android:elevation="40dp"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="8dp"
@@ -256,10 +260,10 @@
                 <LinearLayout
                     android:id="@+id/card3"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="104dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     tools:ignore="MissingConstraints">
@@ -271,11 +275,12 @@
                         <LinearLayout
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:gravity="center"
                             android:layout_height="match_parent">
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/book_carpenter"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="100dp"
                                 android:elevation="40dp"
                                 app:cardBackgroundColor="@color/white"
                                 app:cardCornerRadius="8dp"
@@ -312,13 +317,14 @@
                         <LinearLayout
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:gravity="center"
                             android:layout_marginLeft="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_height="match_parent">
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/book_cleaner"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="100dp"
                                 android:elevation="40dp"
                                 app:cardBackgroundColor="@color/white"
                                 app:cardCornerRadius="8dp"
@@ -355,11 +361,12 @@
                         <LinearLayout
                             android:layout_weight="3"
                             android:layout_width="0dp"
+                            android:gravity="center"
                             android:layout_height="match_parent">
                             <com.google.android.material.card.MaterialCardView
                                 android:id="@+id/book_mechanic"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="100dp"
                                 android:elevation="40dp"
                                 app:cardBackgroundColor="@color/white"
                                 app:cardCornerRadius="8dp"
@@ -399,18 +406,22 @@
                 </LinearLayout>
             <LinearLayout
                 android:id="@+id/book_service_provider"
-                android:padding="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginBottom="4dp"
                     android:elevation="40dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="8dp"
                     tools:ignore="MissingConstraints">
                     <LinearLayout
-
                         android:padding="16dp"
                         android:orientation="vertical"
                         android:layout_width="match_parent"
@@ -476,8 +487,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <TextView
-                                android:text="Book Service"
-                                android:textSize="16dp"
+                                android:text="Search"
+                                android:textSize="18sp"
                                 android:layout_centerInParent="true"
                                 android:textColor="@color/BlueColor"
                                 android:layout_width="wrap_content"
@@ -615,7 +626,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="24dp"
                     android:layout_marginRight="16dp"
                     android:elevation="40dp"
                     app:cardBackgroundColor="@color/white"
@@ -623,61 +634,62 @@
                     tools:ignore="MissingConstraints">
 
                     <LinearLayout
-                        android:padding="16dp"
-                        android:weightSum="10"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:weightSum="10">
+
                         <LinearLayout
-                            android:layout_weight="2"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp">
+                            android:layout_height="0dp"
+                            android:layout_weight="2">
+
                             <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
                                 android:text="Ongoing Service"
                                 android:textColor="@color/grey"
                                 android:textSize="14sp"
-                                android:textStyle="normal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent">
-                            </TextView>
+                                android:textStyle="normal" />
                         </LinearLayout>
+
                         <LinearLayout
-                            android:layout_weight="5"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp">
+                            android:layout_height="0dp"
+                            android:layout_weight="5">
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
                                 <ImageView
                                     android:id="@+id/spaccountimage"
-                                    app:srcCompat="@drawable/ic_baseline_account_circle"
                                     android:layout_width="60dp"
-                                    android:layout_height="60dp">
-                                </ImageView>
+                                    android:layout_height="60dp"
+                                    app:srcCompat="@drawable/ic_baseline_account_circle"></ImageView>
+
                                 <de.hdodenhof.circleimageview.CircleImageView
                                     android:id="@+id/spimage"
                                     android:layout_width="60dp"
                                     android:layout_height="60dp"
-                                    android:visibility="gone"
                                     android:src="@drawable/profile1"
+                                    android:visibility="gone"
                                     app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent">
-                                </de.hdodenhof.circleimageview.CircleImageView>
+                                    app:layout_constraintTop_toTopOf="parent"></de.hdodenhof.circleimageview.CircleImageView>
 
                                 <TextView
                                     android:id="@+id/spname"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginTop="8dp"
                                     android:text="Akash Ali"
                                     android:textColor="#000"
                                     android:textSize="18sp"
-                                    android:layout_marginLeft="8dp"
-                                    android:layout_marginTop="8dp"
-                                    app:layout_constraintTop_toTopOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/spaccountimage"
-                                    tools:layout_editor_absoluteX="16dp">
-                                </TextView>
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    tools:layout_editor_absoluteX="16dp"></TextView>
 
                                 <TextView
                                     android:id="@+id/sprating"
@@ -700,24 +712,24 @@
                                     app:srcCompat="@drawable/ic_baseline_star_yellow">
 
                                 </ImageView>
+
                                 <TextView
                                     android:id="@+id/servicetime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
                                     android:text="5:50pm"
                                     android:textColor="@color/grey"
                                     android:textSize="18sp"
-                                    android:layout_marginTop="8dp"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent">
-                                </TextView>
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"></TextView>
 
                                 <ImageView
-                                    android:background="@color/grey"
                                     android:layout_width="match_parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    android:layout_height="1dp"
                                     android:layout_marginBottom="8dp"
-                                    android:layout_height="1dp">
+                                    android:background="@color/grey"
+                                    app:layout_constraintBottom_toBottomOf="parent">
 
                                 </ImageView>
 
@@ -725,82 +737,89 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </LinearLayout>
+
                         <LinearLayout
-                            android:layout_weight="3"
                             android:layout_width="match_parent"
-                            android:weightSum="9"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
                             android:orientation="horizontal"
-                            android:layout_height="0dp">
+                            android:weightSum="9">
+
                             <LinearLayout
                                 android:id="@+id/ongoingservicecall"
-                                android:layout_weight="3"
                                 android:layout_width="0dp"
-                                android:orientation="horizontal"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+                                android:orientation="horizontal">
+
                                 <ImageView
 
                                     android:layout_width="30dp"
-                                    app:srcCompat="@drawable/ic_baseline_call"
-                                    android:layout_height="match_parent">
-                                </ImageView>
+                                    android:layout_height="match_parent"
+                                    app:srcCompat="@drawable/ic_baseline_call"></ImageView>
+
                                 <TextView
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginStart="2dp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:gravity="center"
                                     android:text="Call"
-                                    android:textSize="16sp"
                                     android:textColor="#000"
-                                    android:layout_height="match_parent">
+                                    android:textSize="16sp">
 
                                 </TextView>
 
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/ongoingservicechat"
-                                android:layout_weight="3"
                                 android:layout_width="0dp"
-                                android:orientation="horizontal"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+                                android:orientation="horizontal">
+
                                 <ImageView
 
                                     android:layout_width="30dp"
-                                    app:srcCompat="@drawable/ic_baseline_chat"
-                                    android:layout_height="match_parent">
-                                </ImageView>
+                                    android:layout_height="match_parent"
+                                    app:srcCompat="@drawable/ic_baseline_chat"></ImageView>
+
                                 <TextView
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginStart="2dp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:gravity="center"
                                     android:text="Chat"
-                                    android:textSize="16sp"
                                     android:textColor="#000"
-                                    android:layout_height="match_parent">
+                                    android:textSize="16sp">
 
                                 </TextView>
                             </LinearLayout>
+
                             <LinearLayout
                                 android:id="@+id/ongoingservicenavigation"
-                                android:layout_weight="3"
                                 android:layout_width="0dp"
-                                android:orientation="horizontal"
-                                android:layout_height="match_parent">
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+                                android:orientation="horizontal">
+
                                 <ImageView
 
                                     android:layout_width="30dp"
-                                    app:srcCompat="@drawable/ic_baseline_navigation"
-                                    android:layout_height="match_parent">
-                                </ImageView>
+                                    android:layout_height="match_parent"
+                                    app:srcCompat="@drawable/ic_baseline_navigation"></ImageView>
+
                                 <TextView
-                                    android:layout_marginLeft="2dp"
-                                    android:layout_marginStart="2dp"
-                                    android:gravity="center"
                                     android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="2dp"
+                                    android:layout_marginLeft="2dp"
+                                    android:gravity="center"
                                     android:text="Navigate"
-                                    android:textSize="16sp"
                                     android:textColor="#000"
-                                    android:layout_height="match_parent">
+                                    android:textSize="16sp">
 
                                 </TextView>
 

@@ -115,7 +115,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     //GOOGLE MAPS VARIABLES END
     //Filter Alert Dialog VARIABLES START
     String filter_dist="5";
-    String filter_rat="2";
+    String filter_rat="1";
     //Filter Alert Dialog VARIABLES END
     MaterialCardView backbutton;
     //SKYLINE QUERY Variables
@@ -131,13 +131,14 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     List<ServiceDetails> myList;
     RelativeLayout loadingBackground;
     ProgressBar maps_progressbar;
-    TextView loadingText;
+    TextView loadingText,text1;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_service_provider);
+        text1=findViewById(R.id.text1);
         loadingText=findViewById(R.id.loadingText);
         loadingText.setVisibility(View.VISIBLE);
         maps_progressbar=findViewById(R.id.maps_progressbar);
@@ -175,6 +176,27 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
         rlp.setMarginEnd(50);
         rlp.setMargins(0, 256, 0, 0);
+        rootnode = FirebaseDatabase.getInstance();
+        text1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serviceProviderList=new ArrayList<>();
+                newserviceProviderList=new ArrayList<>();
+                myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
+                Query getTypeSP = myref.orderByChild("type");
+                getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
 
     }
 
@@ -195,21 +217,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         getPermission();
 
 
-        serviceProviderList=new ArrayList<>();
-        newserviceProviderList=new ArrayList<>();
-        myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
-        Query getTypeSP = myref.orderByChild("type");
-        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         // LatLng Pakistan = null;
         // Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
@@ -227,6 +235,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 loadingText.setVisibility(View.GONE);
                 maps_progressbar.setVisibility(View.GONE);
                 loadingBackground.setVisibility(View.GONE);
+                text1.performClick();
 
                 // Add a marker in Sydney and move the camera
                 //CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
@@ -478,11 +487,11 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
             serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(), image, (String) singleUser.get("fname"), (String) singleUser.get("lname"), (String) singleUser.get("phone"), (String) singleUser.get("type"), (String) singleUser.get("address"), (String) singleUser.get("rating"), (String) singleUser.get("pricerat"), (String) singleUser.get("loc")));
 
         }
-       // mMap.clear();
-       // skylineDist.clear();
-      //  skylineRat.clear();
-      //  skylineUid.clear();
-      //  markersList.clear();
+        mMap.clear();
+        skylineDist.clear();
+        skylineRat.clear();
+        skylineUid.clear();
+        markersList.clear();
         if (latLng != null) {
             //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
             for (ServiceProvider sp : serviceProviderList) {
@@ -680,6 +689,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 filter_rat=ratAutoCompleteTextView.getText().toString();
                 Log.d("me",filter_dist);
                 Log.d("me",filter_rat);
+                text1.performClick();
                 alertDialog.dismiss();
             }
         });

@@ -91,12 +91,9 @@ import java.util.Map;
 
 
 
-public class BasicSearch<BestRecommendation> extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
+public class BasicSearch<BestRecommendation> extends AppCompatActivity implements OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
-    DrawerLayout drawerLayout;
     Integer REQUEST_CODE=1;
-    NavigationView navigationView;
-    Toolbar toolbar;
     RecyclerView serviceprovidersRV;
     ImageView mainmenu;
     TextView text;
@@ -120,6 +117,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     private static final long MIN_TIME = 400;
     private static final float MIN_DISTANCE = 1000;
     LatLng latLng;
+    MaterialCardView backbutton;
+    RelativeLayout loadingBackground;
+    ProgressBar maps_progressbar;
+    TextView loadingText;
     //GOOGLE MAPS VARIABLES END
 
     //Filter Alert Dialog VARIABLES START
@@ -154,6 +155,19 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_search);
+        loadingText=findViewById(R.id.loadingText);
+        loadingText.setVisibility(View.VISIBLE);
+        maps_progressbar=findViewById(R.id.maps_progressbar);
+        maps_progressbar.setVisibility(View.VISIBLE);
+        loadingBackground=findViewById(R.id.loadingBackground);
+        loadingBackground.setVisibility(View.VISIBLE);
+        backbutton=findViewById(R.id.backbutton);
+        backbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         Log.d("basicsearchCalled", "onCreate Called");
         myList=new ArrayList<>();
         myList.add(new ServiceDetails("ABC","DEF","GHI","IJK"));
@@ -161,26 +175,14 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         skylineRat= new ArrayList<Float>();
         skylineUid=new ArrayList<String>();
         markersList=new ArrayList<Marker>();
-        bestRecommendationProgressbar=findViewById(R.id.bestRecommendationProgressbar);
-        loadingBestRecommendation=findViewById(R.id.loadingBestRecommendation);
-        progressBar_cardView=findViewById(R.id.progressBar_cardView);
+        //bestRecommendationProgressbar=findViewById(R.id.bestRecommendationProgressbar);
+        //loadingBestRecommendation=findViewById(R.id.loadingBestRecommendation);
+        //progressBar_cardView=findViewById(R.id.progressBar_cardView);
 
         contacts=new ArrayList<>();
-        drawerLayout=findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.nav_view);
-        toolbar=findViewById(R.id.toolbar);
         mainmenu=findViewById(R.id.mainmenu);
         image= BitmapFactory.decodeResource(getResources(),R.drawable.profile1);
         Log.d("BC", mAuth.getInstance().getCurrentUser().getUid());
-        searchserviceprovideronmapinput=findViewById(R.id.searchserviceprovideronmapinput);
-        searchserviceprovideronmapinput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BasicSearch.this,ServiceProvidersListView.class);
-                intent.putExtra("type","All");
-                startActivity(intent);
-            }
-        });
 
         //contacts.add(new Contact(image,"Akash","03101515786","i170019@nu.edu.pk","Islamabad"));
 
@@ -554,18 +556,18 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            bestRecommendationProgressbar.setVisibility(View.VISIBLE);
-            loadingBestRecommendation.setVisibility(View.VISIBLE);
-            progressBar_cardView.setVisibility(View.VISIBLE);
+            //bestRecommendationProgressbar.setVisibility(View.VISIBLE);
+            //loadingBestRecommendation.setVisibility(View.VISIBLE);
+            //progressBar_cardView.setVisibility(View.VISIBLE);
 
         }
 
         @Override
         protected void onPostExecute(ArrayList<String> results) {
             super.onPostExecute(results);
-            bestRecommendationProgressbar.setVisibility(View.GONE);
-            loadingBestRecommendation.setVisibility(View.GONE);
-            progressBar_cardView.setVisibility(View.GONE);
+            //bestRecommendationProgressbar.setVisibility(View.GONE);
+            //loadingBestRecommendation.setVisibility(View.GONE);
+            //progressBar_cardView.setVisibility(View.GONE);
             int bestSpInt = -1;
             String bestSP = results.get(0);
             try {
@@ -674,58 +676,15 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         super.onResume();
 
         //NAVIGATION DRAWER CODE START
-        navigationView.bringToFront();
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
         serviceprovidersRV=findViewById(R.id.serviceprovidersRV);
         RecyclerView.LayoutManager lm= new LinearLayoutManager(this);
         serviceprovidersRV.setLayoutManager(lm);
         adapter=new MyRvAdapter(contacts,this);
         serviceprovidersRV.setAdapter(adapter);
 
-        View header = navigationView.getHeaderView(0);
-        text = (TextView) header.findViewById(R.id.username);
-
         rootnode = FirebaseDatabase.getInstance();
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                text.setText(snapshot.child("fname").getValue().toString());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        profileImage=(ImageView) header.findViewById(R.id.circleImageView);
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(BasicSearch.this,EditProfile.class);
-                startActivity(intent);
-            }
-        });
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(BasicSearch.this,EditProfile.class);
-                startActivityForResult(intent,REQUEST_CODE);
-            }
-        });
-
-
-        mainmenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
         adapter.setOnItemClickListener(new MyRvAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -735,50 +694,6 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         //NAVIGATION DRAWER CODE END
 
     }
-
-    //NAVIGATION DRAWER FUNCTIONS START
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.nav_history:
-                Intent intent=new Intent(BasicSearch.this,History.class);
-                startActivity(intent);
-                break;
-            case R.id.nav_payment:
-                Intent intent1=new Intent(BasicSearch.this,Payment.class);
-                startActivity(intent1);
-                break;
-            case R.id.nav_settings:
-                Intent intent2=new Intent(BasicSearch.this,Settings.class);
-                startActivity(intent2);
-                break;
-            case R.id.nav_notifications:
-                Intent intent3=new Intent(BasicSearch.this,Notifications.class);
-                startActivity(intent3);
-                break;
-            case R.id.nav_contactus:
-                Intent intent4=new Intent(BasicSearch.this,ContactUs.class);
-                startActivity(intent4);
-                break;
-        }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
-        {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
-            Intent startMain = new Intent(Intent.ACTION_MAIN);
-            startMain.addCategory(Intent.CATEGORY_HOME);
-            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startMain);
-        }
-    }
-    //NAVIGATION DRAWER FUNCTIONS END
 
     @Override
     protected void onPause() {
@@ -815,7 +730,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
             public void onLocationChanged(@NonNull Location location) {
                 latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
-                mMap.animateCamera(cameraUpdate);
+                mMap.moveCamera(cameraUpdate);
+                loadingText.setVisibility(View.GONE);
+                maps_progressbar.setVisibility(View.GONE);
+                loadingBackground.setVisibility(View.GONE);
                 // Add a marker in Sydney and move the camera
                 //CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
                 //LatLng myLocation = new LatLng(33.699989, 73.001916);

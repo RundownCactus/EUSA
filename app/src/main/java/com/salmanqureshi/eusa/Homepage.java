@@ -134,22 +134,22 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         book_mechanic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
-                intent.putExtra("type","mechanic");
-                startActivity(intent);
+                //Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                //intent.putExtra("type","mechanic");
+                //startActivity(intent);
             }
         });
         location_book_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                Intent intent=new Intent(Homepage.this,BasicSearch.class);
                 startActivity(intent);
             }
         });
         select_location_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                Intent intent=new Intent(Homepage.this,BasicSearch.class);
                 startActivity(intent);
             }
         });
