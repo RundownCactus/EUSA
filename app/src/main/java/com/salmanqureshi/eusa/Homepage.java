@@ -95,6 +95,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                intent.putExtra("type","Plumber");
                 startActivity(intent);
             }
         });
@@ -102,6 +103,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                intent.putExtra("type","Electrician");
                 startActivity(intent);
             }
         });
@@ -109,6 +111,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                intent.putExtra("type","Car Mechanic");
                 startActivity(intent);
             }
         });
@@ -116,6 +119,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                intent.putExtra("type","Carpenter");
                 startActivity(intent);
             }
         });
@@ -123,6 +127,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                intent.putExtra("type","Cleaner");
                 startActivity(intent);
             }
         });
@@ -130,6 +135,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
+                intent.putExtra("type","mechanic");
                 startActivity(intent);
             }
         });
@@ -217,27 +223,34 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 databaseRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(!(snapshot.child("jobCompletionTime").getValue().toString().equals("")) && snapshot.child("status").getValue().toString().equals("Complete"))
-                        {
-                            String[] str1=snapshot.child("jobCompletionTime").getValue().toString().split(" ");
-                            String str2=str1[1];
-                            String str3=str2.substring(0,5);
-                            recentservicetime.setText(str3);
+                        try{
+                            if(!(snapshot.child("jobCompletionTime").getValue().toString().equals("")) && snapshot.child("status").getValue().toString().equals("Complete"))
+                            {
+                                String[] str1=snapshot.child("jobCompletionTime").getValue().toString().split(" ");
+                                String str2=str1[1];
+                                String str3=str2.substring(0,5);
+                                recentservicetime.setText(str3);
+                            }
+                            else if(!(snapshot.child("jobRejectTime").getValue().toString().equals("")) && snapshot.child("status").getValue().toString().equals("Job Rejected by SP"))
+                            {
+                                String[] str1=snapshot.child("jobRejectTime").getValue().toString().split(" ");
+                                String str2=str1[1];
+                                String str3=str2.substring(0,5);
+                                recentservicetime.setText(str3);
+                            }
+                            else if(!(snapshot.child("jobCancelTime").getValue().toString().equals("")))
+                            {
+                                String[] str1=snapshot.child("jobCancelTime").getValue().toString().split(" ");
+                                String str2=str1[1];
+                                String str3=str2.substring(0,5);
+                                recentservicetime.setText(str3);
+                            }
                         }
-                        else if(!(snapshot.child("jobRejectTime").getValue().toString().equals("")) && snapshot.child("status").getValue().toString().equals("Job Rejected by SP"))
-                        {
-                            String[] str1=snapshot.child("jobRejectTime").getValue().toString().split(" ");
-                            String str2=str1[1];
-                            String str3=str2.substring(0,5);
-                            recentservicetime.setText(str3);
+                        catch(Exception e){
+                            return;
+
                         }
-                        else if(!(snapshot.child("jobCancelTime").getValue().toString().equals("")))
-                        {
-                            String[] str1=snapshot.child("jobCancelTime").getValue().toString().split(" ");
-                            String str2=str1[1];
-                            String str3=str2.substring(0,5);
-                            recentservicetime.setText(str3);
-                        }
+
 
                         DatabaseReference databaseRef1 = FirebaseDatabase.getInstance().getReference().child("Users").child("ServiceProviders").child(snapshot.child("spid").getValue().toString());
                         databaseRef1.addValueEventListener(new ValueEventListener() {

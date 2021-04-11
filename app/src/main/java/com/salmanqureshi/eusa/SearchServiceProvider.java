@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -25,6 +26,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +40,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -58,19 +66,26 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class SearchServiceProvider extends AppCompatActivity implements OnMapReadyCallback {
     //NAVIGATION DRAWER VARIABLES START
     DrawerLayout drawerLayout;
     Integer REQUEST_CODE=1;
     NavigationView navigationView;
+    List<Models> models;
     Toolbar toolbar;
     RecyclerView serviceprovidersRV;
     ImageView mainmenu;
@@ -82,6 +97,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     MaterialButton searchserviceprovideronmapinput;
     FirebaseDatabase rootnode;
     DatabaseReference myref,jobref,joncancelref;
+    List<String> namelist = new ArrayList<String>();
+
     private FirebaseAuth mAuth;
     DatabaseReference myref1;
     List<ServiceProvider> serviceProviderList;
@@ -127,6 +144,11 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         maps_progressbar.setVisibility(View.VISIBLE);
         loadingBackground=findViewById(R.id.loadingBackground);
         loadingBackground.setVisibility(View.VISIBLE);
+        namelist.add("Carpenter");
+        namelist.add("Electrician");
+        namelist.add("Plumber");
+        namelist.add("Cleaner");
+        namelist.add("Car Mechanic");
         myList=new ArrayList<>();
         myList.add(new ServiceDetails("ABC","DEF","GHI","IJK"));
         skylineDist= new ArrayList<Float>();
@@ -173,6 +195,21 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         getPermission();
 
 
+        serviceProviderList=new ArrayList<>();
+        newserviceProviderList=new ArrayList<>();
+        myref = FirebaseDatabase.getInstance().getReference("Users").child("ServiceProviders");
+        Query getTypeSP = myref.orderByChild("type");
+        getTypeSP.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                serviceProviderList = collectData((Map<String, Object>) snapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         // LatLng Pakistan = null;
         // Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
@@ -230,6 +267,314 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 100, mLocationListener);
     }
 
+    public class GetBestSuggestion extends AsyncTask<SearchServiceProvider.BestSuggestionParams, Void,ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(SearchServiceProvider.BestSuggestionParams... params) {
+            int[] i = {0};
+            if(!params[0].uid.isEmpty()) {
+
+                String postUrl = "https://skylineq.herokuapp.com/";
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                JSONArray jsonArray = new JSONArray();
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("dist",params[0].dist.toString() );
+                    jsonObject.put("rat",params[0].rat.toString() );
+                    jsonArray.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.d("LETS SEEE 1", "onErrorResponse: (");
+                }
+                ArrayList<String> results = new ArrayList<String>();
+
+                Log.d("LETS SEEE 2", "onErrorResponse: (");
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println(response);
+
+                        try {
+                            Log.d("WHAT I AM APPENDING",response.get("result").toString());
+
+                            results.add(response.get("result").toString());
+                            results.add(String.valueOf(params[0].pos));
+                            i[0] = 1;
+                        } catch (JSONException e) {
+                            Log.d("LETS SEEE323", "onErrorResponse: (");
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("LETS SEEE4", "onErrorResponse: (");
+                        error.printStackTrace();
+                    }
+                });
+
+                requestQueue.add(jsonObjectRequest);
+
+                //if (!Python.isStarted()) {
+                //  Python.start(new AndroidPlatform(getApplicationContext()));
+                // }
+
+                //Python py = Python.getInstance();
+                //PyObject pyObj = py.getModule("test");
+                //Pass arguments to func
+                //PyObject obj = pyObj.callAttr("wow","arg1","arg2".....);
+                //PyObject obj = pyObj.callAttr("wow",params[0].dist.toString(),params[0].rat.toString());
+                //Log.d("IF THIS WORKS I AM GOD", obj.toString());
+                //Toast.makeText(BasicSearch.this, obj.toString(), Toast.LENGTH_SHORT).show();
+                while(i[0] != 1){
+                    Log.d("LOGGGASDASD", "doInBackground: ");
+                    continue;
+                }
+                return (results);
+
+            }
+            else
+            {
+                ArrayList<String> results = new ArrayList<String>();
+                results.add("none");
+                results.add(String.valueOf(params[0].pos));
+                return results;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            bestRecommendationProgressbar.setVisibility(View.VISIBLE);
+  //          loadingBestRecommendation.setVisibility(View.VISIBLE);
+    //        progressBar_cardView.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> results) {
+            super.onPostExecute(results);
+//            bestRecommendationProgressbar.setVisibility(View.GONE);
+  //          loadingBestRecommendation.setVisibility(View.GONE);
+    //        progressBar_cardView.setVisibility(View.GONE);
+
+
+            int bestSpInt = -1;
+            String bestSP = results.get(0);
+            try {
+                bestSpInt = Integer.decode(bestSP);
+            } catch(NumberFormatException nfe) {
+                System.out.println("Could not parse " + nfe);
+            }
+            if(!bestSP.equals("none"))
+            {
+                for (ServiceProvider sp :serviceProviderList) {
+                    if(namelist.get(Integer.decode(results.get(1))).equals(sp.getWorktype())) {
+                        String addr =  sp.getLoc().toString();
+                        String [] loc = addr.split(",",2);
+                        Double lat = Double.parseDouble(loc[0]);
+                        Double lon = Double.parseDouble(loc[1]);
+                        LatLng myLocation = new LatLng(lat,lon);
+                        float[] result = new float[1];
+                        Location.distanceBetween(latLng.latitude, latLng.longitude,
+                                lat, lon,
+                                result);
+                        //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+
+                        int myDist = 0;
+                        try {
+                            myDist = Integer.parseInt(filter_dist);
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        float myRat = 0;
+                        try {
+                            myRat = Float.parseFloat(filter_rat);
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        float mySpRat = 0;
+                        try {
+                            mySpRat = Float.parseFloat(sp.getRating());
+                        } catch(NumberFormatException nfe) {
+                            System.out.println("Could not parse " + nfe);
+                        }
+
+                        if(result[0]<(myDist*1000) && (mySpRat>=myRat)) {
+                            switch (sp.getWorktype()) {
+                                case "Car Mechanic":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        markersList.get(bestSpInt).remove();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestmechanicmapicon)));
+                                        break;
+                                    }
+                                case "Carpenter":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        markersList.get(bestSpInt).remove();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcarpentermapicon)));
+                                        break;
+                                    }
+
+                                case "Plumber":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        markersList.get(bestSpInt).remove();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestplumbermapicon)));
+                                        break;
+                                    }
+                                case "Cleaner":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        markersList.get(bestSpInt).remove();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcleanermapicon)));
+                                        break;
+                                    }
+
+                                case "Electrician":
+                                    if(sp.getUid().equals(skylineUid.get(bestSpInt)))
+                                    {
+                                        markersList.get(bestSpInt).remove();
+                                        mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestelectricianmapicon)));
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+                }
+
+
+
+            }
+
+
+        }
+    }
+
+    private static class BestSuggestionParams {
+        List<String> uid;
+        List <Float> dist;
+        List <Float> rat;
+        int pos;
+        List<Marker> markers;
+
+        public BestSuggestionParams(List<String> uid, List<Float> dist, List<Float> rat, int pos,List<Marker> markers) {
+            this.uid = uid;
+            this.dist = dist;
+            this.rat = rat;
+            this.pos = pos;
+            this.markers=markers;
+        }
+    }
+
+    private List<ServiceProvider> collectData(Map<String, Object> value) {
+        for (Map.Entry<String, Object> entry : value.entrySet()) {
+            Map singleUser = (Map) entry.getValue();
+            serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(), image, (String) singleUser.get("fname"), (String) singleUser.get("lname"), (String) singleUser.get("phone"), (String) singleUser.get("type"), (String) singleUser.get("address"), (String) singleUser.get("rating"), (String) singleUser.get("pricerat"), (String) singleUser.get("loc")));
+
+        }
+       // mMap.clear();
+       // skylineDist.clear();
+      //  skylineRat.clear();
+      //  skylineUid.clear();
+      //  markersList.clear();
+        if (latLng != null) {
+            //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
+            for (ServiceProvider sp : serviceProviderList) {
+                if (getIntent().getStringExtra("type").toString().equals(sp.getWorktype())) {
+
+                    String addr = sp.getLoc().toString();
+                    String[] loc = addr.split(",", 2);
+                    Double lat = Double.parseDouble(loc[0]);
+                    Double lon = Double.parseDouble(loc[1]);
+                    LatLng myLocation = new LatLng(lat, lon);
+                    float[] results = new float[1];
+                    Location.distanceBetween(latLng.latitude, latLng.longitude,
+                            lat, lon,
+                            results);
+                    //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+
+                    int myDist = 0;
+                    try {
+                        myDist = Integer.parseInt(filter_dist);
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Could not parse " + nfe);
+                    }
+
+                    float myRat = 0;
+                    try {
+                        myRat = Float.parseFloat(filter_rat);
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Could not parse " + nfe);
+                    }
+
+                    float mySpRat = 0;
+                    try {
+                        mySpRat = Float.parseFloat(sp.getRating());
+                    } catch (NumberFormatException nfe) {
+                        System.out.println("Could not parse " + nfe);
+                    }
+
+                    if (results[0] < (myDist * 1000) && (mySpRat >= myRat)) {
+                        switch (sp.getWorktype()) {
+                            case "Car Mechanic":
+                                skylineDist.add(results[0]);
+                                skylineRat.add(mySpRat);
+                                skylineUid.add(sp.getUid());
+                                //mMap.clear();
+                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon))));
+                                break;
+                            case "Carpenter":
+                                skylineDist.add(results[0]);
+                                skylineRat.add(mySpRat);
+                                skylineUid.add(sp.getUid());
+                                //mMap.clear();
+                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon))));
+                                break;
+                            case "Plumber":
+                                skylineDist.add(results[0]);
+                                skylineRat.add(mySpRat);
+                                skylineUid.add(sp.getUid());
+                                //mMap.clear();
+                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon))));
+                                break;
+                            case "Cleaner":
+                                skylineDist.add(results[0]);
+                                skylineRat.add(mySpRat);
+                                skylineUid.add(sp.getUid());
+                                //mMap.clear();
+                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon))));
+                                break;
+                            case "Electrician":
+                                skylineDist.add(results[0]);
+                                skylineRat.add(mySpRat);
+                                skylineUid.add(sp.getUid());
+                                //mMap.clear();
+                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
+                                markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon))));
+                                break;
+                        }
+                    }
+                }
+            }
+            Log.d("dooo", skylineDist.toString() + "," + skylineRat.toString() + "," + skylineUid);
+            SearchServiceProvider.BestSuggestionParams myparams = new BestSuggestionParams(skylineUid, skylineDist, skylineRat, namelist.indexOf(getIntent().getStringExtra("type")), markersList);
+            new SearchServiceProvider.GetBestSuggestion().execute(myparams);
+
+
+        }
+        mMap.setOnMarkerClickListener(this::onMarkerClick);
+        return(serviceProviderList);
+    }
 
     //function that convert image resource id to bitmap descriptor
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId)
