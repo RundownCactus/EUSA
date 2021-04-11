@@ -27,6 +27,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/myimage"
             android:layout_gravity="center"
+            android:visibility="visible"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/profile1" />
@@ -35,14 +36,15 @@
             android:layout_width="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp">
             <TextView
                 android:id="@+id/myname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hammad Ali"
                 android:textColor="@color/BlueColor"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 app:layout_constraintTop_toBottomOf="@+id/myimage"
                 tools:ignore="MissingConstraints">
             </TextView>
@@ -53,7 +55,7 @@
                     android:text="Unverified"
                     android:textStyle="normal"
                     android:layout_gravity="center"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">

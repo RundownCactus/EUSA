@@ -697,6 +697,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     }
     //function when you click on particular service provider icon on the map and bottom sheet appears to book the service provider.
     private boolean onMarkerClick(Marker marker) {
+        myList.clear();
+        myList.add(new ServiceDetails("ABC","DEF","GHI","IJK"));
         for (ServiceProvider sp : serviceProviderList) {
             if (marker.getSnippet().equals(sp.getPhone())) {
                 //Toast.makeText(BasicSearch.this, marker.getSnippet(), Toast.LENGTH_SHORT).show();// display toast
@@ -710,7 +712,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 TextView worktypetext = bottomSheetView.findViewById(R.id.worktypetext);
                 MaterialButton book_button = bottomSheetView.findViewById(R.id.book_button);
                 MaterialButton call_button = bottomSheetView.findViewById(R.id.call_button);
-                myimage.setImageBitmap(sp.getImage());
+                //myimage.setImageBitmap(sp.getImage());
                 myname.setText(sp.getFname() + " " + sp.getLname());
                 myrating.setText(sp.getRating());
                 worktypetext.setText(sp.getWorktype());

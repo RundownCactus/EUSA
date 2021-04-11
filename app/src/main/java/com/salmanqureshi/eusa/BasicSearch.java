@@ -356,86 +356,6 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                     Log.d("dooo",skylineDist.toString() + "," + skylineRat.toString()+ ","+ skylineUid);
                     BestSuggestionParams myparams = new BestSuggestionParams(skylineUid,skylineDist,skylineRat,position,markersList);
                     new GetBestSuggestion().execute(myparams);
-                    /*String bestSP=bestRecommendationSkyline(skylineUid,skylineDist,skylineRat);
-                    ArrayList<String> type = new ArrayList<String>();
-                    type.add(String.valueOf(position));
-                    String bestSP = "none";
-                    int bestSpInt = 0;
-                    try {
-                        bestSpInt = Integer.parseInt(bestSP);
-                    } catch(NumberFormatException nfe) {
-                        System.out.println("Could not parse " + nfe);
-                    }
-
-                    if(!bestSP.equals("none"))
-                   {
-                        for (ServiceProvider sp :serviceProviderList) {
-                            if(models.get(position).getTitle().equals(sp.getWorktype())) {
-
-                                String addr =  sp.getLoc().toString();
-                                String [] loc = addr.split(",",2);
-                                Double lat = Double.parseDouble(loc[0]);
-                                Double lon = Double.parseDouble(loc[1]);
-                                LatLng myLocation = new LatLng(lat,lon);
-                                float[] results = new float[1];
-                                Location.distanceBetween(latLng.latitude, latLng.longitude,
-                                        lat, lon,
-                                        results);
-                                //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-
-                                int myDist = 0;
-                                try {
-                                    myDist = Integer.parseInt(filter_dist);
-                                } catch(NumberFormatException nfe) {
-                                    System.out.println("Could not parse " + nfe);
-                                }
-
-                                float myRat = 0;
-                                try {
-                                    myRat = Float.parseFloat(filter_rat);
-                                } catch(NumberFormatException nfe) {
-                                    System.out.println("Could not parse " + nfe);
-                                }
-
-                                float mySpRat = 0;
-                                try {
-                                    mySpRat = Float.parseFloat(sp.getRating());
-                                } catch(NumberFormatException nfe) {
-                                    System.out.println("Could not parse " + nfe);
-                                }
-
-                                if(results[0]<(myDist*1000) && (mySpRat>=myRat)) {
-                                    switch (sp.getWorktype()) {
-                                        case "Car Mechanic":
-                                            {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon)));
-                                                break;
-                                            }
-
-                                        case "Carpenter":
-                                            {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon)));
-                                                break;
-                                            }
-                                        case "Plumber":
-                                            {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon)));
-                                                break;
-                                            }
-                                        case "Cleaner":
-                                            {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon)));
-                                                break;
-                                            }
-                                        case "Electrician":
-                                            {
-                                                mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon)));
-                                                break;
-                                            }
-                                    }
-                                }
-                            }
-                        }*/
                 }
             }
 
@@ -448,15 +368,6 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         });
 
 
-        /*
-
-            // LatLng Pakistan = null;
-            // Pakistan=getLocationFromAddress(this,"House 609, Main Double Road, E11/4, Islamabad");
-            // googleMap.addMarker(new MarkerOptions()
-            //       .position(Pakistan)
-            //     .title("Marker in Pakistan")
-            //   .icon(bitmapDescriptorFromVector(getApplicationContext(),R.drawable.ic_carpentermapicon)));
-        }*/
         mMap.setOnMarkerClickListener(this::onMarkerClick);
         return(serviceProviderList);
     }
@@ -734,6 +645,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                 loadingText.setVisibility(View.GONE);
                 maps_progressbar.setVisibility(View.GONE);
                 loadingBackground.setVisibility(View.GONE);
+
                 // Add a marker in Sydney and move the camera
                 //CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
                 //LatLng myLocation = new LatLng(33.699989, 73.001916);
