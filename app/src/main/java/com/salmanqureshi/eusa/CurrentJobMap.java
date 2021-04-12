@@ -148,13 +148,13 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                 }
                 if(snapshot.child("status").getValue().toString().equals("Cancel by user after accept") && !(snapshot.child("jobCancelTime").getValue().toString().equals("")))
                 {
-                    Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
+                    Intent intent=new Intent(CurrentJobMap.this,Homepage.class);
                     startActivity(intent);
                     finish();
                 }
                 if(snapshot.child("status").getValue().toString().equals("Cancel by SP") && !(snapshot.child("jobCancelTime").getValue().toString().equals("")))
                 {
-                    Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
+                    Intent intent=new Intent(CurrentJobMap.this,Homepage.class);
                     startActivity(intent);
                     finish();
                 }//if the job is completed by service provider.
@@ -236,7 +236,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                         public void onClick(View view) {
                             DatabaseReference ratref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobSPRating");
                             ratref.setValue(sprating);
-                            Intent intent=new Intent(CurrentJobMap.this,BasicSearch.class);
+                            Intent intent=new Intent(CurrentJobMap.this,Homepage.class);
                             startActivity(intent);
                             finish();
                         }
