@@ -132,12 +132,19 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     RelativeLayout loadingBackground;
     ProgressBar maps_progressbar;
     TextView loadingText,text1;
+    ImageView locationButton;
+    LinearLayout bestProgress_ll;
+    ProgressBar simpleProgressBar;
+    TextView progressBarText;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_service_provider);
+        bestProgress_ll=findViewById(R.id.bestProgress_ll);
+        simpleProgressBar=findViewById(R.id.simpleProgressBar);
+        progressBarText=findViewById(R.id.progressBarText);
         text1=findViewById(R.id.text1);
         loadingText=findViewById(R.id.loadingText);
         loadingText.setVisibility(View.VISIBLE);
@@ -169,11 +176,11 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        ImageView locationButton = (ImageView) mapFragment.getView().findViewById(Integer.parseInt("2"));
+        locationButton = (ImageView) mapFragment.getView().findViewById(Integer.parseInt("2"));
         locationButton.setImageResource(R.drawable.ic_gps_focus);
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlp.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
         rlp.setMarginEnd(50);
         rlp.setMargins(0, 256, 0, 0);
         rootnode = FirebaseDatabase.getInstance();
@@ -236,7 +243,6 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 maps_progressbar.setVisibility(View.GONE);
                 loadingBackground.setVisibility(View.GONE);
                 text1.performClick();
-
                 // Add a marker in Sydney and move the camera
                 //CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
                 //LatLng myLocation = new LatLng(33.699989, 73.001916);
@@ -356,18 +362,18 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            bestRecommendationProgressbar.setVisibility(View.VISIBLE);
-  //          loadingBestRecommendation.setVisibility(View.VISIBLE);
-    //        progressBar_cardView.setVisibility(View.VISIBLE);
+            bestProgress_ll.setVisibility(View.VISIBLE);
+            simpleProgressBar.setVisibility(View.VISIBLE);
+            progressBarText.setVisibility(View.VISIBLE);
 
         }
 
         @Override
         protected void onPostExecute(ArrayList<String> results) {
             super.onPostExecute(results);
-//            bestRecommendationProgressbar.setVisibility(View.GONE);
-  //          loadingBestRecommendation.setVisibility(View.GONE);
-    //        progressBar_cardView.setVisibility(View.GONE);
+            bestProgress_ll.setVisibility(View.GONE);
+            simpleProgressBar.setVisibility(View.GONE);
+            progressBarText.setVisibility(View.GONE);
 
 
             int bestSpInt = -1;

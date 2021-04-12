@@ -131,7 +131,6 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
                 intent.putExtra("type","Cleaner");
                 startActivity(intent);
-		//Sheroz contribution
             }
         });
         book_mechanic.setOnClickListener(new View.OnClickListener() {
