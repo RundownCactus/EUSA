@@ -9,42 +9,61 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="200dp"/>
+
     <LinearLayout
-        android:id="@+id/bestProgress_ll"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:weightSum="3"
-        android:visibility="gone"
-        android:background="@color/white"
-        tools:ignore="MissingConstraints"
-        android:orientation="vertical">
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:background="#F3F1F1"
+        app:layout_constraintTop_toBottomOf="@+id/map"
+        tools:ignore="MissingConstraints">
+
         <ProgressBar
             android:id="@+id/simpleProgressBar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             android:max="100"
             android:progress="50"
             android:theme="@style/ProgressBarStyle"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:indeterminate="true"/>
-        <TextView
-            android:id="@+id/progressBarText"
-            android:gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Finding best recommended service provider..."
-            android:textColor="@color/grey"
-            android:textStyle="italic"
-            android:textSize="16sp"
-            android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:layout_height="0dp">
 
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Nearby Service Providers"
+            android:textColor="@color/grey"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
         </TextView>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
+            android:backgroundTint="@color/grey"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp">
+
+        </com.google.android.material.card.MaterialCardView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="12dp"
+            android:id="@+id/nearbyspRV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
@@ -52,7 +71,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/bestProgress_ll"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.card.MaterialCardView

@@ -11,60 +11,38 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="220dp"
         tools:context=".MapsSearch" >
-
-
-        <LinearLayout
-            android:id="@+id/viewpager_ll"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="bottom"
-            tools:ignore="MissingConstraints">
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:overScrollMode="never">
-
-            </androidx.viewpager.widget.ViewPager>
-        </LinearLayout>
     </fragment>
     <LinearLayout
-        android:id="@+id/bestProgress_ll"
+        app:layout_constraintTop_toBottomOf="@+id/map"
+        android:id="@+id/viewpager_ll"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:visibility="gone"
-        android:weightSum="3"
-        android:background="@color/white"
-        tools:ignore="MissingConstraints"
-        android:orientation="vertical">
+        android:layout_height="220dp"
+        android:background="#F3F1F1"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        tools:ignore="MissingConstraints">
         <ProgressBar
             android:id="@+id/simpleProgressBar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             android:max="100"
             android:progress="50"
             android:theme="@style/ProgressBarStyle"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:indeterminate="true"/>
-        <TextView
-            android:id="@+id/progressBarText"
-            android:gravity="center"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Finding best recommended service provider..."
-            android:textColor="@color/grey"
-            android:textStyle="italic"
-            android:textSize="16sp"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_weight="2"
-            android:layout_height="0dp">
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never">
 
-        </TextView>
-
+        </androidx.viewpager.widget.ViewPager>
     </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
@@ -72,7 +50,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/bestProgress_ll"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
         <com.google.android.material.card.MaterialCardView

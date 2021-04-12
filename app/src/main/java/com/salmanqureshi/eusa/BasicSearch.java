@@ -149,18 +149,14 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
 
     //BottomSheet variables
     List<ServiceDetails> myList;
-    LinearLayout bestProgress_ll;
     ProgressBar simpleProgressBar;
-    TextView progressBarText;
 
     @SuppressLint({"MissingPermission", "NewApi"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_search);
-        bestProgress_ll=findViewById(R.id.bestProgress_ll);
         simpleProgressBar=findViewById(R.id.simpleProgressBar);
-        progressBarText=findViewById(R.id.progressBarText);
         loadingText=findViewById(R.id.loadingText);
         loadingText.setVisibility(View.VISIBLE);
         maps_progressbar=findViewById(R.id.maps_progressbar);
@@ -202,8 +198,8 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         ImageView locationButton = (ImageView) mapFragment.getView().findViewById(Integer.parseInt("2"));
         locationButton.setImageResource(R.drawable.ic_gps_focus);
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-        rlp.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,0);
         rlp.setMarginEnd(50);
         rlp.setMargins(0, 256, 0, 0);
 
@@ -473,18 +469,13 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            bestProgress_ll.setVisibility(View.VISIBLE);
             simpleProgressBar.setVisibility(View.VISIBLE);
-            progressBarText.setVisibility(View.VISIBLE);
-
         }
 
         @Override
         protected void onPostExecute(ArrayList<String> results) {
             super.onPostExecute(results);
-            bestProgress_ll.setVisibility(View.GONE);
             simpleProgressBar.setVisibility(View.GONE);
-            progressBarText.setVisibility(View.GONE);
             int bestSpInt = -1;
             String bestSP = results.get(0);
             try {
