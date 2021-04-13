@@ -425,6 +425,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                     {
                                         markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestmechanicmapicon)));
+                                        nearbyspList.get(bestSpInt).setBest();
+                                        nearbyspAdapter.notifyDataSetChanged();
                                         break;
                                     }
                                 case "Carpenter":
@@ -432,6 +434,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                     {
                                         markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcarpentermapicon)));
+                                        nearbyspList.get(bestSpInt).setBest();
+                                        nearbyspAdapter.notifyDataSetChanged();
                                         break;
                                     }
 
@@ -440,6 +444,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                     {
                                         markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestplumbermapicon)));
+                                        nearbyspList.get(bestSpInt).setBest();
+                                        nearbyspAdapter.notifyDataSetChanged();
                                         break;
                                     }
                                 case "Cleaner":
@@ -447,6 +453,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                     {
                                         markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestcleanermapicon)));
+                                        nearbyspList.get(bestSpInt).setBest();
+                                        nearbyspAdapter.notifyDataSetChanged();
                                         break;
                                     }
 
@@ -455,6 +463,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                     {
                                         markersList.get(bestSpInt).remove();
                                         mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_bestelectricianmapicon)));
+                                        nearbyspList.get(bestSpInt).setBest();
+                                        nearbyspAdapter.notifyDataSetChanged();
                                         break;
                                     }
                             }
@@ -607,8 +617,6 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
             Log.d("dooo", skylineDist.toString() + "," + skylineRat.toString() + "," + skylineUid);
             SearchServiceProvider.BestSuggestionParams myparams = new BestSuggestionParams(skylineUid, skylineDist, skylineRat, namelist.indexOf(getIntent().getStringExtra("type")), markersList);
             new SearchServiceProvider.GetBestSuggestion().execute(myparams);
-
-
         }
         mMap.setOnMarkerClickListener(this::onMarkerClick);
         return(serviceProviderList);

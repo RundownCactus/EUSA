@@ -48,6 +48,9 @@ public class NearbySPAdapter extends RecyclerView.Adapter<NearbySPAdapter.MyView
         holder.spname.setText(newList.get(position).getFname()+" "+newList.get(position).getLname());
         holder.spworktype.setText(newList.get(position).getWorktype());
         holder.sprating.setText(newList.get(position).getRating());
+        if(newList.get(position).getBest() == 1){
+            holder.best.setVisibility(View.VISIBLE);
+        }
         //holder.spimage.setImageBitmap(newList.get(position).getImage());
     }
 
@@ -56,16 +59,20 @@ public class NearbySPAdapter extends RecyclerView.Adapter<NearbySPAdapter.MyView
         return newList.size();
     }
 
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView spname;
         public TextView spworktype;
         public TextView sprating;
+        public TextView best;
+
         //public ImageView spimage;
         public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
             spname=itemView.findViewById(R.id.spname);
             spworktype=itemView.findViewById(R.id.spworktype);
             sprating=itemView.findViewById(R.id.sprating);
+            best = itemView.findViewById(R.id.best);
             //spimage=itemView.findViewById(R.id.spimage);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

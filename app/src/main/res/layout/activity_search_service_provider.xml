@@ -35,6 +35,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:visibility="gone"
             android:text="Nearby Service Providers"
             android:textColor="@color/grey"
             android:textSize="20sp"

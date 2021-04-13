@@ -16,9 +16,18 @@ public class ServiceProvider {
     private String price;
     private String worktype;
     private String loc;
+    private int best;
 
     public String getUid() {
         return Uid;
+    }
+
+    public void setBest(){
+        this.best = 1;
+    }
+
+    public int getBest() {
+        return best;
     }
 
     public void setUid(String uid) {
@@ -66,6 +75,8 @@ public class ServiceProvider {
     public String getLoc() {
         return loc;
     }
+
+
 
     public void setLoc(String loc) {
         this.loc = loc;
