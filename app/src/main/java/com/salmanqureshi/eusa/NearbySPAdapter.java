@@ -64,7 +64,7 @@ public class NearbySPAdapter extends RecyclerView.Adapter<NearbySPAdapter.MyView
         public TextView spname;
         public TextView spworktype;
         public TextView sprating;
-        public TextView best;
+        public ImageView best;
 
         //public ImageView spimage;
         public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
