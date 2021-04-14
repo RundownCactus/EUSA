@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     android:background="#fff"
     tools:context=".History">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/history_nav"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
         android:background="@color/BlueColor"
         tools:ignore="MissingConstraints">
 
@@ -20,11 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            app:srcCompat="@drawable/ic_baseline_arrow_back_white"
-            app:layout_constraintBottom_toTopOf="@+id/textViewHistory"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_white">
 
         </ImageView>
 
@@ -33,23 +29,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="History"
             android:textColor="#fff"
-            android:textSize="32sp"
+            android:text="History"
+            android:textSize="26sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewBackArrowHistory"
+            android:layout_gravity="center"
             android:layout_marginStart="16dp">
 
         </TextView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_history_RV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="60dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -7,9 +7,10 @@
     android:background="#fff"
     tools:context=".Settings">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
         android:background="@color/BlueColor"
         tools:ignore="MissingConstraints">
 
@@ -19,11 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_baseline_arrow_back_white"
-            app:layout_constraintBottom_toTopOf="@+id/textViewSettings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_white">
 
         </ImageView>
 
@@ -31,21 +29,20 @@
             android:id="@+id/textViewSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:text="Settings"
             android:textColor="#fff"
-            android:textSize="32sp"
+            android:text="Settings"
+            android:textSize="26sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewBackArrowSettings" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp">
+        </TextView>
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="60dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleImageViewSettings"
@@ -66,7 +63,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="#fff"
-            android:src="@drawable/ic_baseline_account_circle"
+            app:srcCompat="@drawable/ic_baseline_account_circle"
 
             app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintEnd_toEndOf="parent"

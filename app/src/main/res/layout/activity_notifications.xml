@@ -7,9 +7,10 @@
     android:background="#fff"
     tools:context=".Notifications">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
         android:background="@color/BlueColor"
         tools:ignore="MissingConstraints">
 
@@ -19,11 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_baseline_arrow_back_white"
-            app:layout_constraintBottom_toTopOf="@+id/textViewNotifications"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed">
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_white">
 
         </ImageView>
 
@@ -32,17 +30,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="Notifications"
             android:textColor="#fff"
-            android:textSize="32sp"
+            android:text="Notifications"
+            android:textSize="26sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewBackArrowNotifications"
+            android:layout_gravity="center"
             android:layout_marginStart="16dp">
 
         </TextView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
