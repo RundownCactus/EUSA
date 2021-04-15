@@ -256,7 +256,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     private List<ServiceProvider> collectData(Map<String, Object> value) {
         for (Map.Entry<String, Object> entry : value.entrySet()){
             Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(),image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat"),(String) singleUser.get("loc")));
+            serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(),image,(String) singleUser.get("fname"),(String) singleUser.get("lname"),(String) singleUser.get("phone"),(String) singleUser.get("type"),(String) singleUser.get("address"), (String) singleUser.get("rating"),(String) singleUser.get("pricerat"),(String) singleUser.get("loc"),(String) singleUser.get("isAvailable") ));
 
         }
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

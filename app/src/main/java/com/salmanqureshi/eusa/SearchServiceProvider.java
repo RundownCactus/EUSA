@@ -499,7 +499,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     private List<ServiceProvider> collectData(Map<String, Object> value) {
         for (Map.Entry<String, Object> entry : value.entrySet()) {
             Map singleUser = (Map) entry.getValue();
-            serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(), image, (String) singleUser.get("fname"), (String) singleUser.get("lname"), (String) singleUser.get("phone"), (String) singleUser.get("type"), (String) singleUser.get("address"), (String) singleUser.get("rating"), (String) singleUser.get("pricerat"), (String) singleUser.get("loc")));
+            serviceProviderList.add(new ServiceProvider(singleUser.get("uid").toString(), image, (String) singleUser.get("fname"), (String) singleUser.get("lname"), (String) singleUser.get("phone"), (String) singleUser.get("type"), (String) singleUser.get("address"), (String) singleUser.get("rating"), (String) singleUser.get("pricerat"), (String) singleUser.get("loc"),(String) singleUser.get("isAvailable")));
         }
         mMap.clear();
         skylineDist.clear();
@@ -570,7 +570,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                 skylineUid.add(sp.getUid());
                                 //mMap.clear();
                                 //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc()));
+                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc(),sp.getIsAvailable()));
                                 markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_mechanicmapicon))));
                                 break;
                             case "Carpenter":
@@ -579,7 +579,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                 skylineUid.add(sp.getUid());
                                 //mMap.clear();
                                 //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc()));
+                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc(), sp.getIsAvailable()));
 
                                 markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_carpentermapicon))));
                                 break;
@@ -589,7 +589,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                 skylineUid.add(sp.getUid());
                                 //mMap.clear();
                                 //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc()));
+                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc(), sp.getIsAvailable()));
                                 markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_plumbermapicon))));
                                 break;
                             case "Cleaner":
@@ -598,7 +598,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                 skylineUid.add(sp.getUid());
                                 //mMap.clear();
                                 //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc()));
+                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc(),sp.getIsAvailable()));
                                 markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_cleanermapicon))));
                                 break;
                             case "Electrician":
@@ -607,7 +607,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                 skylineUid.add(sp.getUid());
                                 //mMap.clear();
                                 //Toast.makeText(BasicSearch.this, String.valueOf(results[0]), Toast.LENGTH_SHORT).show();
-                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc()));
+                                nearbyspList.add(new ServiceProvider(sp.getUid(),sp.getImage(), sp.getFname(), sp.getLname(), sp.getPhone(), sp.getWorktype(),sp.getAddress(),sp.getRating(),sp.getPrice(),sp.getLoc(),sp.getIsAvailable()));
                                 markersList.add(mMap.addMarker(new MarkerOptions().position(myLocation).title(sp.getFname() + " " + sp.getLname()).snippet(sp.getPhone()).icon(bitmapDescriptorFromVector(getApplicationContext(), R.drawable.ic_electricianmapicon))));
                                 break;
                         }

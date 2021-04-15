@@ -18,6 +18,16 @@ public class ServiceProvider {
     private String loc;
     private int best;
 
+    public String getIsAvailable() {
+        return isAvailable;
+    }
+
+    public void setIsAvailable(String isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    private String isAvailable;
+
     public String getUid() {
         return Uid;
     }
@@ -34,7 +44,7 @@ public class ServiceProvider {
         Uid = uid;
     }
 
-    public ServiceProvider(String Uid,Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat, String loc) {
+    public ServiceProvider(String Uid,Bitmap image, String fname, String lname, String phone, String worktype, String address, String rating, String pricerat, String loc,String isAvailable) {
         this.image=image;
         this.fname = fname;
         this.lname = lname;
@@ -45,6 +55,7 @@ public class ServiceProvider {
         this.price = pricerat;
         this.loc=loc;
         this.Uid = Uid;
+        this.isAvailable=isAvailable;
     }
 
 
