@@ -172,7 +172,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         });
         Log.d("basicsearchCalled", "onCreate Called");
         myList=new ArrayList<>();
-        myList.add(new ServiceDetails("ABC","DEF","GHI","IJK"));
+        myList.add(new ServiceDetails("ABC","DEF","GHI","IJK","No"));
         skylineDist= new ArrayList<Float>();
         skylineRat= new ArrayList<Float>();
         skylineUid=new ArrayList<String>();
@@ -868,7 +868,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
                                         Log.d("TAGA",snapshot.child("description").getValue().toString());
                                         myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
-                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString()));
+                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString(), "No"));
                                         service1.setVisibility(View.VISIBLE);
                                         s1_title.setText(myList.get(1).getTitle());
                                         s1_price.setText(myList.get(1).getPrice());
@@ -881,7 +881,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
                                         Log.d("TAGA",snapshot.child("description").getValue().toString());
                                         myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
-                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString()));
+                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service2.setVisibility(View.VISIBLE);
                                         s2_title.setText(myList.get(2).getTitle());
                                         s2_price.setText(myList.get(2).getPrice());
@@ -894,7 +894,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
                                         Log.d("TAGA",snapshot.child("description").getValue().toString());
                                         myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
-                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString()));
+                                                snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service3.setVisibility(View.VISIBLE);
                                         s3_title.setText(myList.get(3).getTitle());
                                         s3_price.setText(myList.get(3).getPrice());
@@ -922,11 +922,13 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                         if(s1_tickIcon_gray.getVisibility()==View.VISIBLE) {
                             s1_tickIcon_blue.setVisibility(View.VISIBLE);
                             s1_tickIcon_gray.setVisibility(View.GONE);
+                            myList.get(1).setIsSelected("Yes");
                         }
                         else
                             {
                             s1_tickIcon_blue.setVisibility(View.GONE);
                             s1_tickIcon_gray.setVisibility(View.VISIBLE);
+                            myList.get(1).setIsSelected("No");
                         }
                     }
                 });
@@ -936,11 +938,13 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                         if(s2_tickIcon_gray.getVisibility()==View.VISIBLE) {
                             s2_tickIcon_blue.setVisibility(View.VISIBLE);
                             s2_tickIcon_gray.setVisibility(View.GONE);
+                            myList.get(2).setIsSelected("Yes");
                         }
                         else
                         {
                             s2_tickIcon_blue.setVisibility(View.GONE);
                             s2_tickIcon_gray.setVisibility(View.VISIBLE);
+                            myList.get(2).setIsSelected("No");
                         }
                     }
                 });
@@ -950,11 +954,13 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                         if(s3_tickIcon_gray.getVisibility()==View.VISIBLE) {
                             s3_tickIcon_blue.setVisibility(View.VISIBLE);
                             s3_tickIcon_gray.setVisibility(View.GONE);
+                            myList.get(3).setIsSelected("Yes");
                         }
                         else
                         {
                             s3_tickIcon_blue.setVisibility(View.GONE);
                             s3_tickIcon_gray.setVisibility(View.VISIBLE);
+                            myList.get(3).setIsSelected("No");
                         }
                     }
                 });
@@ -1080,10 +1086,28 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         myref = FirebaseDatabase.getInstance().getReference("Jobs");
         key = myref.push();
 
+        DatabaseReference orderedService=FirebaseDatabase.getInstance().getReference("Services");
+        DatabaseReference serviceKey=orderedService.push();
+        orderedService.child(serviceKey.getKey());
+        if(myList.get(1).getIsSelected().equals("Yes"))
+        {
+            DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(1).getKey());
+            ser1.setValue(myList.get(1));
+        }
+        if(myList.get(2).getIsSelected().equals("Yes"))
+        {
+            DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(2).getKey());
+            ser1.setValue(myList.get(2));
+        }
+        if(myList.get(3).getIsSelected().equals("Yes"))
+        {
+            DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(3).getKey());
+            ser1.setValue(myList.get(3));
+        }
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
                 "","","","","",
-                "","","","","","",""));
+                "","","","","","","",serviceKey.getKey()));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 

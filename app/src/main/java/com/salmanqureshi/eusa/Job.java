@@ -20,12 +20,21 @@ public class Job {
     String travelPrice;
     String workPrice;
     String totalPrice;
+    String orderedService;
+
+    public String getOrderedService() {
+        return orderedService;
+    }
+
+    public void setOrderedService(String orderedService) {
+        this.orderedService = orderedService;
+    }
 
     public Job(String SPID, String UID, String status, String jobBookTime, String userLatLng,
                String jobAcceptTime, String userLocationReachedTime, String actualWorkStartTime,
                String jobCompletionTime, String jobCancelTime, String jobUserRating,
                String jobSPRating, String travelPrice, String workPrice, String totalPrice,
-               String jobRejectTime,String spLatLng,String spLatlngStart) {
+               String jobRejectTime, String spLatLng, String spLatlngStart, String orderedService) {
         this.SPID = SPID;
         this.UID = UID;
         this.status = status;
@@ -44,6 +53,7 @@ public class Job {
         this.jobRejectTime=jobRejectTime;
         this.spLatLng=spLatLng;
         this.spLatlngStart=spLatlngStart;
+        this.orderedService=orderedService;
     }
 
     public String getSpLatlngStart() {

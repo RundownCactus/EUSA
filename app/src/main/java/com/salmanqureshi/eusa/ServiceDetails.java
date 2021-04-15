@@ -5,13 +5,22 @@ public class ServiceDetails {
     private String price;
     private String description;
     private String key;
+    private String isSelected;
 
-
-    public ServiceDetails(String title, String price, String description, String key) {
+    public ServiceDetails(String title, String price, String description, String key, String isSelected) {
         this.title = title;
         this.price = price;
         this.description = description;
         this.key = key;
+        this.isSelected=isSelected;
+    }
+
+    public String getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(String isSelected) {
+        this.isSelected = isSelected;
     }
 
     public String getKey() {
