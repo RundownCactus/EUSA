@@ -103,7 +103,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     Bitmap image;
     MaterialButton searchserviceprovideronmapinput;
     FirebaseDatabase rootnode;
-    DatabaseReference myref,jobref,joncancelref;
+    DatabaseReference myref,jobref,joncancelref,serviceKey;
     private FirebaseAuth mAuth;
     DatabaseReference myref1;
     List<ServiceProvider> serviceProviderList;
@@ -172,7 +172,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         });
         Log.d("basicsearchCalled", "onCreate Called");
         myList=new ArrayList<>();
-        myList.add(new ServiceDetails("ABC","DEF","GHI","IJK","No"));
+        myList.add(new ServiceDetails("ABC","DEF","GHI","-ABC","No"));
         skylineDist= new ArrayList<Float>();
         skylineRat= new ArrayList<Float>();
         skylineUid=new ArrayList<String>();
@@ -1025,6 +1025,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         intent.putExtra("loc",sp.getLoc());
                                         intent.putExtra("spphno",sp.getPhone());
                                         intent.putExtra("spname",sp.getFname()+" "+sp.getLname());
+                                        intent.putExtra("serviceKey",serviceKey.getKey());
                                         startActivity(intent);
 
                                     }
@@ -1087,8 +1088,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         key = myref.push();
 
         DatabaseReference orderedService=FirebaseDatabase.getInstance().getReference("Services");
-        DatabaseReference serviceKey=orderedService.push();
-        orderedService.child(serviceKey.getKey());
+        serviceKey=orderedService.push();
+
+
+
         if(myList.get(1).getIsSelected().equals("Yes"))
         {
             DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(1).getKey());
@@ -1104,6 +1107,8 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
             DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(3).getKey());
             ser1.setValue(myList.get(3));
         }
+        DatabaseReference ser2=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(0).getKey());
+        ser2.setValue(myList.get(0));
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
                 "","","","","",

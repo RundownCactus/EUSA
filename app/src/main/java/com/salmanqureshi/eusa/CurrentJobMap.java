@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -56,16 +58,34 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     private LatLng latLng;
     LatLng Location,userLocation;
     LatLng myLocation;
-    String spid,uid,key,worktype,loc,spname,spphno,userLatLng;
-    DatabaseReference myref,jobref,jobcancelref;
+    String spid,uid,key,worktype,loc,spname,spphno,userLatLng,serviceKey;
+    DatabaseReference myref,jobref,jobcancelref,services;
     TextView currentspname;
     ImageView currentjobspcall;
     String sprating;
     MaterialButton booking_cancel1;
+    LinearLayout service1,service2,service3;
+    TextView s1_title,s2_title,s3_title;
+    TextView s1_price,s2_price,s3_price;
+    TextView s1_description,s2_description,s3_description;
+    List<ServiceDetails> myList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_job_map);
+        myList=new ArrayList<>();
+        service1=findViewById(R.id.service1);
+        service2=findViewById(R.id.service2);
+        service3=findViewById(R.id.service3);
+        s1_title=findViewById(R.id.s1_title);
+        s2_title=findViewById(R.id.s2_title);
+        s3_title=findViewById(R.id.s3_title);
+        s1_price=findViewById(R.id.s1_price);
+        s2_price=findViewById(R.id.s2_price);
+        s3_price=findViewById(R.id.s3_price);
+        s1_description=findViewById(R.id.s1_description);
+        s2_description=findViewById(R.id.s2_description);
+        s3_description=findViewById(R.id.s3_description);
         currentspname=findViewById(R.id.currentspname);
         currentjobspcall=findViewById(R.id.currentjobspcall);
         booking_cancel1=findViewById(R.id.booking_cancel1);
@@ -77,7 +97,59 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
         spname=getIntent().getStringExtra("spname");
         spphno=getIntent().getStringExtra("spphno");
         userLatLng=getIntent().getStringExtra("userLatLng");
+        serviceKey=getIntent().getStringExtra("serviceKey");
         currentspname.setText(spname);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        services=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey);
+        services.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap : snapshot.getChildren())
+                {
+                    Log.d("ABCDE",snap.getValue().toString());
+                    if(myList.size()==3) {
+                        myList.add(new ServiceDetails(snap.child("title").getValue().toString(), snap.child("price").getValue().toString(), snap.child("description").getValue().toString(), snap.child("key").getValue().toString(), snap.child("isSelected").getValue().toString()));
+                        service3.setVisibility(View.VISIBLE);
+                        s3_title.setText(snap.child("title").getValue().toString());
+                        s3_description.setText(snap.child("description").getValue().toString());
+                        s3_price.setText(snap.child("price").getValue().toString());
+                    }
+                    if(myList.size()==2) {
+                        myList.add(new ServiceDetails(snap.child("title").getValue().toString(), snap.child("price").getValue().toString(), snap.child("description").getValue().toString(), snap.child("key").getValue().toString(), snap.child("isSelected").getValue().toString()));
+                        service2.setVisibility(View.VISIBLE);
+                        s2_title.setText(snap.child("title").getValue().toString());
+                        s2_description.setText(snap.child("description").getValue().toString());
+                        s2_price.setText(snap.child("price").getValue().toString());
+                    }
+                    if(myList.size()==1) {
+                        myList.add(new ServiceDetails(snap.child("title").getValue().toString(), snap.child("price").getValue().toString(), snap.child("description").getValue().toString(), snap.child("key").getValue().toString(), snap.child("isSelected").getValue().toString()));
+                        service1.setVisibility(View.VISIBLE);
+                        s1_title.setText(snap.child("title").getValue().toString());
+                        s1_description.setText(snap.child("description").getValue().toString());
+                        s1_price.setText(snap.child("price").getValue().toString());
+                    }
+                    if(myList.size()==0) {
+                        service1.setVisibility(View.GONE);
+                        service2.setVisibility(View.GONE);
+                        service3.setVisibility(View.GONE);
+                        myList.add(new ServiceDetails(snap.child("title").getValue().toString(), snap.child("price").getValue().toString(), snap.child("description").getValue().toString(), snap.child("key").getValue().toString(), snap.child("isSelected").getValue().toString()));
+                    }
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         //if the user cancel the job this lister function is called and user is redirected to BasicSearch.
         booking_cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,8 +322,26 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
 
             }
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     /**

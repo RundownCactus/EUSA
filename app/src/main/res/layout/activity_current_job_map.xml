@@ -8,14 +8,16 @@
 
     <fragment
         android:id="@+id/map"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="130dp"
         tools:context=".CurrentJobMap" />
 
     <LinearLayout
-        android:padding="8dp"
+        android:paddingTop="2dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_sheet_background"
         android:layout_width="match_parent"
@@ -23,178 +25,363 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Current Booking"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textSize="24sp"
-            android:textColor="@color/BlueColor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </TextView>
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Current Booking"
+            android:textColor="@color/BlueColor"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:padding="16dp"
+            android:layout_marginBottom="4dp"
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:layout_height="110dp">
+            android:layout_height="wrap_content">
             <ImageView
                 app:srcCompat="@drawable/ic_baseline_account_circle"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:visibility="gone"
-                android:layout_height="80dp">
+                android:layout_height="70dp">
+
             </ImageView>
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/myimage"
                 android:layout_gravity="center"
-                android:layout_width="78dp"
-                android:layout_height="78dp"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
                 android:src="@drawable/profile1" />
             <LinearLayout
                 android:layout_marginLeft="8dp"
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
-                android:gravity="center"
-                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp">
-                <TextView
-                    android:id="@+id/currentspname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hammad Ali"
-                    android:textColor="@color/BlueColor"
-                    android:textSize="20sp"
-                    app:layout_constraintTop_toBottomOf="@+id/myimage">
-                </TextView>
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:text="Unverified"
-                        android:textStyle="normal"
-                        android:layout_gravity="center"
-                        android:textSize="16sp"
-                        android:textColor="@color/grey"
+                        android:id="@+id/currentspname"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:text="Hammad Ali"
+                        android:textColor="@color/BlueColor"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@+id/myimage">
                     </TextView>
                     <ImageView
                         android:background="@drawable/ic_baseline_unverified_user"
                         android:layout_marginLeft="4dp"
                         android:layout_gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp">
+                        android:layout_width="16dp"
+                        android:layout_height="16dp">
                     </ImageView>
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_marginLeft="24dp"
-                android:layout_marginStart="24dp"
-                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:orientation="horizontal"
-                    tools:ignore="UseCompoundDrawables">
-
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/myrating"
+                        android:textColor="@color/BlueColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4.8"
-                        android:textColor="@color/BlueColor"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/ic_round_star" />
+                        android:layout_marginLeft="4dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:background="@drawable/ic_star"
+                        android:layout_marginStart="4dp" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:orientation="horizontal">
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/ratingtext"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Rating"
-                        android:textColor="@color/BlueColor"
-                        android:textSize="17sp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="40dp"
+                        android:background="@drawable/ic_round_circle"
+                        android:layout_height="40dp">
+                        <ImageView
+                            android:id="@+id/currentjobspcall"
+                            android:background="@drawable/ic_round_call"
+                            android:layout_centerInParent="true"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp">
+                        </ImageView>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="40dp"
+                        android:background="@drawable/ic_round_circle"
+                        android:layout_height="40dp">
+                        <ImageView
+                            android:background="@drawable/ic_round_chat"
+                            android:layout_centerInParent="true"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp">
+                        </ImageView>
+
+                    </RelativeLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:backgroundTint="@color/grey">
+            android:layout_height="2dp"
+            android:backgroundTint="@color/grey"
+            app:cardElevation="0dp">
+
         </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="50dp"
-                android:background="@drawable/ic_round_circle"
-                android:layout_height="50dp">
-                <ImageView
-                    android:id="@+id/currentjobspcall"
-                    android:background="@drawable/ic_round_call"
-                    android:layout_centerInParent="true"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp">
-                </ImageView>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="50dp"
-                android:background="@drawable/ic_round_circle"
-                android:layout_height="50dp">
-                <ImageView
-                    android:background="@drawable/ic_round_chat"
-                    android:layout_centerInParent="true"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp">
-                </ImageView>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/booking_cancel1"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:layout_marginEnd="4dp"
-                android:text="Cancel"
-                android:textColor="@color/white">
-            </com.google.android.material.button.MaterialButton>
+                <LinearLayout
+                    android:id="@+id/service1"
+                    android:visibility="gone"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        app:cardBackgroundColor="#F4F4F4"
+                        android:layout_width="match_parent"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_height="wrap_content">
 
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/s1_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pipe Installation in the house"
+                                    android:textColor="@color/BlueColor"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal" />
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/s1_price"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Rs. 500"
+                                        android:textColor="@color/BlueColor"
+                                        android:textSize="14sp"
+                                        android:layout_alignParentRight="true" />
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/s1_description"
+                                android:layout_width="wrap_content"
+                                android:layout_marginRight="64dp"
+                                android:layout_height="wrap_content"
+                                android:text="Full pipe installation, Fast Service, Quality Service"
+                                android:textColor="@color/grey"
+                                android:textSize="11sp"
+                                android:layout_marginEnd="64dp" />
+
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/service2"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView
+                        app:cardBackgroundColor="#F4F4F4"
+                        android:layout_width="match_parent"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/s2_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pipe Installation in the house"
+                                    android:textColor="@color/BlueColor"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal" />
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/s2_price"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Rs. 500"
+                                        android:textColor="@color/BlueColor"
+                                        android:textSize="14sp"
+                                        android:layout_alignParentRight="true" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/s2_description"
+                                android:layout_width="wrap_content"
+                                android:layout_marginRight="64dp"
+                                android:layout_height="wrap_content"
+                                android:text="Full pipe installation, Fast Service, Quality Service"
+                                android:textColor="@color/grey"
+                                android:textSize="11sp"
+                                android:layout_marginEnd="64dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/service3"
+                    android:visibility="gone"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.card.MaterialCardView
+                        app:cardBackgroundColor="#F4F4F4"
+                        android:layout_width="match_parent"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/s3_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pipe Installation in the house"
+                                    android:textColor="@color/BlueColor"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal" />
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/s3_price"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Rs. 500"
+                                        android:textColor="@color/BlueColor"
+                                        android:textSize="14sp"
+                                        android:layout_alignParentRight="true" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/s3_description"
+                                android:layout_width="wrap_content"
+                                android:layout_marginRight="64dp"
+                                android:layout_height="wrap_content"
+                                android:text="Full pipe installation, Fast Service, Quality Service"
+                                android:textColor="@color/grey"
+                                android:textSize="11sp"
+                                android:layout_marginEnd="64dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/booking_cancel1"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="Cancel"
+                        android:textColor="@color/white">
+                    </com.google.android.material.button.MaterialButton>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 
 </FrameLayout>

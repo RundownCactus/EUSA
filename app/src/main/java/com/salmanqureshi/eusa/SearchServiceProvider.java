@@ -97,7 +97,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     Bitmap image;
     MaterialButton searchserviceprovideronmapinput;
     FirebaseDatabase rootnode;
-    DatabaseReference myref,jobref,joncancelref;
+    DatabaseReference myref,jobref,joncancelref,serviceKey;
     List<String> namelist = new ArrayList<String>();
 
     private FirebaseAuth mAuth;
@@ -163,7 +163,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         namelist.add("Cleaner");
         namelist.add("Car Mechanic");
         myList=new ArrayList<>();
-        myList.add(new ServiceDetails("ABC","DEF","GHI","IJK","No"));
+        myList.add(new ServiceDetails("ABC","DEF","GHI","-ABC","No"));
         skylineDist= new ArrayList<Float>();
         skylineRat= new ArrayList<Float>();
         skylineUid=new ArrayList<String>();
@@ -189,6 +189,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         rlp.setMarginEnd(50);
         rlp.setMargins(0, 256, 0, 0);
         rootnode = FirebaseDatabase.getInstance();
+
         text1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -964,6 +965,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                         intent.putExtra("loc",sp.getLoc());
                                         intent.putExtra("spphno",sp.getPhone());
                                         intent.putExtra("spname",sp.getFname()+" "+sp.getLname());
+                                        intent.putExtra("serviceKey",serviceKey.getKey());
                                         startActivity(intent);
 
                                     }
@@ -1026,8 +1028,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         key = myref.push();
         Log.d("My service",myList.get(1).getKey());
         DatabaseReference orderedService=FirebaseDatabase.getInstance().getReference("Services");
-        DatabaseReference serviceKey=orderedService.push();
-        orderedService.child(serviceKey.getKey());
+        serviceKey=orderedService.push();
+
         if(myList.get(1).getIsSelected().equals("Yes"))
         {
             DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(1).getKey());
@@ -1043,6 +1045,9 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
             DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(3).getKey());
             ser1.setValue(myList.get(3));
         }
+        myList.get(0).setKey("-ABC");
+        DatabaseReference ser2=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(0).getKey());
+        ser2.setValue(myList.get(0));
 
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
