@@ -4,23 +4,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_history"
+            android:icon="@drawable/ic_round_history_24"
             android:title="History">
         </item>
         <item
             android:id="@+id/nav_payment"
+            android:icon="@drawable/ic_round_payments_24"
             android:title="Payment">
         </item>
         <item
             android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_round_settings_24"
             android:title="Settings">
         </item>
         <item
             android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_round_notifications_24"
             android:title="Notifications">
         </item>
         <item
-            android:id="@+id/nav_contactus"
-            android:title="Contact Us">
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_round_help_24"
+            android:title="Help">
         </item>
     </group>
 

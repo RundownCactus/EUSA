@@ -318,7 +318,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 Intent intent3=new Intent(Homepage.this,Notifications.class);
                 startActivity(intent3);
                 break;
-            case R.id.nav_contactus:
+            case R.id.nav_help:
                 Intent intent4=new Intent(Homepage.this,ContactUs.class);
                 startActivity(intent4);
                 break;

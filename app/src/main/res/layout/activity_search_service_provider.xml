@@ -35,10 +35,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:visibility="gone"
+
             android:text="Nearby Service Providers"
-            android:textColor="@color/grey"
-            android:textSize="20sp"
+            android:textColor="@color/BlueColor"
+            android:textSize="18sp"
             android:textStyle="normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_width="match_parent"
-            android:layout_height="1dp">
+            android:layout_height="2dp">
 
         </com.google.android.material.card.MaterialCardView>
         <androidx.recyclerview.widget.RecyclerView
