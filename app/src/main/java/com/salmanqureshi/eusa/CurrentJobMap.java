@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -108,6 +109,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
         services.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myList.clear();
                 for (DataSnapshot snap : snapshot.getChildren())
                 {
                     Log.d("ABCDE",snap.getValue().toString());
@@ -242,6 +244,24 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                     final ImageView threeStar=(ImageView)jobCompleteView.findViewById(R.id.threestar);
                     final ImageView fourStar=(ImageView)jobCompleteView.findViewById(R.id.fourstar);
                     final ImageView fiveStar=(ImageView)jobCompleteView.findViewById(R.id.fivestar);
+                    final EditText userFeedback=(EditText)jobCompleteView.findViewById(R.id.userFeedback);
+                    final TextView completejobspname=(TextView) jobCompleteView.findViewById(R.id.completejobspname);
+                    final TextView myrating=(TextView) jobCompleteView.findViewById(R.id.myrating);
+                    final TextView jobprice=(TextView) jobCompleteView.findViewById(R.id.jobprice);
+
+                    DatabaseReference spref=FirebaseDatabase.getInstance().getReference().child("Users").child("ServiceProviders").child(spid);
+                    spref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            completejobspname.setText(snapshot.child("fname").getValue().toString() + " "+ snapshot.child("lname").getValue().toString());
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                     sprating="0";
                     oneStar.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -308,6 +328,9 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                         public void onClick(View view) {
                             DatabaseReference ratref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobSPRating");
                             ratref.setValue(sprating);
+                            String feedback=userFeedback.getText().toString();
+                            DatabaseReference userFeedback1=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("userFeedback");
+                            userFeedback1.setValue(feedback);
                             Intent intent=new Intent(CurrentJobMap.this,Homepage.class);
                             startActivity(intent);
                             finish();
