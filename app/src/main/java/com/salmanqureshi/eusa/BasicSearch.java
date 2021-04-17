@@ -158,7 +158,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         setContentView(R.layout.activity_basic_search);
         simpleProgressBar=findViewById(R.id.simpleProgressBar);
         loadingText=findViewById(R.id.loadingText);
-        loadingText.setVisibility(View.VISIBLE);
+        //loadingText.setVisibility(View.VISIBLE);
         maps_progressbar=findViewById(R.id.maps_progressbar);
         maps_progressbar.setVisibility(View.VISIBLE);
         loadingBackground=findViewById(R.id.loadingBackground);
@@ -639,7 +639,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                 latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
                 mMap.moveCamera(cameraUpdate);
-                loadingText.setVisibility(View.GONE);
+                //loadingText.setVisibility(View.GONE);
                 maps_progressbar.setVisibility(View.GONE);
                 loadingBackground.setVisibility(View.GONE);
 

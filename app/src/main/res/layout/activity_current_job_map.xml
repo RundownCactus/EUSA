@@ -383,5 +383,37 @@
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/loadingBackground"
+        android:background="@color/white"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/maps_progressbar"
+                android:theme="@style/ProgressBarStyleGrey"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+            </ProgressBar>
+            <TextView
+                android:id="@+id/loadingText"
+                android:text="loading maps..."
+                android:visibility="gone"
+                android:textStyle="italic"
+                android:textSize="24sp"
+                android:textColor="@color/grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </FrameLayout>

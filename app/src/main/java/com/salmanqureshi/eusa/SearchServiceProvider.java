@@ -152,7 +152,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         simpleProgressBar=findViewById(R.id.simpleProgressBar);
         text1=findViewById(R.id.text1);
         loadingText=findViewById(R.id.loadingText);
-        loadingText.setVisibility(View.VISIBLE);
+        //loadingText.setVisibility(View.VISIBLE);
         maps_progressbar=findViewById(R.id.maps_progressbar);
         maps_progressbar.setVisibility(View.VISIBLE);
         loadingBackground=findViewById(R.id.loadingBackground);
@@ -245,7 +245,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
                 //mMap.animateCamera(cameraUpdate);
                 mMap.moveCamera(cameraUpdate);
-                loadingText.setVisibility(View.GONE);
+                //loadingText.setVisibility(View.GONE);
                 maps_progressbar.setVisibility(View.GONE);
                 loadingBackground.setVisibility(View.GONE);
                 text1.performClick();

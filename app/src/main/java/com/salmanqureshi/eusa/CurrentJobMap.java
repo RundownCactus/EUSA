@@ -26,6 +26,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,10 +72,17 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     TextView s1_price,s2_price,s3_price;
     TextView s1_description,s2_description,s3_description;
     List<ServiceDetails> myList;
+
+    RelativeLayout loadingBackground;
+    ProgressBar maps_progressbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_job_map);
+        loadingBackground=findViewById(R.id.loadingBackground);
+        loadingBackground.setVisibility(View.VISIBLE);
+        maps_progressbar=findViewById(R.id.maps_progressbar);
+        maps_progressbar.setVisibility(View.VISIBLE);
         myList=new ArrayList<>();
         service1=findViewById(R.id.service1);
         service2=findViewById(R.id.service2);
@@ -422,6 +431,8 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                 mMap.animateCamera(cameraUpdate4);
                 break;
         }
+        loadingBackground.setVisibility(View.GONE);
+        maps_progressbar.setVisibility(View.GONE);
     }
     //map functions
     @Override

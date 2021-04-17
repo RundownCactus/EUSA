@@ -131,6 +131,7 @@
             <TextView
                 android:id="@+id/loadingText"
                 android:text="loading maps..."
+                android:visibility="gone"
                 android:textStyle="italic"
                 android:textSize="24sp"
                 android:textColor="@color/grey"
