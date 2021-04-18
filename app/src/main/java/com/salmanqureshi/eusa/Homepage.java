@@ -322,6 +322,10 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 Intent intent4=new Intent(Homepage.this,ContactUs.class);
                 startActivity(intent4);
                 break;
+            case R.id.nav_SignOut:
+                //Intent intent5=new Intent(Homepage.this,ContactUs.class);
+                //startActivity(intent5);
+                break;
         }
         return true;
     }
