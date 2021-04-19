@@ -323,6 +323,9 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 startActivity(intent4);
                 break;
             case R.id.nav_SignOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent5=new Intent(Homepage.this,LetsGetStarted.class);
+                startActivity(intent5);
                 //Intent intent5=new Intent(Homepage.this,ContactUs.class);
                 //startActivity(intent5);
                 break;

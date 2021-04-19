@@ -211,6 +211,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
             }
         });
 
+
+
     }
 
     /**
@@ -229,7 +231,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         mMap = googleMap;
         getPermission();
 
-
+        mMap.clear();
 
 
         // LatLng Pakistan = null;
@@ -518,8 +520,29 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
             @Override
             public void onItemClick(int position) {
 
+
+                String[] latlong =  nearbyspList.get(position).getLoc().split(",");
+                double latitude = Double.parseDouble(latlong[0]);
+                double longitude = Double.parseDouble(latlong[1]);
+                LatLng location = new LatLng(latitude, longitude);
+
+
+                Log.d("HA", mMap.getCameraPosition().target.toString());
+
+                Log.d("HA2", location.toString());
+
+                if(mMap.getCameraPosition().target.toString().equals(location.toString()) ){
+                    onMarkerClick(markersList.get(position));
+                    Log.d("HAANJE", "onItemClick: ");
+                }
+                else{
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                }
             }
+
+
         });
+
 
         //Nearby bottomsheet end
 
