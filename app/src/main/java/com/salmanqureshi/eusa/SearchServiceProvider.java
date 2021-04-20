@@ -1049,24 +1049,27 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     public void makeJob(String SPID,String UID,String status,String JobBookTime,String userLatLng){
         myref = FirebaseDatabase.getInstance().getReference("Jobs");
         key = myref.push();
-        Log.d("My service",myList.get(1).getKey());
+        //Log.d("My service",myList.get(1).getKey());
         DatabaseReference orderedService=FirebaseDatabase.getInstance().getReference("Services");
         serviceKey=orderedService.push();
 
-        if(myList.get(1).getIsSelected().equals("Yes"))
+        if(myList.size()!=1)
         {
-            DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(1).getKey());
-            ser1.setValue(myList.get(1));
-        }
-        if(myList.get(2).getIsSelected().equals("Yes"))
-        {
-            DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(2).getKey());
-            ser1.setValue(myList.get(2));
-        }
-        if(myList.get(3).getIsSelected().equals("Yes"))
-        {
-            DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(3).getKey());
-            ser1.setValue(myList.get(3));
+            if(myList.get(1).getIsSelected().equals("Yes"))
+            {
+                DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(1).getKey());
+                ser1.setValue(myList.get(1));
+            }
+            if(myList.get(2).getIsSelected().equals("Yes"))
+            {
+                DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(2).getKey());
+                ser1.setValue(myList.get(2));
+            }
+            if(myList.get(3).getIsSelected().equals("Yes"))
+            {
+                DatabaseReference ser1=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(3).getKey());
+                ser1.setValue(myList.get(3));
+            }
         }
         myList.get(0).setKey("-ABC");
         DatabaseReference ser2=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(0).getKey());
