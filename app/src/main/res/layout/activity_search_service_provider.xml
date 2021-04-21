@@ -35,12 +35,12 @@
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-
+            android:id="@+id/nearbySP"
             android:text="Nearby Service Providers"
             android:textColor="@color/BlueColor"
             android:textSize="18sp"
             android:textStyle="normal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
         </TextView>

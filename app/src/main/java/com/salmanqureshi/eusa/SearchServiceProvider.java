@@ -140,6 +140,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     RecyclerView nearbyspRV;
     List<ServiceProvider> nearbyspList;
     NearbySPAdapter nearbyspAdapter;
+    TextView nearbySP;
     //Nearby SP variables send
 
     @SuppressLint("NewApi")
@@ -147,6 +148,8 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_service_provider);
+        nearbySP=findViewById(R.id.nearbySP);
+        nearbySP.setText("Nearby "+getIntent().getStringExtra("type")+"s");
         nearbyspList=new ArrayList<>();
 
         simpleProgressBar=findViewById(R.id.simpleProgressBar);
