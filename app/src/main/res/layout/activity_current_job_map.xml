@@ -113,11 +113,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <RelativeLayout
+                        android:id="@+id/currentjobspcall"
                         android:layout_width="40dp"
                         android:background="@drawable/ic_round_circle"
                         android:layout_height="40dp">
                         <ImageView
-                            android:id="@+id/currentjobspcall"
                             android:background="@drawable/ic_round_call"
                             android:layout_centerInParent="true"
                             android:layout_width="20dp"
@@ -127,6 +127,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/currentjobspchat"
                         android:layout_width="40dp"
                         android:background="@drawable/ic_round_circle"
                         android:layout_height="40dp">

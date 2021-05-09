@@ -109,6 +109,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
     List<ServiceProvider> serviceProviderList;
     List<ServiceProvider> newserviceProviderList;
     DatabaseReference key;
+    DatabaseReference myChatKey;
     //NAVIGATION DRAWER VARIABLES START
 
     //GOOGLE MAPS VARIABLES START
@@ -1026,6 +1027,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                         intent.putExtra("spphno",sp.getPhone());
                                         intent.putExtra("spname",sp.getFname()+" "+sp.getLname());
                                         intent.putExtra("serviceKey",serviceKey.getKey());
+                                        intent.putExtra("myChatKey",myChatKey.getKey());
                                         startActivity(intent);
 
                                     }
@@ -1090,6 +1092,9 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         DatabaseReference orderedService=FirebaseDatabase.getInstance().getReference("Services");
         serviceKey=orderedService.push();
 
+        DatabaseReference mychat=FirebaseDatabase.getInstance().getReference("Chat");
+        myChatKey=orderedService.push();
+
 
 
         if(myList.get(1).getIsSelected().equals("Yes"))
@@ -1112,7 +1117,7 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
                 "","","","","",
-                "","","","","","","",serviceKey.getKey()));
+                "","","","","","","",serviceKey.getKey(),myChatKey.getKey()));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 

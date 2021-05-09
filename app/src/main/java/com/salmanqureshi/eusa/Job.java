@@ -21,20 +21,15 @@ public class Job {
     String workPrice;
     String totalPrice;
     String orderedService;
+    String chat;
 
-    public String getOrderedService() {
-        return orderedService;
-    }
 
-    public void setOrderedService(String orderedService) {
-        this.orderedService = orderedService;
-    }
 
     public Job(String SPID, String UID, String status, String jobBookTime, String userLatLng,
                String jobAcceptTime, String userLocationReachedTime, String actualWorkStartTime,
                String jobCompletionTime, String jobCancelTime, String jobUserRating,
                String jobSPRating, String travelPrice, String workPrice, String totalPrice,
-               String jobRejectTime, String spLatLng, String spLatlngStart, String orderedService) {
+               String jobRejectTime, String spLatLng, String spLatlngStart, String orderedService,String chat) {
         this.SPID = SPID;
         this.UID = UID;
         this.status = status;
@@ -54,6 +49,23 @@ public class Job {
         this.spLatLng=spLatLng;
         this.spLatlngStart=spLatlngStart;
         this.orderedService=orderedService;
+        this.chat=chat;
+    }
+
+    public String getChat() {
+        return chat;
+    }
+
+    public void setChat(String chat) {
+        this.chat = chat;
+    }
+
+    public String getOrderedService() {
+        return orderedService;
+    }
+
+    public void setOrderedService(String orderedService) {
+        this.orderedService = orderedService;
     }
 
     public String getSpLatlngStart() {

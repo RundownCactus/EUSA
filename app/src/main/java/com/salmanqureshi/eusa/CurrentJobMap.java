@@ -64,7 +64,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     String spid,uid,key,worktype,loc,spname,spphno,userLatLng,serviceKey;
     DatabaseReference myref,jobref,jobcancelref,services;
     TextView currentspname;
-    ImageView currentjobspcall;
+    RelativeLayout currentjobspcall,currentjobspchat;
     String sprating;
     MaterialButton booking_cancel1;
     LinearLayout service1,service2,service3;
@@ -79,6 +79,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_job_map);
+        currentjobspchat=findViewById(R.id.currentjobspchat);
         loadingBackground=findViewById(R.id.loadingBackground);
         loadingBackground.setVisibility(View.VISIBLE);
         maps_progressbar=findViewById(R.id.maps_progressbar);
@@ -114,6 +115,15 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
+        currentjobspchat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CurrentJobMap.this,Chat.class);
+                intent.putExtra("myChatKey",getIntent().getStringExtra("myChatKey"));
+                intent.putExtra("spname",getIntent().getStringExtra("spname"));
+                startActivity(intent);
+            }
+        });
         services=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey);
         services.addValueEventListener(new ValueEventListener() {
             @Override

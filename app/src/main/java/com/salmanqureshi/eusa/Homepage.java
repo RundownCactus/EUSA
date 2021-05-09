@@ -139,6 +139,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
                 //Intent intent=new Intent(Homepage.this,SearchServiceProvider.class);
                 //intent.putExtra("type","mechanic");
                 //startActivity(intent);
+                //Intent intent=new Intent(Homepage.this,Chat.class);
+                //startActivity(intent);
             }
         });
         location_book_button.setOnClickListener(new View.OnClickListener() {
