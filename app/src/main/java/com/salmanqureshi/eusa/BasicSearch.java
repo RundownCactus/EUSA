@@ -864,10 +864,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if(myList.size()==1)
                                     {
-                                        Log.d("TAGA",snapshot.getKey());
-                                        Log.d("TAGA",snapshot.child("title").getValue().toString());
-                                        Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
-                                        Log.d("TAGA",snapshot.child("description").getValue().toString());
+                                        //Log.d("TAGA",snapshot.getKey());
+                                        //Log.d("TAGA",snapshot.child("title").getValue().toString());
+                                        //Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
+                                        //Log.d("TAGA",snapshot.child("description").getValue().toString());
                                         myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
                                                 snapshot.child("description").getValue().toString(), snapshot.getKey().toString(), "No"));
                                         service1.setVisibility(View.VISIBLE);
@@ -877,10 +877,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                     }
                                     else if(myList.size()==2)
                                     {
-                                        Log.d("TAGA",snapshot.getKey());
-                                        Log.d("TAGA",snapshot.child("title").getValue().toString());
-                                        Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
-                                        Log.d("TAGA",snapshot.child("description").getValue().toString());
+                                        //Log.d("TAGA",snapshot.getKey());
+                                        //Log.d("TAGA",snapshot.child("title").getValue().toString());
+                                        //Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
+                                        //Log.d("TAGA",snapshot.child("description").getValue().toString());
                                         myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
                                                 snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service2.setVisibility(View.VISIBLE);
@@ -890,10 +890,10 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
                                     }
                                     else if(myList.size()==3)
                                     {
-                                        Log.d("TAGA",snapshot.getKey());
-                                        Log.d("TAGA",snapshot.child("title").getValue().toString());
-                                        Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
-                                        Log.d("TAGA",snapshot.child("description").getValue().toString());
+                                        //Log.d("TAGA",snapshot.getKey());
+                                        //Log.d("TAGA",snapshot.child("title").getValue().toString());
+                                        //Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
+                                        //Log.d("TAGA",snapshot.child("description").getValue().toString());
                                         myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
                                                 snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service3.setVisibility(View.VISIBLE);
@@ -1114,10 +1114,20 @@ public class BasicSearch<BestRecommendation> extends AppCompatActivity implement
         }
         DatabaseReference ser2=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(0).getKey());
         ser2.setValue(myList.get(0));
+        String spdistance="0";
+        for (int i=0;i<skylineUid.size();i++)
+        {
+            if (skylineUid.get(i).equals(SPID))
+            {
+                Float dist=skylineDist.get(i)/1000;
+                spdistance=dist.toString().substring(0,4);
+            }
+        }
+
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
                 "","","","","",
-                "","","","","","","",serviceKey.getKey(),myChatKey.getKey()));
+                "","","","","","","",serviceKey.getKey(),myChatKey.getKey(),spdistance));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 

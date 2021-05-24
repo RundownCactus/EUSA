@@ -133,7 +133,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     List<ServiceDetails> myList;
     RelativeLayout loadingBackground;
     ProgressBar maps_progressbar;
-    TextView loadingText,text1;
+    TextView text1;
     ImageView locationButton;
     ProgressBar simpleProgressBar;
 
@@ -155,8 +155,6 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
 
         simpleProgressBar=findViewById(R.id.simpleProgressBar);
         text1=findViewById(R.id.text1);
-        loadingText=findViewById(R.id.loadingText);
-        //loadingText.setVisibility(View.VISIBLE);
         maps_progressbar=findViewById(R.id.maps_progressbar);
         maps_progressbar.setVisibility(View.VISIBLE);
         loadingBackground=findViewById(R.id.loadingBackground);
@@ -251,7 +249,6 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
                 //mMap.animateCamera(cameraUpdate);
                 mMap.moveCamera(cameraUpdate);
-                //loadingText.setVisibility(View.GONE);
                 maps_progressbar.setVisibility(View.GONE);
                 loadingBackground.setVisibility(View.GONE);
                 text1.performClick();
@@ -554,10 +551,6 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
             //Toast.makeText(BasicSearch.this,Integer.toString(serviceProviderList.size()),Toast.LENGTH_SHORT).show();
             for (ServiceProvider sp : serviceProviderList) {
                 if (getIntent().getStringExtra("type").toString().equals(sp.getWorktype())) {
-
-
-
-
                     String addr = sp.getLoc().toString();
                     String[] loc = addr.split(",", 2);
                     Double lat = Double.parseDouble(loc[0]);
@@ -1082,11 +1075,20 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         myList.get(0).setKey("-ABC");
         DatabaseReference ser2=FirebaseDatabase.getInstance().getReference("Services").child(serviceKey.getKey()).child(myList.get(0).getKey());
         ser2.setValue(myList.get(0));
+        String spdistance="0";
+        for (int i=0;i<skylineUid.size();i++)
+        {
+            if (skylineUid.get(i).equals(SPID))
+            {
+                Float dist=skylineDist.get(i)/1000;
+                spdistance=dist.toString().substring(0,4);
+            }
+        }
 
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
                 "","","","","",
-                "","","","","","","",serviceKey.getKey(),myChatKey.getKey()));
+                "","","","","","","",serviceKey.getKey(),myChatKey.getKey(),spdistance));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 

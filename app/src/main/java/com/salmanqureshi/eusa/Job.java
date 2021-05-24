@@ -22,6 +22,7 @@ public class Job {
     String totalPrice;
     String orderedService;
     String chat;
+    String spdistance;
 
 
 
@@ -29,10 +30,11 @@ public class Job {
                String jobAcceptTime, String userLocationReachedTime, String actualWorkStartTime,
                String jobCompletionTime, String jobCancelTime, String jobUserRating,
                String jobSPRating, String travelPrice, String workPrice, String totalPrice,
-               String jobRejectTime, String spLatLng, String spLatlngStart, String orderedService,String chat) {
+               String jobRejectTime, String spLatLng, String spLatlngStart, String orderedService,String chat,String spdistance) {
         this.SPID = SPID;
         this.UID = UID;
         this.status = status;
+        this.spdistance=spdistance;
         this.jobBookTime = jobBookTime;
         this.userLatLng = userLatLng;
         this.jobAcceptTime = jobAcceptTime;
@@ -50,6 +52,14 @@ public class Job {
         this.spLatlngStart=spLatlngStart;
         this.orderedService=orderedService;
         this.chat=chat;
+    }
+
+    public String getSpdistance() {
+        return spdistance;
+    }
+
+    public void setSpdistance(String spdistance) {
+        this.spdistance = spdistance;
     }
 
     public String getChat() {
