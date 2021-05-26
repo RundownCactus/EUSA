@@ -72,6 +72,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     TextView s1_price,s2_price,s3_price;
     TextView s1_description,s2_description,s3_description;
     List<ServiceDetails> myList;
+    TextView paymentPaid;
 
     RelativeLayout loadingBackground;
     ProgressBar maps_progressbar;
@@ -84,6 +85,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
             System.out.println("DateFn: ResponseCode:" + ResponseCode);
             if(ResponseCode.equals("000")) {
                 Toast.makeText(getApplicationContext(), "Payment Success", Toast.LENGTH_SHORT).show();
+                paymentPaid.setText("Paid");
             }
             else
             {
@@ -237,6 +239,8 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                 final TextView completejobspname=(TextView) jobCompleteView.findViewById(R.id.completejobspname);
                 final TextView myrating=(TextView) jobCompleteView.findViewById(R.id.myrating);
                 final TextView jobprice=(TextView) jobCompleteView.findViewById(R.id.jobprice);
+                final ImageView jazzcash=(ImageView) jobCompleteView.findViewById(R.id.jazzcash);
+                paymentPaid=(TextView) jobCompleteView.findViewById(R.id.paymentPaid);
 
 
                 DatabaseReference spref=FirebaseDatabase.getInstance().getReference().child("Users").child("ServiceProviders").child(spid);
@@ -322,12 +326,11 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                         alertDialog.dismiss();
                     }
                 });
-                jobprice.setOnClickListener(new View.OnClickListener() {
+                jazzcash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(CurrentJobMap.this, PayByJazzCash.class);
                         i.putExtra("price", "500.00");
-
                         startActivityForResult(i, 0);
                     }
                 });

@@ -44,17 +44,17 @@ public class PayByJazzCash extends AppCompatActivity {
 
         Intent intentData = getIntent();
         String price = intentData.getStringExtra("price");
-        System.out.println("AhmadLogs: price_before : " +price);
+        System.out.println("price_before : " +price);
 
         String[] values = price.split("\\.");
         price = values[0];
         price = price + "00";
-        System.out.println("AhmadLogs: price : " +price);
+        System.out.println("price : " +price);
 
         Date Date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddkkmmss");
         String DateString = dateFormat.format(Date);
-        System.out.println("AhmadLogs: DateString : " +DateString);
+        System.out.println("DateString : " +DateString);
 
         // Convert Date to Calendar
         Calendar c = Calendar.getInstance();
@@ -187,7 +187,7 @@ public class PayByJazzCash extends AppCompatActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             if(url.equals(paymentReturnUrl)){
-                System.out.println("AhmadLogs: return url cancelling");
+                System.out.println("return url cancelling");
                 view.stopLoading();
                 return;
             }
