@@ -177,6 +177,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/booking_back"
+            android:layout_width="match_parent"
+            android:layout_weight="5"
+            android:layout_height="62dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Back"
+            android:textColor="@color/white">
+        </com.google.android.material.button.MaterialButton>
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/booking_complete"
             android:layout_width="match_parent"
             android:layout_weight="5"
