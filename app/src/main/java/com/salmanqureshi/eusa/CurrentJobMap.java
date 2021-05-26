@@ -76,6 +76,22 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     RelativeLayout loadingBackground;
     ProgressBar maps_progressbar;
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {
+            // Get String data from Intent
+            String ResponseCode = data.getStringExtra("pp_ResponseCode");
+            System.out.println("DateFn: ResponseCode:" + ResponseCode);
+            if(ResponseCode.equals("000")) {
+                Toast.makeText(getApplicationContext(), "Payment Success", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Payment Failed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_job_map);
@@ -304,6 +320,15 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(View view) {
                         alertDialog.dismiss();
+                    }
+                });
+                jobprice.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(CurrentJobMap.this, PayByJazzCash.class);
+                        i.putExtra("price", "500.00");
+
+                        startActivityForResult(i, 0);
                     }
                 });
                 complete.setOnClickListener(new View.OnClickListener() {
