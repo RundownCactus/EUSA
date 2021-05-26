@@ -102,7 +102,6 @@ public class Chat extends AppCompatActivity {
         if(!sendermessageedittext.getText().toString().isEmpty()){
             String mId = mChatDb.push().getKey();
             DatabaseReference mref = mChatDb.child(mId);
-
             Map mHash = new HashMap<>();
             mHash.put("text",sendermessageedittext.getText().toString());
             mHash.put("creator", FirebaseAuth.getInstance().getUid());
@@ -141,6 +140,7 @@ public class Chat extends AppCompatActivity {
                 }
             }
         });
+        mchat.clear();
         getMessages();
     }
 
