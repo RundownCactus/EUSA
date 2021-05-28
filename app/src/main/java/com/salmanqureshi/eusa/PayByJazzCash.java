@@ -20,14 +20,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class PayByJazzCash extends AppCompatActivity {
-
     String postData = "";
     private WebView mWebView;
-
-    private final String Jazz_MerchantID      = "MC20233";
-    private final String Jazz_Password        = "9y2905456a";
-    private final String Jazz_IntegritySalt   = "x543uux50w";
-
     private static final String paymentReturnUrl="http://localhost/order.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,140 +31,125 @@ public class PayByJazzCash extends AppCompatActivity {
         // Enable Javascript
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-
         mWebView.setWebViewClient(new MyWebViewClient());
         webSettings.setDomStorageEnabled(true);
         mWebView.addJavascriptInterface(new FormDataInterface(), "FORMOUT");
-
-        Intent intentData = getIntent();
-        String price = intentData.getStringExtra("price");
-        System.out.println("price_before : " +price);
-
+        String price = getIntent().getStringExtra("price");
         String[] values = price.split("\\.");
         price = values[0];
         price = price + "00";
-        System.out.println("price : " +price);
-
         Date Date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddkkmmss");
         String DateString = dateFormat.format(Date);
-        System.out.println("DateString : " +DateString);
-
         // Convert Date to Calendar
         Calendar c = Calendar.getInstance();
         c.setTime(Date);
         c.add(Calendar.HOUR, 1);
-
         // Convert calendar back to Date
         Date currentDateHourPlusOne = c.getTime();
         String expiryDateString = dateFormat.format(currentDateHourPlusOne);
-        System.out.println("AhmadLogs: expiryDateString : " +expiryDateString);
-
         String TransactionIdString = "T" + DateString;
-        System.out.println("AhmadLogs: TransactionIdString : " +TransactionIdString);
 
-        String pp_MerchantID = Jazz_MerchantID;
-        String pp_Password = Jazz_Password;
-        String IntegritySalt = Jazz_IntegritySalt;
-        String pp_ReturnURL = paymentReturnUrl;
-        String pp_Amount = price;
-        String pp_TxnDateTime = DateString;
-        String pp_TxnExpiryDateTime = expiryDateString;
-        String pp_TxnRefNo = TransactionIdString;
-        String pp_Version = "1.1";
-        String pp_TxnType = "";
-        String pp_Language = "EN";
-        String pp_SubMerchantID = "";
-        String pp_BankID = "TBANK";
-        String pp_ProductID = "RETL";
-        String pp_TxnCurrency = "PKR";
-        String pp_BillReference = "billRef";
-        String pp_Description = "Description of transaction";
-        String pp_SecureHash = "";
-        String pp_mpf_1 = "1";
-        String pp_mpf_2 = "2";
-        String pp_mpf_3 = "3";
-        String pp_mpf_4 = "4";
-        String pp_mpf_5 = "5";
+        String JazzCash_MerchantID = "MC20233";
+        String JazzCash_Password = "9y2905456a";
+        String JazzCash_IntegritySalt = "x543uux50w";
+        String JazzCash_ReturnURL = paymentReturnUrl;
+        String JazzCash_Amount = price;
+        String JazzCash_TxnDateTime = DateString;
+        String JazzCash_TxnExpiryDateTime = expiryDateString;
+        String JazzCash_TxnRefNo = TransactionIdString;
+        String JazzCash_Version = "1.1";
+        String JazzCash_TxnType = "";
+        String JazzCash_Language = "EN";
+        String JazzCash_SubMerchantID = "";
+        String JazzCash_BankID = "TBANK";
+        String JazzCash_ProductID = "RETL";
+        String JazzCash_TxnCurrency = "PKR";
+        String JazzCash_BillReference = "billRef";
+        String JazzCash_Description = "Description of transaction";
+        String JazzCash_SecureHash = "";
+        String JazzCash_mpf_1 = "1";
+        String JazzCash_mpf_2 = "2";
+        String JazzCash_mpf_3 = "3";
+        String JazzCash_mpf_4 = "4";
+        String JazzCash_mpf_5 = "5";
 
-        //sortedString = "cwu55225t6&1000&TBANK&billRef&Description of transaction&EN&MC10487&z740xw7fu0&RETL&http://localhost/jazzcash_part_3/order_placed.php&PKR&20201223202501&20201223212501&T20201223202501&1.1&1&2&3&4&5";
-        //pp_SecureHash = php_hash_hmac(sortedString, IntegritySalt);
 
         String sortedString = "";
-        sortedString += IntegritySalt + "&";
-        sortedString += pp_Amount + "&";
-        sortedString += pp_BankID + "&";
-        sortedString += pp_BillReference + "&";
-        sortedString += pp_Description + "&";
-        sortedString += pp_Language + "&";
-        sortedString += pp_MerchantID + "&";
-        sortedString += pp_Password + "&";
-        sortedString += pp_ProductID + "&";
-        sortedString += pp_ReturnURL + "&";
-        sortedString += pp_TxnCurrency + "&";
-        sortedString += pp_TxnDateTime + "&";
-        sortedString += pp_TxnExpiryDateTime + "&";
-        sortedString += pp_TxnRefNo + "&";
-        sortedString += pp_Version + "&";
-        sortedString += pp_mpf_1 + "&";
-        sortedString += pp_mpf_2 + "&";
-        sortedString += pp_mpf_3 + "&";
-        sortedString += pp_mpf_4 + "&";
-        sortedString += pp_mpf_5;
-        pp_SecureHash = php_hash_hmac(sortedString, IntegritySalt);
+        sortedString += JazzCash_IntegritySalt + "&";
+        sortedString += JazzCash_Amount + "&";
+        sortedString += JazzCash_BankID + "&";
+        sortedString += JazzCash_BillReference + "&";
+        sortedString += JazzCash_Description + "&";
+        sortedString += JazzCash_Language + "&";
+        sortedString += JazzCash_MerchantID + "&";
+        sortedString += JazzCash_Password + "&";
+        sortedString += JazzCash_ProductID + "&";
+        sortedString += JazzCash_ReturnURL + "&";
+        sortedString += JazzCash_TxnCurrency + "&";
+        sortedString += JazzCash_TxnDateTime + "&";
+        sortedString += JazzCash_TxnExpiryDateTime + "&";
+        sortedString += JazzCash_TxnRefNo + "&";
+        sortedString += JazzCash_Version + "&";
+        sortedString += JazzCash_mpf_1 + "&";
+        sortedString += JazzCash_mpf_2 + "&";
+        sortedString += JazzCash_mpf_3 + "&";
+        sortedString += JazzCash_mpf_4 + "&";
+        sortedString += JazzCash_mpf_5;
+        JazzCash_SecureHash = php_hash_hmac(sortedString, JazzCash_IntegritySalt);
 
         try {
             postData += URLEncoder.encode("pp_Version", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_Version, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_Version, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_TxnType", "UTF-8")
-                    + "=" + pp_TxnType + "&";
+                    + "=" + JazzCash_TxnType + "&";
             postData += URLEncoder.encode("pp_Language", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_Language, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_Language, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_MerchantID", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_MerchantID, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_MerchantID, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_SubMerchantID", "UTF-8")
-                    + "=" + pp_SubMerchantID + "&";
+                    + "=" + JazzCash_SubMerchantID + "&";
             postData += URLEncoder.encode("pp_Password", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_Password, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_Password, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_BankID", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_BankID, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_BankID, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_ProductID", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_ProductID, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_ProductID, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_TxnRefNo", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_TxnRefNo, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_TxnRefNo, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_Amount", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_Amount, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_Amount, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_TxnCurrency", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_TxnCurrency, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_TxnCurrency, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_TxnDateTime", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_TxnDateTime, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_TxnDateTime, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_BillReference", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_BillReference, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_BillReference, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_Description", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_Description, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_Description, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_TxnExpiryDateTime", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_TxnExpiryDateTime, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_TxnExpiryDateTime, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_ReturnURL", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_ReturnURL, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_ReturnURL, "UTF-8") + "&";
             postData += URLEncoder.encode("pp_SecureHash", "UTF-8")
-                    + "=" + pp_SecureHash + "&";
+                    + "=" + JazzCash_SecureHash + "&";
             postData += URLEncoder.encode("ppmpf_1", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_mpf_1, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_mpf_1, "UTF-8") + "&";
             postData += URLEncoder.encode("ppmpf_2", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_mpf_2, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_mpf_2, "UTF-8") + "&";
             postData += URLEncoder.encode("ppmpf_3", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_mpf_3, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_mpf_3, "UTF-8") + "&";
             postData += URLEncoder.encode("ppmpf_4", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_mpf_4, "UTF-8") + "&";
+                    + "=" + URLEncoder.encode(JazzCash_mpf_4, "UTF-8") + "&";
             postData += URLEncoder.encode("ppmpf_5", "UTF-8")
-                    + "=" + URLEncoder.encode(pp_mpf_5, "UTF-8");
+                    + "=" + URLEncoder.encode(JazzCash_mpf_5, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         mWebView.postUrl("https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/", postData.getBytes());
     }
 
-    private class MyWebViewClient extends WebViewClient {
+    private static class MyWebViewClient extends WebViewClient {
         private final String jsCode ="" + "function parseForm(form){"+
                 "var values='';"+
                 "for(var i=0 ; i< form.elements.length; i++){"+
@@ -196,12 +175,10 @@ public class PayByJazzCash extends AppCompatActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            //Log.d(DEBUG_TAG, "Url: "+url);
             if(url.equals(paymentReturnUrl)){
                 return;
             }
             view.loadUrl("javascript:(function() { " + jsCode + "})()");
-
             super.onPageFinished(view, url);
         }
     }
