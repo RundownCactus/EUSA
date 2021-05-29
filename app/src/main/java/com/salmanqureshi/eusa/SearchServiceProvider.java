@@ -18,6 +18,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -73,8 +74,12 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tensorflow.lite.Interpreter;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -99,7 +104,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     FirebaseDatabase rootnode;
     DatabaseReference myref,jobref,joncancelref,serviceKey;
     List<String> namelist = new ArrayList<String>();
-
+    Interpreter interpreter;
     private FirebaseAuth mAuth;
     DatabaseReference myref1;
     List<ServiceProvider> serviceProviderList;
@@ -152,6 +157,15 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         nearbySP=findViewById(R.id.nearbySP);
         nearbySP.setText("Nearby "+getIntent().getStringExtra("type")+"s");
         nearbyspList=new ArrayList<>();
+
+        //MODEL PREDICTION CODE
+        try {
+            interpreter = new Interpreter(loadModelFile(),null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ///
+
 
         simpleProgressBar=findViewById(R.id.simpleProgressBar);
         text1=findViewById(R.id.text1);
@@ -774,6 +788,24 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 myname.setText(sp.getFname() + " " + sp.getLname());
                 myrating.setText(sp.getRating());
                 worktypetext.setText(sp.getWorktype());
+
+                //MODEL PREDICTION CODE
+                // DATA FORMAT SHOULD BE {Rating,  Distance,  Carpenter,  Electrician,  Mechanic,  Plumber} HOT ENCODED
+                if(sp.getWorktype().equals("Mechanic")){
+                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 0, 0, 1, 0};
+                    Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                }else if(sp.getWorktype().equals("Electrician")){
+                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 0, 1, 0, 0};
+                    Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                }else if(sp.getWorktype().equals("Plumber")){
+                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 0, 0, 0, 1};
+                    Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                }else if(sp.getWorktype().equals("Carpenter")){
+                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 1, 0, 0, 0};
+                    Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                }
+
+
                 switch (sp.getWorktype()) {
                     case "Plumber":
                         worktypeicon.setImageResource(R.drawable.plumbericon);
@@ -1093,5 +1125,24 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
         myref.child("Jobs").child(key.getKey()).setValue("true");
 
     }
+
+
+    //MODEL PREDICTION CODE
+    private MappedByteBuffer loadModelFile() throws IOException{
+        AssetFileDescriptor assetFileDescriptor = this.getAssets().openFd("model.tflite");
+        FileInputStream fileInputStream = new FileInputStream(assetFileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = fileInputStream.getChannel();
+        long startOffset = assetFileDescriptor.getStartOffset();
+        long length = assetFileDescriptor.getLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,length);
+    }
+
+    public float doInference(float [] data){
+        float [][] output = new float[1][1];
+        interpreter.run(data,output);
+        return(output[0][0]);
+    }
+
+    /////
     //MAP FUNCTIONS
 }

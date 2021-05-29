@@ -4,14 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import org.tensorflow.lite.Interpreter;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
 public class LetsGetStarted extends AppCompatActivity {
     Button loginbutton1,signupbutton1;
     ImageView logo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +31,7 @@ public class LetsGetStarted extends AppCompatActivity {
         loginbutton1=findViewById(R.id.loginbutton1);
         signupbutton1=findViewById(R.id.signupbutton1);
         logo = findViewById(R.id.logo);
+
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,5 +53,7 @@ public class LetsGetStarted extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
+
 }
