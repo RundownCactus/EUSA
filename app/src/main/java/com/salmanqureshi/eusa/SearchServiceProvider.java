@@ -141,6 +141,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
     TextView text1;
     ImageView locationButton;
     ProgressBar simpleProgressBar;
+    String totalPrice="400";
 
     //Nearby SP variables start
     RecyclerView nearbyspRV;
@@ -782,6 +783,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 ImageView myimage = bottomSheetView.findViewById(R.id.myimage);
                 ImageView worktypeicon = bottomSheetView.findViewById(R.id.worktypeicon);
                 TextView worktypetext = bottomSheetView.findViewById(R.id.worktypetext);
+                TextView totalEstimatedPrice = bottomSheetView.findViewById(R.id.totalEstimatedPrice);
                 MaterialButton book_button = bottomSheetView.findViewById(R.id.book_button);
                 MaterialButton call_button = bottomSheetView.findViewById(R.id.call_button);
                 //myimage.setImageBitmap(sp.getImage());
@@ -789,22 +791,40 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                 myrating.setText(sp.getRating());
                 worktypetext.setText(sp.getWorktype());
 
+                float spdistance1=0;
+                for (int i=0;i<skylineUid.size();i++)
+                {
+                    if (skylineUid.get(i).equals(sp.getUid()))
+                    {
+                        spdistance1=skylineDist.get(i)/1000;
+                    }
+                }
+
                 //MODEL PREDICTION CODE
                 // DATA FORMAT SHOULD BE {Rating,  Distance,  Carpenter,  Electrician,  Mechanic,  Plumber} HOT ENCODED
                 if(sp.getWorktype().equals("Mechanic")){
-                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 0, 0, 1, 0};
+                    float [] data = {Float.parseFloat(sp.getRating()),spdistance1, 0, 0, 1, 0};
                     Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                    totalPrice=Float.toString(doInference(data));
+                    totalPrice= totalPrice.substring(0,totalPrice.indexOf("."));
                 }else if(sp.getWorktype().equals("Electrician")){
-                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 0, 1, 0, 0};
+                    float [] data = {Float.parseFloat(sp.getRating()),spdistance1 , 0, 1, 0, 0};
                     Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                    totalPrice=Float.toString(doInference(data));
+                    totalPrice= totalPrice.substring(0,totalPrice.indexOf("."));
                 }else if(sp.getWorktype().equals("Plumber")){
-                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 0, 0, 0, 1};
+                    float [] data = {Float.parseFloat(sp.getRating()),spdistance1 , 0, 0, 0, 1};
                     Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                    totalPrice=Float.toString(doInference(data));
+                    totalPrice= totalPrice.substring(0,totalPrice.indexOf("."));
                 }else if(sp.getWorktype().equals("Carpenter")){
-                    float [] data = {Float.parseFloat(sp.getRating()), (float) 6.1, 1, 0, 0, 0};
+                    float [] data = {Float.parseFloat(sp.getRating()),spdistance1 , 1, 0, 0, 0};
                     Log.d("MODEL PREDICTION", Float.toString(doInference(data)));
+                    totalPrice=Float.toString(doInference(data));
+                    totalPrice= totalPrice.substring(0,totalPrice.indexOf("."));
                 }
 
+                totalEstimatedPrice.setText(totalPrice+".00");
 
                 switch (sp.getWorktype()) {
                     case "Plumber":
@@ -859,11 +879,11 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                         Log.d("TAGA",snapshot.child("title").getValue().toString());
                                         Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
                                         Log.d("TAGA",snapshot.child("description").getValue().toString());
-                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
+                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(),snapshot.child("price").getValue().toString(),
                                                 snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service1.setVisibility(View.VISIBLE);
                                         s1_title.setText(myList.get(1).getTitle());
-                                        s1_price.setText(myList.get(1).getPrice());
+                                        s1_price.setText("Rs. " +myList.get(1).getPrice());
                                         s1_description.setText(myList.get(1).getDescription());
                                     }
                                     else if(myList.size()==2)
@@ -872,11 +892,11 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                         Log.d("TAGA",snapshot.child("title").getValue().toString());
                                         Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
                                         Log.d("TAGA",snapshot.child("description").getValue().toString());
-                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
+                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(),snapshot.child("price").getValue().toString(),
                                                 snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service2.setVisibility(View.VISIBLE);
                                         s2_title.setText(myList.get(2).getTitle());
-                                        s2_price.setText(myList.get(2).getPrice());
+                                        s2_price.setText("Rs. " + myList.get(2).getPrice());
                                         s2_description.setText(myList.get(2).getDescription());
                                     }
                                     else if(myList.size()==3)
@@ -885,11 +905,11 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                         Log.d("TAGA",snapshot.child("title").getValue().toString());
                                         Log.d("TAGA","Rs. " + snapshot.child("price").getValue().toString());
                                         Log.d("TAGA",snapshot.child("description").getValue().toString());
-                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(), "Rs. " + snapshot.child("price").getValue().toString(),
+                                        myList.add(new ServiceDetails(snapshot.child("title").getValue().toString(),  snapshot.child("price").getValue().toString(),
                                                 snapshot.child("description").getValue().toString(), snapshot.getKey().toString(),"No"));
                                         service3.setVisibility(View.VISIBLE);
                                         s3_title.setText(myList.get(3).getTitle());
-                                        s3_price.setText(myList.get(3).getPrice());
+                                        s3_price.setText("Rs. " + myList.get(3).getPrice());
                                         s3_description.setText(myList.get(3).getDescription());
                                     }
 
@@ -915,12 +935,22 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                             s1_tickIcon_blue.setVisibility(View.VISIBLE);
                             s1_tickIcon_gray.setVisibility(View.GONE);
                             myList.get(1).setIsSelected("Yes");
+                            int in = Integer.parseInt(myList.get(1).getPrice());
+                            int in1= Integer.parseInt(totalPrice);
+                            in=in+in1;
+                            totalPrice=Integer.toString(in);
+                            totalEstimatedPrice.setText(totalPrice+".00");
                         }
                         else
                         {
                             s1_tickIcon_blue.setVisibility(View.GONE);
                             s1_tickIcon_gray.setVisibility(View.VISIBLE);
                             myList.get(1).setIsSelected("No");
+                            int in = Integer.parseInt(myList.get(1).getPrice());
+                            int in1= Integer.parseInt(totalPrice);
+                            in1=in1-in;
+                            totalPrice=Integer.toString(in1);
+                            totalEstimatedPrice.setText(totalPrice+".00");
                         }
                     }
                 });
@@ -931,12 +961,22 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                             s2_tickIcon_blue.setVisibility(View.VISIBLE);
                             s2_tickIcon_gray.setVisibility(View.GONE);
                             myList.get(2).setIsSelected("Yes");
+                            int in = Integer.parseInt(myList.get(2).getPrice());
+                            int in1= Integer.parseInt(totalPrice);
+                            in=in+in1;
+                            totalPrice=Integer.toString(in);
+                            totalEstimatedPrice.setText(totalPrice+".00");
                         }
                         else
                         {
                             s2_tickIcon_blue.setVisibility(View.GONE);
                             s2_tickIcon_gray.setVisibility(View.VISIBLE);
                             myList.get(2).setIsSelected("No");
+                            int in = Integer.parseInt(myList.get(2).getPrice());
+                            int in1= Integer.parseInt(totalPrice);
+                            in1=in1-in;
+                            totalPrice=Integer.toString(in1);
+                            totalEstimatedPrice.setText(totalPrice+".00");
                         }
                     }
                 });
@@ -947,12 +987,22 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                             s3_tickIcon_blue.setVisibility(View.VISIBLE);
                             s3_tickIcon_gray.setVisibility(View.GONE);
                             myList.get(3).setIsSelected("Yes");
+                            int in = Integer.parseInt(myList.get(3).getPrice());
+                            int in1= Integer.parseInt(totalPrice);
+                            in=in+in1;
+                            totalPrice=Integer.toString(in);
+                            totalEstimatedPrice.setText(totalPrice+".00");
                         }
                         else
                         {
                             s3_tickIcon_blue.setVisibility(View.GONE);
                             s3_tickIcon_gray.setVisibility(View.VISIBLE);
                             myList.get(3).setIsSelected("No");
+                            int in = Integer.parseInt(myList.get(3).getPrice());
+                            int in1= Integer.parseInt(totalPrice);
+                            in1=in1-in;
+                            totalPrice=Integer.toString(in1);
+                            totalEstimatedPrice.setText(totalPrice +".00");
                         }
                     }
                 });

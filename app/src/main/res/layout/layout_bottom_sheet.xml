@@ -120,8 +120,7 @@
         android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey">
-
+        android:backgroundTint="@color/grey">
     </com.google.android.material.card.MaterialCardView>
 
 
@@ -402,13 +401,61 @@
 
 
         <LinearLayout
+
+            android:id="@+id/totalprice_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/rating_ll"
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Cost:"
+                android:layout_gravity="center"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginStart="16dp">
+            </TextView>
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RS."
+                android:layout_gravity="center"
+                android:textColor="@color/BlueColor"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginStart="8dp">
+            </TextView>
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:id="@+id/totalEstimatedPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="400"
+                android:layout_gravity="center"
+                android:textColor="@color/BlueColor"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginStart="8dp">
+            </TextView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/book_ll"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/worktype_ll"
+            app:layout_constraintTop_toBottomOf="@+id/totalprice_ll"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="16dp"
             android:weightSum="10"
