@@ -7,7 +7,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
     <TextView
-        android:layout_marginTop="16dp"
         android:text="Rate Your Service"
         android:textStyle="normal"
         android:gravity="center"
@@ -86,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Total"
+                    android:text="Total Cost"
                     android:textStyle="normal"
                     android:layout_alignParentEnd="true"
                     android:textSize="14sp"
@@ -113,36 +112,117 @@
         </LinearLayout>
 
     </LinearLayout>
-
     <LinearLayout
-        android:layout_marginTop="8dp"
+        android:id="@+id/payment_ll"
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:layout_height="32dp">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/payByJazzCash"
+            app:cardBackgroundColor="#F4F4F4"
+            android:layout_width="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Pay By"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <ImageView
+                    android:id="@+id/jazzcash"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/jazzcash"
+                    android:layout_width="56dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp">
+                </ImageView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/payByCash"
+            app:cardBackgroundColor="#F4F4F4"
+            android:layout_width="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Pay By"
+                    android:textColor="@color/BlueColor"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <ImageView
+                    android:id="@+id/cash"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/cash"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="8dp">
+                </ImageView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/paymentStatus"
+        android:visibility="gone"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:text="Pay By:"
-            android:textColor="@color/BlueColor"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
-        <ImageView
-            android:id="@+id/jazzcash"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/jazzcash"
-            android:layout_width="56dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="8dp">
-        </ImageView>
-        <TextView
-            android:id="@+id/paymentPaid"
-            android:text="Unpaid"
-            android:layout_marginLeft="8dp"
-            android:textColor="@color/BlueColor"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
+        <com.google.android.material.card.MaterialCardView
+            app:cardBackgroundColor="#F4F4F4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="10dp"
+            android:layout_height="30dp">
+            <RelativeLayout
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp">
+                <TextView
+                    android:id="@+id/paymentText"
+                    android:text="Payment not confirmed."
+                    android:textColor="@color/BlueColor"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </TextView>
+                <ImageView
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/undo"
+                    android:background="@drawable/ic_round_cancel"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true">
+                </ImageView>
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
+
+
 
     <LinearLayout
         android:gravity="center"
@@ -188,16 +268,29 @@
         android:background="@drawable/textbox"
         android:layout_width="match_parent"
         android:layout_height="120dp">
+
         <EditText
             android:id="@+id/userFeedback"
-            android:cursorVisible="true"
-            android:textColor="@color/grey"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:cursorVisible="true"
+            android:textColor="#000000">
 
         </EditText>
 
     </LinearLayout>
+
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/error"
+        android:visibility="gone"
+        android:textColor="#FF3D00"
+        android:text="* Fill your feedback."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+
 
     <LinearLayout
         android:layout_marginTop="8dp"
@@ -213,6 +306,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginEnd="8dp"
             android:text="Back"
+            app:cornerRadius="8dp"
             android:textColor="@color/white">
         </com.google.android.material.button.MaterialButton>
         <com.google.android.material.button.MaterialButton
@@ -220,7 +314,7 @@
             android:layout_width="match_parent"
             android:layout_weight="5"
             android:layout_height="62dp"
-            android:text="Submit"
+            android:text="COMPLETE"
             app:cornerRadius="8dp"
             android:textColor="@color/white">
         </com.google.android.material.button.MaterialButton>

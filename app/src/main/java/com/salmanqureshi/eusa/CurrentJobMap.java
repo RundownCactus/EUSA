@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,7 +62,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     private LatLng latLng;
     LatLng Location,userLocation;
     LatLng myLocation;
-    String spid,uid,key,worktype,loc,spname,spphno,userLatLng,serviceKey;
+    String spid,uid,key,worktype,loc,spname,spphno,userLatLng,serviceKey,totalPrice;
     DatabaseReference myref,jobref,jobcancelref,services;
     TextView currentspname;
     RelativeLayout currentjobspcall,currentjobspchat;
@@ -74,6 +75,13 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     List<ServiceDetails> myList;
     TextView paymentPaid;
 
+    LinearLayout payment_ll,paymentStatus;
+    MaterialCardView payByJazzCash,payByCash;
+    MaterialButton back;
+    TextView paymentText;
+    ImageView undo;
+
+
     RelativeLayout loadingBackground;
     ProgressBar maps_progressbar;
     @Override
@@ -85,7 +93,11 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
             System.out.println("DateFn: ResponseCode:" + ResponseCode);
             if(ResponseCode.equals("000")) {
                 Toast.makeText(getApplicationContext(), "Payment Success", Toast.LENGTH_SHORT).show();
-                paymentPaid.setText("Paid");
+                payment_ll.setVisibility(View.GONE);
+                paymentStatus.setVisibility(View.VISIBLE);
+                paymentText.setText("JazzCash Payment Confirmed.");
+                undo.setVisibility(View.GONE);
+                back.setVisibility(View.GONE);
             }
             else
             {
@@ -97,6 +109,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_job_map);
+
         currentjobspchat=findViewById(R.id.currentjobspchat);
         loadingBackground=findViewById(R.id.loadingBackground);
         loadingBackground.setVisibility(View.VISIBLE);
@@ -128,6 +141,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
         spphno=getIntent().getStringExtra("spphno");
         userLatLng=getIntent().getStringExtra("userLatLng");
         serviceKey=getIntent().getStringExtra("serviceKey");
+        totalPrice=getIntent().getStringExtra("totalPrice");
         currentspname.setText(spname);
     }
 
@@ -156,21 +170,21 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                         service3.setVisibility(View.VISIBLE);
                         s3_title.setText(snap.child("title").getValue().toString());
                         s3_description.setText(snap.child("description").getValue().toString());
-                        s3_price.setText(snap.child("price").getValue().toString());
+                        s3_price.setText("Rs. " +snap.child("price").getValue().toString());
                     }
                     if(myList.size()==2) {
                         myList.add(new ServiceDetails(snap.child("title").getValue().toString(), snap.child("price").getValue().toString(), snap.child("description").getValue().toString(), snap.child("key").getValue().toString(), snap.child("isSelected").getValue().toString()));
                         service2.setVisibility(View.VISIBLE);
                         s2_title.setText(snap.child("title").getValue().toString());
                         s2_description.setText(snap.child("description").getValue().toString());
-                        s2_price.setText(snap.child("price").getValue().toString());
+                        s2_price.setText("Rs. " +snap.child("price").getValue().toString());
                     }
                     if(myList.size()==1) {
                         myList.add(new ServiceDetails(snap.child("title").getValue().toString(), snap.child("price").getValue().toString(), snap.child("description").getValue().toString(), snap.child("key").getValue().toString(), snap.child("isSelected").getValue().toString()));
                         service1.setVisibility(View.VISIBLE);
                         s1_title.setText(snap.child("title").getValue().toString());
                         s1_description.setText(snap.child("description").getValue().toString());
-                        s1_price.setText(snap.child("price").getValue().toString());
+                        s1_price.setText("Rs. " +snap.child("price").getValue().toString());
                     }
                     if(myList.size()==0) {
                         service1.setVisibility(View.GONE);
@@ -227,7 +241,7 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
 
                 final AlertDialog.Builder job_complete_alert_dialog=new AlertDialog.Builder(CurrentJobMap.this);
                 View jobCompleteView=getLayoutInflater().inflate(R.layout.job_complete_dialog_box,null);
-                final MaterialButton back=(MaterialButton)jobCompleteView.findViewById(R.id.booking_back);
+                back=(MaterialButton)jobCompleteView.findViewById(R.id.booking_back);
                 final MaterialButton complete=(MaterialButton)jobCompleteView.findViewById(R.id.booking_complete);
 
                 final ImageView oneStar=(ImageView)jobCompleteView.findViewById(R.id.onestar);
@@ -239,15 +253,42 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                 final TextView completejobspname=(TextView) jobCompleteView.findViewById(R.id.completejobspname);
                 final TextView myrating=(TextView) jobCompleteView.findViewById(R.id.myrating);
                 final TextView jobprice=(TextView) jobCompleteView.findViewById(R.id.jobprice);
-                final ImageView jazzcash=(ImageView) jobCompleteView.findViewById(R.id.jazzcash);
-                paymentPaid=(TextView) jobCompleteView.findViewById(R.id.paymentPaid);
+                final TextView error=(TextView) jobCompleteView.findViewById(R.id.error);
 
+                payment_ll=(LinearLayout) jobCompleteView.findViewById(R.id.payment_ll);
+                paymentStatus=(LinearLayout) jobCompleteView.findViewById(R.id.paymentStatus);
+                payByJazzCash=(MaterialCardView)jobCompleteView.findViewById(R.id.payByJazzCash);
+                payByCash=(MaterialCardView) jobCompleteView.findViewById(R.id.payByCash);
+                paymentText=(TextView) jobCompleteView.findViewById(R.id.paymentText);
+                undo=(ImageView)jobCompleteView.findViewById(R.id.undo);
 
+                payByCash.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        payment_ll.setVisibility(View.GONE);
+                        paymentStatus.setVisibility(View.VISIBLE);
+                        paymentText.setText("Cash Payment Confirmed.");
+                        undo.setVisibility(View.VISIBLE);
+                        back.setVisibility(View.GONE);
+                    }
+                });
+
+                undo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        paymentStatus.setVisibility(View.GONE);
+                        payment_ll.setVisibility(View.VISIBLE);
+                        back.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                jobprice.setText("Rs. "+totalPrice);
                 DatabaseReference spref=FirebaseDatabase.getInstance().getReference().child("Users").child("ServiceProviders").child(spid);
                 spref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         completejobspname.setText(snapshot.child("fname").getValue().toString() + " "+ snapshot.child("lname").getValue().toString());
+                        myrating.setText(snapshot.child("rating").getValue().toString());
                     }
 
                     @Override
@@ -326,11 +367,11 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                         alertDialog.dismiss();
                     }
                 });
-                jazzcash.setOnClickListener(new View.OnClickListener() {
+                payByJazzCash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(CurrentJobMap.this, PayByJazzCash.class);
-                        i.putExtra("price", "500.00");
+                        i.putExtra("price", totalPrice);
                         startActivityForResult(i, 0);
                     }
                 });
@@ -338,21 +379,49 @@ public class CurrentJobMap extends FragmentActivity implements OnMapReadyCallbac
                     @Override
                     public void onClick(View view) {
 
-                        // JOB COMPLETE
+                        if (paymentText.getText().toString().equals("Cash Payment Confirmed.") || paymentText.getText().toString().equals("JazzCash Payment Confirmed.")) {
 
-                        String jobCompleteTime= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-                        DatabaseReference comref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("status");
-                        comref.setValue("Complete");
-                        DatabaseReference jobCompleteTime1=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobCompletionTime");
-                        jobCompleteTime1.setValue(jobCompleteTime);
-                        String feedback=spfeedback.getText().toString();
-                        DatabaseReference spFeedback1=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("spFeedback");
-                        spFeedback1.setValue(feedback);
-                        DatabaseReference ratref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobSPRating");
-                        ratref.setValue(sprating);
-                        Intent intent=new Intent(CurrentJobMap.this,Homepage.class);
-                        startActivity(intent);
-                        finish();
+                            if (!sprating.equals("0"))
+                            {
+                                if(spfeedback.getText().toString().length()>0)
+                                {
+                                    // JOB COMPLETE
+
+                                    String jobCompleteTime= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+                                    DatabaseReference comref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("status");
+                                    comref.setValue("Complete");
+                                    DatabaseReference jobCompleteTime1=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobCompletionTime");
+                                    jobCompleteTime1.setValue(jobCompleteTime);
+                                    String feedback=spfeedback.getText().toString();
+                                    DatabaseReference spFeedback1=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("spFeedback");
+                                    spFeedback1.setValue(feedback);
+                                    DatabaseReference paySatref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("paymentStatus");
+                                    paySatref.setValue(paymentText.getText().toString());
+                                    DatabaseReference ratref=FirebaseDatabase.getInstance().getReference().child("Jobs").child(key).child("jobSPRating");
+                                    ratref.setValue(sprating);
+                                    alertDialog.dismiss();
+                                    Intent intent=new Intent(CurrentJobMap.this,Homepage.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                else
+                                {
+                                    error.setText("* Feedback missing.");
+                                    error.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            else
+                            {
+                                error.setText("* Rating missing.");
+                                error.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        else
+                        {
+                            error.setText("* Payment missing.");
+                            error.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 });
                 alertDialog.show();

@@ -1069,6 +1069,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
                                         intent.putExtra("spname",sp.getFname()+" "+sp.getLname());
                                         intent.putExtra("serviceKey",serviceKey.getKey());
                                         intent.putExtra("myChatKey",myChatKey.getKey());
+                                        intent.putExtra("totalPrice",totalPrice);
                                         startActivity(intent);
 
                                     }
@@ -1170,7 +1171,7 @@ public class SearchServiceProvider extends AppCompatActivity implements OnMapRea
 
         myref.child(key.getKey()).setValue(new Job(SPID,UID,status,JobBookTime,userLatLng,"",
                 "","","","","",
-                "","","","","","","",serviceKey.getKey(),myChatKey.getKey(),spdistance));
+                "","","",totalPrice,"","","",serviceKey.getKey(),myChatKey.getKey(),spdistance));
         myref = rootnode.getReference().child("Users").child("Customers").child(mAuth.getInstance().getCurrentUser().getUid());
         myref.child("Jobs").child(key.getKey()).setValue("true");
 
